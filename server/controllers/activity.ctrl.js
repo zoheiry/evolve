@@ -11,7 +11,7 @@ module.exports = {
       if (error) {
         response.send(error);
       } else if (!activity) {
-        response.send(400);
+        response.sendStatus(400);
       } else {
         response.send(activity);
       }
@@ -21,12 +21,12 @@ module.exports = {
   removeActivity: (request, response, next) => {
     Activity.find(request.params.id)
   },
-  get: (request, response, next) => {
+  getActivity: (request, response, next) => {
     Activity.findById(request.params.id).exec((error, activity) => {
       if (error) {
         response.send(error);
       } else if (!activity) {
-        response.send(404);
+        response.sendStatus(404);
       } else {
         response.send(activity);
       }
@@ -38,7 +38,7 @@ module.exports = {
       if (error) {
         response.send(error);
       } else if (!activity) {
-        response.send(404);
+        response.sendStatus(404);
       } else {
         response.send(activity);
       }

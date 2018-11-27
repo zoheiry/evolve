@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 let UserSchema = new mongoose.Schema({
-  email: String,
+  email: { type: String, required: true },
   schedule: {
     sunday: {
       start_time: { type: String },
