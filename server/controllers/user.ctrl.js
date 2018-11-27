@@ -39,5 +39,10 @@ module.exports = {
       }
       next();
     })
+  },
+  updateSchedule: (request, response, next) => {
+    User.findById(request.params.id).then(user => user.updateSchedule(request.body.schedule)
+      .then((_user) => response.send(_user))
+    )
   }
 };

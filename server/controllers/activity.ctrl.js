@@ -2,12 +2,7 @@ const Activity = require('../models/Activity');
 
 module.exports = {
   addActivity: (request, response, next) => {
-    new Activity({ name: request.body.name, 
-      notes: request.body.notes, 
-      priority: request.body.priority, 
-      durationInHours: request.body.durationInHours, 
-      hoursSpent: request.body.hoursSpent
-    }).save((error, activity) => {
+    new Activity(request.body).save((error, activity) => {
       if (error) {
         response.send(error);
       } else if (!activity) {
@@ -41,6 +36,18 @@ module.exports = {
         response.sendStatus(404);
       } else {
         response.send(activity);
+      }
+      next();
+    })
+  },
+  getUserActivities: (request, response, next) => {
+    Activity.find({ user: request.params.userId }, (error, activities) => {
+      if (error) {
+        response.send(error);
+      } else if (!activities) {
+        response.sendStatus(404);
+      } else {
+        response.send(activities);
       }
       next();
     })

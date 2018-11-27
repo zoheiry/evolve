@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 let ActivitySchema = new mongoose.Schema({
   name: { type: String, required: true },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   notes: String,
   priority: { type: Number, min: 1, max: 5, required: true },
   durationInHours: Number,

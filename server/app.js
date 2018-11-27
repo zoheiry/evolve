@@ -14,6 +14,7 @@ const url = process.env.MONGODB_URI || "mongodb://localhost:27017/selfDevelopmen
 try {
     mongoose.connect(url, {
         //useMongoClient: true
+        useNewUrlParser: true
     })    
 } catch (error) {
   

@@ -5,8 +5,7 @@ module.exports = (router) => {
     .route('/activities')
     .get(activityController.getAll);
 
-  router
-    .route('/activity/:id')
+  router.route('/activity/:id')
     .get(activityController.getActivity);
 
   router

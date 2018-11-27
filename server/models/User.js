@@ -4,32 +4,32 @@ let UserSchema = new mongoose.Schema({
   email: { type: String, required: true },
   schedule: {
     sunday: {
-      start_time: { type: String },
-      end_time: { type: String }
+      startTime: { type: String },
+      endTime: { type: String }
     },
     monday: {
-      start_time: { type: String },
-      end_time: { type: String }
+      startTime: { type: String },
+      endTime: { type: String }
     },
     tuesday: {
-      start_time: { type: String },
-      end_time: { type: String }
+      startTime: { type: String },
+      endTime: { type: String }
     },
     wednesday: {
-      start_time: { type: String },
-      end_time: { type: String }
+      startTime: { type: String },
+      endTime: { type: String }
     },
     thursday: {
-      start_time: { type: String },
-      end_time: { type: String }
+      startTime: { type: String },
+      endTime: { type: String }
     },
     friday: {
-      start_time: { type: String },
-      end_time: { type: String }
+      startTime: { type: String },
+      endTime: { type: String }
     },
     satruday: {
-      start_time: { type: String },
-      end_time: { type: String }
+      startTime: { type: String },
+      endTime: { type: String }
     }
   }
 });
