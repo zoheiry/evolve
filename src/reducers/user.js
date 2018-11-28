@@ -20,6 +20,7 @@ const user = (state = initialState, action) => {
     }
     case types.REQUEST_USER_SUCCESS: {
       return {
+        ...state,
         ...action.payload.user,
         isFetching: false
       }

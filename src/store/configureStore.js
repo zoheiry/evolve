@@ -1,4 +1,5 @@
-import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import thunk from 'redux-thunk';
 import api from '../api';
 import user from '../reducers/user';
@@ -10,7 +11,7 @@ const rootReducer = combineReducers({
 export default function configureStore() {
   const store = createStore(
     rootReducer,
-    compose(window.devToolsExtension && window.devToolsExtension(), applyMiddleware(thunk.withExtraArgument(api)))
+    composeWithDevTools(applyMiddleware(thunk.withExtraArgument(api)))
   );
 
   return store;

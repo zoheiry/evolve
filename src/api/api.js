@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { fromServer as userFromServer } from './transformers/user';
 
 const execute = (method, endpoint, data = {}, config = {}, headers = {}) => {
   const defaultHeaders = {
@@ -26,6 +27,7 @@ const post = (endpoint, data, config, extraHeaders) =>
 
 // const del = (endpoint) => execute('delete', endpoint);
 
-export const getUser = (id) => get(`/api/user/users/${id}`);
+export const getUser = (id) =>
+  get(`/api/user/${id}`).then(response => userFromServer(response.data));
 
 export const updateSchedule = (schedule, userId) => post(`/api/user/${userId}/schedule`, schedule);

@@ -82,7 +82,13 @@ module.exports = function(proxy, allowedHost) {
       disableDotRule: true,
     },
     public: allowedHost,
-    proxy,
+    proxy: {
+      '/api/*': {
+        host: 'api.io',
+        target: 'http://localhost:5000/'
+        // rewrite: rewrite: req => req.url = req.url.replace(/^\/api(.+)$/,'$1')
+      }
+    },
     before(app, server) {
       if (fs.existsSync(paths.proxySetup)) {
         // This registers user provided middleware for proxy reasons

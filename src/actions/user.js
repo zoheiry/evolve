@@ -21,7 +21,7 @@ const updateScheduleFail = () => ({ type: types.UPDATE_SCHEDULE_FAIL });
 export const getUser = (id) => (dispatch, getState, api) => {
   dispatch(requestUser());
   return api.getUser(id)
-    .then(data => dispatch(requestUserSuccess(data)))
+    .then(user => dispatch(requestUserSuccess(user)))
     .catch(() => dispatch(requestUserFail()));
 };
 
