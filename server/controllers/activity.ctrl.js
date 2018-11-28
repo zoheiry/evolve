@@ -14,7 +14,14 @@ module.exports = {
     });
   },
   removeActivity: (request, response, next) => {
-    Activity.find(request.params.id)
+    Activity.findById(request.params.id).remove((error) => {
+      if (error) {
+        response.send(error);
+      } else {
+        response.sendStatus(200);
+      }
+      next();
+    })
   },
   getActivity: (request, response, next) => {
     Activity.findById(request.params.id).exec((error, activity) => {

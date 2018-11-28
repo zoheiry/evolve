@@ -16,9 +16,13 @@ module.exports = (router) => {
 
   router
     .route('/user/:id')
-    .patch(userController.updateSchedule)
+    .patch(userController.updateSchedule);
 
   router
     .route('/user/:userId/activities')
-    .get(activityController.getUserActivities)
+    .get(activityController.getUserActivities);
+
+  router
+    .route('/user/:id')
+    .delete(userController.removeUser);
 };

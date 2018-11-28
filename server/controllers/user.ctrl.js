@@ -28,6 +28,16 @@ module.exports = {
       next();
     })
   },
+  removeUser: (request, response, next) => {
+    User.findById(request.params.id).remove((error) => {
+      if (error) {
+        response.send(error);
+      } else {
+        response.sendStatus(200);
+      };
+      next();
+    });
+  },
   getAll: (request, response, next) => {
     User.find().exec((error, users) => {
       if (error) {
