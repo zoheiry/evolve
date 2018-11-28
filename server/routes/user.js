@@ -15,8 +15,8 @@ module.exports = (router) => {
     .post(userController.addUser);
 
   router
-    .route('/user/:id')
-    .patch(userController.updateSchedule);
+    .route('/user/:id/schedule')
+    .post(userController.updateSchedule);
 
   router
     .route('/user/:userId/activities')
