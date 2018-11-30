@@ -6,9 +6,9 @@ class App extends Component {
   render() {
     return (
       <BrowserRouter>
-        <Route path="/" component={Main}>
-          <div className="App"></div>
-        </Route>
+        <div className="App">
+          <Route path="/" component={Main} />
+        </div>
       </BrowserRouter>
     );
   }

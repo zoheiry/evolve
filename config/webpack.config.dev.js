@@ -231,6 +231,7 @@ module.exports = {
                     },
                   },
                 ],
+                require.resolve('@babel/plugin-proposal-export-default-from')
               ],
               // This is a feature of `babel-loader` for webpack (not Babel itself).
               // It enables caching results in ./node_modules/.cache/babel-loader/

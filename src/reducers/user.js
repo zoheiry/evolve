@@ -3,10 +3,7 @@ import * as types from '../constants/ActionTypes';
 const initialState = {
   id: null,
   email: null,
-  schedule: {
-    isFetching: false,
-    weekDays: null
-  },
+  schedule: null,
   isFetching: false
 };
 
@@ -43,10 +40,7 @@ const user = (state = initialState, action) => {
     case types.UPDATE_SCHEDULE_SUCCESS: {
       return {
         ...state,
-        schedule: {
-          isFetching: false,
-          weekDays: action.payload.weekDays
-        }
+        schedule: action.payload.schedule
       }
     }
     case types.UPDATE_SCHEDULE_FAIL: {

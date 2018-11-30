@@ -30,4 +30,6 @@ const post = (endpoint, data, config, extraHeaders) =>
 export const getUser = (id) =>
   get(`/api/user/${id}`).then(response => userFromServer(response.data));
 
-export const updateSchedule = (schedule, userId) => post(`/api/user/${userId}/schedule`, schedule);
+export const updateSchedule = (schedule, userId) =>
+  post(`/api/user/${userId}/schedule`, schedule)
+    .then(response => userFromServer(response.data.schedule));

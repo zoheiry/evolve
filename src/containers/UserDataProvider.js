@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 
 import { getUser, updateSchedule } from '../actions/user';
 
-const UserDataProvider = ({ render, user }) => (
+const UserDataProvider = ({ render, user, updateSchedule }) => (
   render({
     user,
     getUser,
-    updateSchedule
+    updateSchedule: (weekDays) => updateSchedule(weekDays, user.id)
   })
 );
 
@@ -23,7 +23,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   getUser: (id) => dispatch(getUser(id)),
-  updateSchedule: (weekDays) => dispatch(updateSchedule(weekDays))
+  updateSchedule: (weekDays, userId) => dispatch(updateSchedule(weekDays, userId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserDataProvider);

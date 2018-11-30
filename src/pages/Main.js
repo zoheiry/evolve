@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import UserDataProvider from '../containers/UserDataProvider';
+import ScheduleForm from '../components/ScheduleForm';
 
 import { getUser } from '../actions/user';
 
@@ -12,10 +14,13 @@ class Main extends Component {
 
   render() {
     return (
-      <div>
-        <h1>Header</h1>
-        {this.props.children}
-      </div>
+      <UserDataProvider
+        render={({ user }) => {
+          // if (!user.schedule) {
+            return <ScheduleForm schedule={user.schedule} />;
+          // }
+        }}
+      />
     );
   }
 }

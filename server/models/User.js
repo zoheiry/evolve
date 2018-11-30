@@ -27,7 +27,7 @@ let UserSchema = new mongoose.Schema({
       startTime: { type: String },
       endTime: { type: String }
     },
-    satruday: {
+    saturday: {
       startTime: { type: String },
       endTime: { type: String }
     }

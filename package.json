@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@babel/core": "7.1.0",
+    "@fashiontrade/wardrobe": "^3.0.2",
     "@svgr/webpack": "2.4.1",
     "axios": "^0.18.0",
     "babel-core": "7.0.0-bridge.0",
@@ -58,13 +59,14 @@
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-router-redux": "^4.0.8",
+    "react-simple-timefield": "^2.0.1",
     "redux": "^4.0.1",
     "redux-devtools-extension": "^2.13.7",
     "redux-thunk": "^2.3.0",
     "resolve": "1.8.1",
     "sass-loader": "7.1.0",
     "style-loader": "0.23.0",
-    "styled-components": "^4.1.1",
+    "styled-components": "^3.3.3",
     "terser-webpack-plugin": "1.1.0",
     "url-loader": "1.1.1",
     "webpack": "4.19.1",
@@ -131,5 +133,8 @@
     "presets": [
       "react-app"
     ]
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-export-default-from": "^7.0.0"
   }
 }

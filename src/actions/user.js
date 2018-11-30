@@ -25,9 +25,9 @@ export const getUser = (id) => (dispatch, getState, api) => {
     .catch(() => dispatch(requestUserFail()));
 };
 
-export const updateSchedule = (weekDays, userId) => (dispatch, getState, api) => {
-  dispatch(updateScheduleRequest);
-  return api.updateSchedule(weekDays, userId)
+export const updateSchedule = (schedule, userId) => (dispatch, getState, api) => {
+  dispatch(updateScheduleRequest());
+  return api.updateSchedule(schedule, userId)
     .then(data => dispatch(updateScheduleSuccess(data)))
     .catch(() => dispatch(updateScheduleFail()));
 };
