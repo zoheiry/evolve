@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { fromServer as userFromServer } from './transformers/user';
+import { activityFromServer, activitiesFromServer } from './transformers/activity';
 
 const execute = (method, endpoint, data = {}, config = {}, headers = {}) => {
   const defaultHeaders = {
@@ -33,3 +34,11 @@ export const getUser = (id) =>
 export const updateSchedule = (schedule, userId) =>
   post(`/api/user/${userId}/schedule`, schedule)
     .then(response => userFromServer(response.data.schedule));
+
+export const getUserActivities = (userId) =>
+  get(`/api/user/${userId}/activities`)
+    .then(response => activitiesFromServer(response.data));
+
+export const addActivity = (activity, userId) =>
+  post(`/api/user/${userId}/activity`, activity)
+    .then(response => activityFromServer(response.data));

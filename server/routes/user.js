@@ -25,4 +25,8 @@ module.exports = (router) => {
   router
     .route('/user/:id')
     .delete(userController.removeUser);
+
+  router
+    .route('/user/:userId/activity')
+    .post(activityController.addActivity);
 };

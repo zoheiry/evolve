@@ -5,7 +5,7 @@ let ActivitySchema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   notes: String,
   priority: { type: Number, min: 1, max: 5, required: true },
-  durationInHours: Number,
+  maxDuration: Number,
   hoursSpent: { type: Number, default: 0 }
 });
 

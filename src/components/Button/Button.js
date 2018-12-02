@@ -1,6 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+
+const disabledStyles = css`
+  opacity: 0.5;
+  pointer-events: none;
+`;
 
 const StyledButton = styled('button')`
   border: none;
@@ -10,6 +15,7 @@ const StyledButton = styled('button')`
   font-weight: bold;
   background: #0cb67e;
   color: #FFF;
+  ${p => p.disabled && disabledStyles}
 `;
 
 const Button = ({ children, fluid, ...props }) =>

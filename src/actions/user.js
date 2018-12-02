@@ -28,6 +28,6 @@ export const getUser = (id) => (dispatch, getState, api) => {
 export const updateSchedule = (schedule, userId) => (dispatch, getState, api) => {
   dispatch(updateScheduleRequest());
   return api.updateSchedule(schedule, userId)
-    .then(data => dispatch(updateScheduleSuccess(data)))
+    .then(schedule => dispatch(updateScheduleSuccess(schedule)))
     .catch(() => dispatch(updateScheduleFail()));
 };

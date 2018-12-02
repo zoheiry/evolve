@@ -9,10 +9,6 @@ module.exports = (router) => {
     .get(activityController.getActivity);
 
   router
-    .route('/activity')
-    .post(activityController.addActivity);
-
-  router
     .route('/activity/:id')
     .delete(activityController.removeActivity);
 };

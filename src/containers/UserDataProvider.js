@@ -15,6 +15,9 @@ UserDataProvider.propTypes = {
   render: PropTypes.func.isRequired,
   // redux state
   user: PropTypes.object,
+  // redux actions
+  getUser: PropTypes.func,
+  updateSchedule: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({

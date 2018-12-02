@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { upperFirst, get } from 'lodash';
 import { Table } from '@fashiontrade/wardrobe';
-import UserDataProvider from '../../containers/UserDataProvider';
 import Button from '../Button';
 import WEEK_DAYS from '../../constants/WeekDays';
 import { START_TIME, END_TIME } from '../../constants/TimeTypes';
@@ -25,13 +24,24 @@ const Label = styled('div')`
 `;
 
 const ScheduleWrapper = styled('div')`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   width: 800px;
   margin: 0 auto;
   max-width: 100%;
+  height: 100vh;
+`;
+
+const Title = styled('h1')`
+  font-size: 20px;
+  text-align: center;
+  margin: 0;
+  padding: 20px 10px;
 `;
 
 const StyledTable = styled(Table)`
-  height: calc(100vh - 42px);
+  flex-grow: 1;
 `;
 
 class ScheduleForm extends Component {
@@ -55,6 +65,7 @@ class ScheduleForm extends Component {
         schedule: nextProps.schedule
       }
     }
+    return null;
   }
 
   generateEmptySchedule = () => (
@@ -66,10 +77,6 @@ class ScheduleForm extends Component {
       }
     }), {})
   );
-
-  handleSubmit = (updateSchedule) => {
-    updateSchedule(this.state.schedule);
-  };
 
   handleTimeChange = (day, time, type) => {
     if (!time) {
@@ -90,6 +97,7 @@ class ScheduleForm extends Component {
   render() {
     return (
       <ScheduleWrapper>
+        <Title>Your estimated free time each day</Title>
         <StyledTable layout={[0.1, 1, 1]}>
           <TableHeader>
             <Table.Cell>Day</Table.Cell>
@@ -118,16 +126,15 @@ class ScheduleForm extends Component {
             )
           }
         </StyledTable>
-        <UserDataProvider render={({ updateSchedule }) => (
-          <Button fluid onClick={() => this.handleSubmit(updateSchedule)}>Next</Button>
-        )} />
+        <Button fluid onClick={this.props.onSubmit}>Next</Button>
       </ScheduleWrapper>
     );
   }
 };
 
 ScheduleForm.propTypes = {
-  schedule: PropTypes.object
+  schedule: PropTypes.object,
+  onSubmit: PropTypes.func,
 }
 
 export default ScheduleForm;

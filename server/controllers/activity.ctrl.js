@@ -2,7 +2,7 @@ const Activity = require('../models/Activity');
 
 module.exports = {
   addActivity: (request, response, next) => {
-    new Activity(request.body).save((error, activity) => {
+    new Activity({ ...request.body, user: request.params.userId }).save((error, activity) => {
       if (error) {
         response.send(error);
       } else if (!activity) {
