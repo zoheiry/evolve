@@ -13,6 +13,20 @@ module.exports = {
       next();
     });
   },
+  updateActivity: (request, response, next) => {
+    Activity.findByIdAndUpdate(request.params.id, request.body, (error, activity) => {
+      if (error) {
+        response.send(error);
+      } else if (!activity) {
+        response.sendStatus(400);
+      } else {
+        response.send({
+          ...activity._doc,
+          ...request.body
+        });
+      }
+    });
+  },
   removeActivity: (request, response, next) => {
     Activity.findById(request.params.id).remove((error) => {
       if (error) {

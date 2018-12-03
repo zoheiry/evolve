@@ -20,6 +20,7 @@ const Name = styled('span')`
   font-weight: bold;
   margin-right: 5px;
   flex-grow: 1;
+  color: #555;
 `;
 
 const Priority = styled('div')`

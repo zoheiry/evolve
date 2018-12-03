@@ -33,12 +33,17 @@ const Icon = styled('div')`
   color: #FFF;
 `;
 
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: #FFF;
+`;
+
 const Navbar = () => (
   <Wrapper>
-    <Logo>Logo</Logo>
+    <Logo><StyledLink to="/">Logo</StyledLink></Logo>
     <NavItems>
-      <Link to="/activities"><Icon className="fas fa-list-ul" /></Link>
-      <Link to="/schedule"><Icon className="fas fa-calendar-alt" /></Link>
+      <StyledLink to="/activities"><Icon className="fas fa-list-ul" /></StyledLink>
+      <StyledLink to="/schedule"><Icon className="fas fa-calendar-alt" /></StyledLink>
     </NavItems>
   </Wrapper>
 );

@@ -23,6 +23,7 @@ class App extends Component {
             <Route exact path="/schedule" component={Schedule} />
             <Route exact path="/activities" component={Activities} />
             <Route exact path="/activity/:id" component={Activity} />
+            <Route exact path="/activity/:id/edit" component={NewActivity} />
           </div>
         </ThemeProvider>
       </BrowserRouter>

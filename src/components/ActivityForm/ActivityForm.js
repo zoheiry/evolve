@@ -81,7 +81,7 @@ class ActivityForm extends Component {
         return !isEmpty(value);
       }
       case PROPERTIES.PRIORITY: {
-        return !isEmpty(value) && value > 0 && value < 6 && Number.isInteger(Number(value));
+        return !!value && value > 0 && value < 6 && Number.isInteger(Number(value));
       }
       case PROPERTIES.NOTES: {
         return true;
@@ -115,7 +115,7 @@ class ActivityForm extends Component {
     const { name, priority, notes, maxDuration } = this.state.activity;
     return (
       <Form>
-        <Title>Add an activity</Title>
+        <Title>{this.props.activity ? 'Edit' : 'Add'} activity</Title>
         <Fields>
           <Input
             value={name}

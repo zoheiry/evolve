@@ -13,7 +13,7 @@ const StyledButton = styled('button')`
   padding: 12px;
   font-size: 16px;
   font-weight: bold;
-  background: ${p => p.theme.primary};
+  background: ${p => p.color || p.theme.primary};
   color: #FFF;
   ${p => p.disabled && disabledStyles}
 `;
@@ -29,6 +29,7 @@ const Button = ({ children, fluid, ...props }) =>
 Button.propTypes = {
   children: PropTypes.node,
   fluid: PropTypes.bool,
+  color: PropTypes.string,
 }
 
 export default Button;

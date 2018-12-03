@@ -8,6 +8,9 @@ module.exports = (router) => {
   router.route('/activity/:id')
     .get(activityController.getActivity);
 
+  router.route('/activity/:id')
+    .put(activityController.updateActivity);
+
   router
     .route('/activity/:id')
     .delete(activityController.removeActivity);
