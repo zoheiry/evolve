@@ -1,5 +1,4 @@
 import * as types from '../constants/ActionTypes';
-import { remove } from 'lodash';
 
 const initialState = {
   items: [],

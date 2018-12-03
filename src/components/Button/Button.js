@@ -13,7 +13,7 @@ const StyledButton = styled('button')`
   padding: 12px;
   font-size: 16px;
   font-weight: bold;
-  background: #0cb67e;
+  background: ${p => p.theme.primary};
   color: #FFF;
   ${p => p.disabled && disabledStyles}
 `;

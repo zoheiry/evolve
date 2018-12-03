@@ -15,7 +15,7 @@ const Icon = styled('span')`
   position: absolute;
   left: 5px;
   pointer-events: none;
-  color: ${p => (p.appearance === 'start' ? '#0cb67e' : '#ec4c21')};
+  color: ${p => (p.appearance === 'start' ? p.theme.primary : p.theme.danger)};
 `;
 
 const StyledInput = styled('input')`

@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import UserDataProvider from '../containers/UserDataProvider';
 import ActivitiesDataProvider from '../containers/ActivitiesDataProvider';
-import ScheduleForm from '../components/ScheduleForm';
 import OverlayLoading from '../components/OverlayLoading';
-import ActivityForm from '../components/ActivityForm';
 
 import { getUser } from '../actions/user';
 import { getActivities } from '../actions/activities';
@@ -22,14 +21,14 @@ class Main extends Component {
       <UserDataProvider
         render={({ user, updateSchedule }) => (
           <ActivitiesDataProvider
-            render={({ addActivity }) => {
-              if (user.isFetching) {
+            render={({ activities }) => {
+              if (user.isFetching || activities.isFetching) {
                 return <OverlayLoading />;
               }
-              if (!user.schedule) {
-                return <ScheduleForm schedule={user.schedule} onSubmit={updateSchedule} />;
+              if (user.schedule) {
+                return <Redirect to="/activities" />
               }
-              return <ActivityForm onSubmit={(activity) => addActivity(activity, user.id)} />;
+              return <Redirect to="/schedule" />
             }}
           />
         )}
