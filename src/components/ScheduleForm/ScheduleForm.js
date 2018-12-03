@@ -9,12 +9,16 @@ import { START_TIME, END_TIME } from '../../constants/TimeTypes';
 import TimeField from './TimeField';
 
 const TableHeader = styled(Table.Header)`
-  background: #0cb67e !important;
+  background: ${p => p.theme.danger} !important;
   color: #FFF;
 `;
 
 const TableRow = styled(Table.Row)`
   align-items: center;
+`;
+
+const TableCell = styled(Table.Cell)`
+  padding: 10px 15px;
 `;
 
 const Label = styled('div')`
@@ -30,18 +34,21 @@ const ScheduleWrapper = styled('div')`
   width: 800px;
   margin: 0 auto;
   max-width: 100%;
-  height: 100vh;
 `;
 
 const Title = styled('h1')`
   font-size: 20px;
   text-align: center;
   margin: 0;
-  padding: 20px 10px;
+  padding: 15px;
 `;
 
 const StyledTable = styled(Table)`
   flex-grow: 1;
+`;
+
+const ButtonWrapper = styled('div')`
+  padding: 15px;
 `;
 
 class ScheduleForm extends Component {
@@ -100,33 +107,35 @@ class ScheduleForm extends Component {
         <Title>Your estimated free time each day</Title>
         <StyledTable layout={[0.1, 1, 1]}>
           <TableHeader>
-            <Table.Cell>Day</Table.Cell>
-            <Table.Cell>Start time</Table.Cell>
-            <Table.Cell>End time</Table.Cell>
+            <TableCell>Day</TableCell>
+            <TableCell>Start time</TableCell>
+            <TableCell>End time</TableCell>
           </TableHeader>
           {
             WEEK_DAYS.map(day =>
               <TableRow key={`${day}-field`}>
-                <Table.Cell><Label>{upperFirst(day)}</Label></Table.Cell>
-                <Table.Cell>
+                <TableCell><Label>{upperFirst(day)}</Label></TableCell>
+                <TableCell>
                   <TimeField
                     onChange={(time) => this.handleTimeChange(day, time, START_TIME)}
                     appearance="start"
                     value={get(this.state, `schedule.${day}.${START_TIME}`)}
                   />
-                </Table.Cell>
-                <Table.Cell>
+                </TableCell>
+                <TableCell>
                   <TimeField
                     onChange={(time) => this.handleTimeChange(day, time, END_TIME)}
                     appearance="end"
                     value={get(this.state, `schedule.${day}.${END_TIME}`)}
                   />
-                </Table.Cell>
+                </TableCell>
               </TableRow>
             )
           }
         </StyledTable>
-        <Button fluid onClick={this.props.onSubmit}>Next</Button>
+        <ButtonWrapper>
+          <Button fluid onClick={this.props.onSubmit}>Save</Button>
+        </ButtonWrapper>
       </ScheduleWrapper>
     );
   }

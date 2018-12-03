@@ -1,14 +1,17 @@
 import React from 'react';
 
-import ActivitiesDataProvider from '../containers/ActivitiesDataProvider';
+import PageWrapper from '../components/PageWrapper';
 import ActivitiesOverview from '../components/ActivitiesOverview';
+import ActivitiesDataProvider from '../containers/ActivitiesDataProvider';
 
 const Activities = () => (
-  <ActivitiesDataProvider
-    render={({ activities }) =>
-      <ActivitiesOverview activities={activities} />
-    }
-  />
+  <PageWrapper>
+    <ActivitiesDataProvider
+      render={({ activities }) =>
+        <ActivitiesOverview activities={activities} />
+      }
+    />
+  </PageWrapper>
 );
 
 export default Activities;

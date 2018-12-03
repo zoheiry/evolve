@@ -1,7 +1,8 @@
+// This component is rendered on every page.
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
 import UserDataProvider from '../containers/UserDataProvider';
 import ActivitiesDataProvider from '../containers/ActivitiesDataProvider';
 import OverlayLoading from '../components/OverlayLoading';
@@ -22,13 +23,13 @@ class Main extends Component {
         render={({ user, updateSchedule }) => (
           <ActivitiesDataProvider
             render={({ activities }) => {
-              if (user.isFetching || activities.isFetching) {
+              if (!user.id || user.isFetching || activities.isFetching) {
                 return <OverlayLoading />;
               }
-              if (user.schedule) {
-                return <Redirect to="/activities" />
+              if (!user.schedule) {
+                return <Redirect to="/schedule" />
               }
-              return <Redirect to="/schedule" />
+              return null;
             }}
           />
         )}

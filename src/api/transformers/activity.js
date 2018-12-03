@@ -5,6 +5,7 @@ export const activitiesFromServer = (data) => (
 );
 
 export const activityFromServer = (data) => ({
-  ...omit(data, ['__v', '_id']),
-  id: data._id
+  ...omit(data, ['__v', '_id', 'user']),
+  id: data._id,
+  userId: data.user,
 });

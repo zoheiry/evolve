@@ -10,7 +10,7 @@ const Title = styled('h1')`
   font-size: 20px;
   text-align: center;
   margin: 0;
-  padding: 20px 10px;
+  padding: 15px;
 `;
 
 const commonFieldStyles = css`
@@ -28,7 +28,7 @@ const Form = styled('form')`
   width: 800px;
   margin: 0 auto;
   max-width: 100%;
-  height: 100vh;
+  height: ${p => p.theme.fullContentHeight};
   padding: 15px;
   padding-top: 0;
 `;

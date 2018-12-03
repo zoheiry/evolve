@@ -4,11 +4,17 @@ import styled from 'styled-components';
 import { get } from 'lodash';
 
 import OverlayLoading from '../OverlayLoading';
-import Activity from './Activity';
+import ActivityPreview from './ActivityPreview';
 import AddActivityButton from './AddActivityButton';
 
 const Wrapper = styled('div')`
   padding: 15px;
+  display: flex;
+  flex-direction: column;
+`;
+
+const Activities = styled('div')`
+  overflow: auto;
 `;
 
 const ActivitiesOverview = ({ activities }) => {
@@ -17,9 +23,16 @@ const ActivitiesOverview = ({ activities }) => {
   }
   return (
     <Wrapper>
-      {get(activities, 'items', []).map(activity =>
-        <Activity key={activity.id} name={activity.name} priority={activity.priority} />
-      )}
+      <Activities>
+        {get(activities, 'items', []).map(activity =>
+          <ActivityPreview
+            key={activity.id}
+            id={activity.id}
+            name={activity.name}
+            priority={activity.priority}
+          />
+        )}
+      </Activities>
       <AddActivityButton />
     </Wrapper>
   );
