@@ -47,6 +47,16 @@ const Fields = styled('div')`
   flex-grow: 1;
 `;
 
+const DeleteButton = styled('a')`
+  color: ${p => p.theme.danger};
+  text-decoration: underline;
+  display: block;
+  text-align: center;
+  font-size: 14px;
+  padding-top: 15px;
+  font-weight: bold;
+`;
+
 class ActivityForm extends Component {
   constructor(props) {
     super(props);
@@ -146,6 +156,9 @@ class ActivityForm extends Component {
           />
         </Fields>
         <Button onClick={this.handleSubmit} disabled={!this.isFormValid()}>Submit</Button>
+        {this.props.onDelete && (
+          <DeleteButton onClick={this.props.onDelete}>Delete activity</DeleteButton>
+        )}
       </Form>
     );
   }
@@ -154,6 +167,7 @@ class ActivityForm extends Component {
 ActivityForm.propTypes = {
   activity: PropTypes.object,
   onSubmit: PropTypes.func,
+  onDelete: PropTypes.func,
 };
 
 export default ActivityForm;

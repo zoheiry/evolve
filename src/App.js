@@ -4,6 +4,7 @@ import { ThemeProvider } from 'styled-components';
 import Main from './pages/Main';
 import Home from './pages/Home';
 import NewActivity from './pages/NewActivity';
+import EditActivity from './pages/EditActivity';
 import Schedule from './pages/Schedule';
 import Activities from './pages/Activities';
 import Activity from './pages/Activity';
@@ -23,7 +24,7 @@ class App extends Component {
             <Route exact path="/schedule" component={Schedule} />
             <Route exact path="/activities" component={Activities} />
             <Route exact path="/activity/:id" component={Activity} />
-            <Route exact path="/activity/:id/edit" component={NewActivity} />
+            <Route exact path="/activity/:id/edit" component={EditActivity} />
           </div>
         </ThemeProvider>
       </BrowserRouter>

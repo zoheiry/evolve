@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import linkify from 'linkifyjs/html';
+import { Link } from 'react-router-dom';
 
 import priorityColors from '../constants/PriorityColors';
 import PageWrapper from '../components/PageWrapper';
@@ -10,7 +11,6 @@ import Button from '../components/Button';
 
 
 const Wrapper = styled('div')`
-  padding-top: 15px;
   border-left: solid 5px ${p => p.borderColor};
 `;
 
@@ -54,6 +54,15 @@ const Notes = styled('div')`
   }
 `;
 
+const ActionsBar = styled('div')`
+  padding: 15px;
+  text-align: right;
+
+  a {
+    color: ${p => p.theme.success};
+  }
+`;
+
 const Activity = ({ activity }) => {
   if (!activity) {
     return null;
@@ -62,6 +71,9 @@ const Activity = ({ activity }) => {
   return (
     <PageWrapper>
       <Wrapper borderColor={priorityColors[activity.priority]}>
+        <ActionsBar>
+          <Link to={`/activity/${activity.id}/edit`}>Edit</Link>
+        </ActionsBar>
         <Properties>
           <Name>{activity.name}</Name>
           <Section>

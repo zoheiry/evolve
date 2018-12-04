@@ -24,9 +24,9 @@ const get = (endpoint, extraHeaders = {}) =>
 const post = (endpoint, data, config, extraHeaders) =>
   execute('post', endpoint, data, config, extraHeaders);
 
-// const put = (endpoint, data) => execute('put', endpoint, data);
+const put = (endpoint, data) => execute('put', endpoint, data);
 
-// const del = (endpoint) => execute('delete', endpoint);
+const del = (endpoint) => execute('delete', endpoint);
 
 export const getUser = (id) =>
   get(`/api/user/${id}`).then(response => userFromServer(response.data));
@@ -42,3 +42,10 @@ export const getUserActivities = (userId) =>
 export const addActivity = (activity, userId) =>
   post(`/api/user/${userId}/activity`, activity)
     .then(response => activityFromServer(response.data));
+
+// FIXME: No authentication validation done here
+export const updateActivity = (activity, userId) =>
+  put(`/api/activity/${activity.id}`, activity)
+    .then(response => activityFromServer(response.data));
+
+export const deleteActivity = (id) => del(`/api/activity/${id}`)

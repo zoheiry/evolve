@@ -9,7 +9,7 @@ import { START_TIME, END_TIME } from '../../constants/TimeTypes';
 import TimeField from './TimeField';
 
 const TableHeader = styled(Table.Header)`
-  background: ${p => p.theme.danger} !important;
+  background: ${p => p.theme.success} !important;
   color: #FFF;
 `;
 

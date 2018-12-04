@@ -137,6 +137,7 @@
     ]
   },
   "devDependencies": {
-    "@babel/plugin-proposal-export-default-from": "^7.0.0"
+    "@babel/plugin-proposal-export-default-from": "^7.0.0",
+    "babel-plugin-styled-components": "^1.9.2"
   }
 }
