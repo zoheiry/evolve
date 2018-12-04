@@ -95,7 +95,9 @@ const Activity = ({ activity }) => {
           </Section>
         </Properties>
         <ButtonWrapper>
-          <Button fluid color={priorityColors[5]}>Start tracking</Button>
+          <Link to={`/activity/${activity.id}/track`}>
+            <Button fluid color={priorityColors[5]}>Start tracking</Button>
+          </Link>
         </ButtonWrapper>
       </Wrapper>
     </PageWrapper>

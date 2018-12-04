@@ -8,6 +8,7 @@ import EditActivity from './pages/EditActivity';
 import Schedule from './pages/Schedule';
 import Activities from './pages/Activities';
 import Activity from './pages/Activity';
+import ActivityTracker from './pages/ActivityTracker';
 import Navbar from './components/Navbar';
 import theme from './constants/Theme';
 
@@ -25,6 +26,7 @@ class App extends Component {
             <Route exact path="/activities" component={Activities} />
             <Route exact path="/activity/:id" component={Activity} />
             <Route exact path="/activity/:id/edit" component={EditActivity} />
+            <Route exact path="/activity/:id/track" component={ActivityTracker} />
           </div>
         </ThemeProvider>
       </BrowserRouter>

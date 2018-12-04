@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import LogoImage from '../../static/img/logo.png';
 
 const Wrapper = styled('nav')`
   width: 100%;
@@ -11,15 +12,16 @@ const Wrapper = styled('nav')`
   box-shadow: 0 1px 4px rgba(0, 0, 0, .2);
   display: flex;
   justify-content: space-between;
-  padding: 15px;
+  align-items: center;
+  padding: 10px 15px;
   color: #FFF;
   background: ${p => p.theme.primary};
 `;
 
 const Logo = styled('div')`
-  font-weight: bold;
-  font-style: italic;
-  font-size: 20px;
+  img {
+    width: 55px;
+  }
 `;
 
 const NavItems = styled('div')`
@@ -40,7 +42,9 @@ const StyledLink = styled(Link)`
 
 const Navbar = () => (
   <Wrapper>
-    <Logo><StyledLink to="/">Logo</StyledLink></Logo>
+    <Logo>
+      <StyledLink to="/"><img src={LogoImage} alt="Logo" /></StyledLink>
+    </Logo>
     <NavItems>
       <StyledLink to="/activities"><Icon className="fas fa-list-ul" /></StyledLink>
       <StyledLink to="/schedule"><Icon className="fas fa-calendar-alt" /></StyledLink>
