@@ -82,7 +82,6 @@ class Timer extends Component {
   stopTimer = () => {
     clearInterval(this.timerInterval);
     this.setState({ active: false });
-    
   }
 
   toggleTimer = () =>
@@ -100,19 +99,7 @@ class Timer extends Component {
       <Wrapper>
         <StyledTimer>{formatTime(this.state)}</StyledTimer>
         <ButtonsWrapper>
-          <Button
-            onClick={this.toggleTimer}
-            color={theme.danger}
-          >
-            End session
-          </Button>
-          <Button
-            onClick={this.toggleTimer}
-            color={this.state.active ? theme.danger : theme.primary}
-            secondary
-          >
-            {this.state.active ? 'Pause' : 'Play'}
-          </Button>
+          <Button onClick={this.toggleTimer} color={theme.danger}>End session</Button>
         </ButtonsWrapper>
       </Wrapper>
     );
@@ -121,9 +108,9 @@ class Timer extends Component {
 
 Timer.propTypes = {
   startTime: PropTypes.shape({
-    hours: PropTypes.Number,
-    minute: PropTypes.Number,
-    seconds: PropTypes.Number
+    hours: PropTypes.number,
+    minute: PropTypes.number,
+    seconds: PropTypes.number
   }),
   active: PropTypes.bool,
   theme: PropTypes.object,

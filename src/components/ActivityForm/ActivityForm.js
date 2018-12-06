@@ -4,6 +4,7 @@ import styled, { css } from 'styled-components';
 import { isEmpty } from 'lodash';
 
 import Button from '../Button';
+import PrioritySelector from './PrioritySelector';
 import * as PROPERTIES from '../../constants/ActivityProperties'; 
 
 const Title = styled('h1')`
@@ -41,6 +42,17 @@ const TextArea = styled('textarea')`
   ${commonFieldStyles}
   height: 150px;
   resize: none;
+`;
+
+const PriorityField = styled('div')`
+  ${commonFieldStyles}
+  padding: 15px 8px;
+`;
+
+const Label = styled('span')`
+  font-weight: bold;
+  display: inline-block;
+  margin-bottom: 15px;
 `;
 
 const Fields = styled('div')`
@@ -104,11 +116,11 @@ class ActivityForm extends Component {
     }
   }
 
-  handleChange = (property, target) => {
+  handleChange = (property, value) => {
     this.setState({
       activity: {
         ...this.state.activity,
-        [property]: target.value
+        [property]: value
       }
     });
   }
@@ -132,27 +144,25 @@ class ActivityForm extends Component {
             type="text"
             placeholder="* Activity name (e.g Game development course)"
             required
-            onChange={(e) => this.handleChange(PROPERTIES.NAME, e.target)}
+            onChange={(e) => this.handleChange(PROPERTIES.NAME, e.target.value)}
           />
-          <Input
-            value={priority}
-            placeholder="* Priority of this activity (number from 1 to 5)"
-            type="number"
-            min="1"
-            max="5"
-            required
-            onChange={(e) => this.handleChange(PROPERTIES.PRIORITY, e.target)}
-          />
+          <PriorityField>
+            <Label>Priority</Label>
+            <PrioritySelector
+              selectedPriority={priority}
+              onSelect={(value) => this.handleChange(PROPERTIES.PRIORITY, value)}
+            />
+          </PriorityField>
           <TextArea
             value={notes}
             placeholder="Notes on this activity (e.g links, resources, etc..)"
-            onChange={(e) => this.handleChange(PROPERTIES.NOTES, e.target)}
+            onChange={(e) => this.handleChange(PROPERTIES.NOTES, e.target.value)}
           />
           <Input
             value={maxDuration}
             type="number"
             placeholder="Maximum duration you want to spend (in hours)"
-            onChange={(e) => this.handleChange(PROPERTIES.MAX_DURATION, e.target)}
+            onChange={(e) => this.handleChange(PROPERTIES.MAX_DURATION, e.target.value)}
           />
         </Fields>
         <Button onClick={this.handleSubmit} disabled={!this.isFormValid()}>Submit</Button>
