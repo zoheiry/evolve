@@ -50,8 +50,8 @@ export const updateActivity = (activity, userId) =>
 
 export const deleteActivity = (id) => del(`/api/activity/${id}`)
 
-export const startSession = (id, start) =>
-  put(`/api/activity/${id}/start_session`, { start });
+export const startSession = (id) =>
+  put(`/api/activity/${id}/start_session`);
 
-export const endSession = (id, end) =>
-  put(`/api/activity/${id}/end_session`, { end });
+export const endSession = (id) =>
+  put(`/api/activity/${id}/end_session`);

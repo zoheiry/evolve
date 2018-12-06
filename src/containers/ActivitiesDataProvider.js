@@ -49,8 +49,8 @@ const mapDispatchToProps = (dispatch) => ({
   getActivities: (userId) => dispatch(getActivities(userId)),
   updateActivity: (activity) => dispatch(updateActivity(activity)),
   deleteActivity: (id) => dispatch(deleteActivity(id)),
-  startSession: (id, start) => dispatch(startSession(id, start)),
-  endSession: (id, end) => dispatch(endSession(id, end))
+  startSession: (id) => dispatch(startSession(id)),
+  endSession: (id) => dispatch(endSession(id))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ActivitiesDataProvider);

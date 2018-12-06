@@ -22,4 +22,8 @@ module.exports = (router) => {
   router
     .route('/activity/:id/end_session')
     .put(activityController.endSession);
+
+  router
+    .route('/activity/:id/delete_session')
+    .delete(activityController.deleteSession);
 };

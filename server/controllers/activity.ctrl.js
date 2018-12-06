@@ -78,16 +78,23 @@ module.exports = {
   },
   startSession: (request, response, next) => {
     Activity.findById(request.params.id).then(activity =>
-      activity.startSession(request.body.start).then(_activity =>
-        response.send(_activity)
-      )
+      activity.startSession()
+        .then(_activity => response.send(_activity))
+        .catch(errorMessage => response.status(500).send(errorMessage))
     );
   },
   endSession: (request, response, next) => {
     Activity.findById(request.params.id).then(activity =>
-      activity.endSession(request.body.end).then(_activity =>
-        response.send(_activity)
-      )
+      activity.endSession()
+        .then(_activity => response.send(_activity))
+        .catch(errorMessage => response.status(500).send(errorMessage))
+    );
+  },
+  deleteSession: (request, response, next) => {
+    Activity.findById(request.params.id).then(activity =>
+      activity.deleteSession(request.body.sessionId)
+        .then(() => response.sendStatus(200))
+        .catch(errorMessage => response.status(500).send(errorMessage))
     );
   }
 };

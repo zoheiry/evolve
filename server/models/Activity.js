@@ -23,40 +23,63 @@ let ActivitySchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
+  activeSession: {
+    start: Date
+  },
   sessions: [
     {
       start: Date,
-      end: Date,
-      active: Boolean
+      end: Date
     }
   ]
 });
 
-ActivitySchema.methods.startSession = function(start) {
-  const newSession = {
-    start,
-    active: true
-  };
-  if (!this.sessions) {
-    this.sessions = [newSession];
+ActivitySchema.methods.startSession = function() {
+  if (this.activeSession.start) {
+    return Promise.reject(
+      `There is already an active session started on ${this.activeSession.start}`
+    );
   } else {
-    this.sessions = this.sessions.concat(newSession);
+    const start = new Date();
+    this.activeSession = { start }
   }
   return this.save();
 };
 
-ActivitySchema.methods.endSession = function(end) {
-  this.sessions = this.sessions.map(session => {
-    if (session.active) {
-      return {
-        start: session.start,
-        end,
-        active: false
-      };
-    }
-    return session;
-  });
+ActivitySchema.methods.endSession = function() {
+  if (!this.activeSession.start) {
+    return Promise.reject('There is no active session');
+  }
+
+  const end = new Date();
+  const newSession = {
+    start: this.activeSession.start,
+    end
+  }
+  if (!this.sessions) {
+    this.sessions = [newSession];
+  } else {
+    this.sessions.push(newSession);
+  }
+  this.activeSession = null;
   return this.save();
 };
+
+ActivitySchema.methods.deleteSession = function(id) {
+  let foundSession;
+  const newSessions = this.sessions.reduce((result, session) => {
+    if (`${session._id}` === id) {
+      foundSession = session;
+      return result;
+    }
+    return result.concat(session);
+  }, []);
+
+  if (!foundSession) {
+    return Promise.reject(`No session with id ${id} was found.`);
+  }
+  this.sessions = newSessions;
+  return this.save();
+}
 
 module.exports = mongoose.model('Activity', ActivitySchema);
