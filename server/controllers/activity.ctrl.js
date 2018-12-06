@@ -75,5 +75,19 @@ module.exports = {
         }
         next();
       })
+  },
+  startSession: (request, response, next) => {
+    Activity.findById(request.params.id).then(activity =>
+      activity.startSession(request.body.start).then(_activity =>
+        response.send(_activity)
+      )
+    );
+  },
+  endSession: (request, response, next) => {
+    Activity.findById(request.params.id).then(activity =>
+      activity.endSession(request.body.end).then(_activity =>
+        response.send(_activity)
+      )
+    );
   }
 };

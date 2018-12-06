@@ -9,11 +9,19 @@ const Wrapper = styled(Link)`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: solid 1px #ddd;
-  padding-bottom: 15px;
-  margin-bottom: 15px;
+  ${p => p.theme.defaultShadow};
+  padding: 15px;
   color: #000;
   text-decoration: none;
+  margin: 15px 0;
+`;
+
+const Priority = styled('div')`
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: ${p => p.color};
+  box-shadow: 0 0 4px ${p => p.color};
 `;
 
 const Name = styled('span')`
@@ -23,22 +31,10 @@ const Name = styled('span')`
   color: #555;
 `;
 
-const Priority = styled('div')`
-  border: solid 1px ${p => priorityColors[p.value]};
-  color: ${p => priorityColors[p.value]};
-  padding: 5px;
-  border-radius: 50%;
-  font-size: 14px;
-  width: 30px;
-  height: 30px;
-  text-align: center;
-  font-weight: bold;
-`;
-
 const ActivityPreview = ({ name, priority, id }) => (
   <Wrapper to={`/activity/${id}`}>
     <Name>{name}</Name>
-    <div><Priority value={priority}>{priority}</Priority></div>
+    <Priority color={priorityColors[priority]} />
   </Wrapper>
 );
 

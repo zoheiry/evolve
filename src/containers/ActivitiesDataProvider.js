@@ -1,7 +1,14 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { addActivity, getActivities, updateActivity, deleteActivity } from '../actions/activities';
+import {
+  addActivity,
+  getActivities,
+  updateActivity,
+  deleteActivity,
+  startSession,
+  endSession
+} from '../actions/activities';
 
 const findActivity = (activities = [], id) => (
   activities.find(activity => activity.id === id)
@@ -9,12 +16,14 @@ const findActivity = (activities = [], id) => (
 
 const ActivitiesDataProvider = (props) => (
   props.render({
+    findActivity: (id) => findActivity(props.activities.items, id),
     activities: props.activities,
     addActivity: props.addActivity,
     getActivities: props.getActivities,
     updateActivity: props.updateActivity,
     deleteActivity: props.deleteActivity,
-    findActivity: (id) => findActivity(props.activities.items, id),
+    startSession: props.startSession,
+    endSession: props.endSession,
   })
 );
 
@@ -27,6 +36,8 @@ ActivitiesDataProvider.propTypes = {
   getActivities: PropTypes.func,
   updateActivity: PropTypes.func,
   deleteActivity: PropTypes.func,
+  startSession: PropTypes.func,
+  endSession: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
@@ -38,6 +49,8 @@ const mapDispatchToProps = (dispatch) => ({
   getActivities: (userId) => dispatch(getActivities(userId)),
   updateActivity: (activity) => dispatch(updateActivity(activity)),
   deleteActivity: (id) => dispatch(deleteActivity(id)),
+  startSession: (id, start) => dispatch(startSession(id, start)),
+  endSession: (id, end) => dispatch(endSession(id, end))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ActivitiesDataProvider);

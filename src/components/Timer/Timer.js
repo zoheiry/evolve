@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled, { withTheme } from 'styled-components';
 
 import { formatTime } from '../../utils/time';
 import Button from '../Button';
@@ -8,7 +8,7 @@ import Button from '../Button';
 import '../../static/fonts/fonts.css';
 
 const Wrapper = styled('div')`
-  
+  width: 100%;
 `;
 
 const StyledTimer = styled('div')`
@@ -26,11 +26,15 @@ const StyledTimer = styled('div')`
   color: ${p => p.theme.danger};
 `;
 
-const ButtonWrapper = styled('div')`
+const ButtonsWrapper = styled('div')`
   padding-top: 30px;
-  text-align: center;
-  > * {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  justify-content: space-evenly;
+  > button {
     min-width: 150px;
+    outline: none;
   }
 `;
 
@@ -91,12 +95,25 @@ class Timer extends Component {
   }
 
   render() {
+    const { theme } = this.props;
     return (
       <Wrapper>
         <StyledTimer>{formatTime(this.state)}</StyledTimer>
-        <ButtonWrapper>
-          <Button onClick={this.toggleTimer}>{this.state.active ? 'Stop' : 'Start'}</Button>
-        </ButtonWrapper>
+        <ButtonsWrapper>
+          <Button
+            onClick={this.toggleTimer}
+            color={theme.danger}
+          >
+            End session
+          </Button>
+          <Button
+            onClick={this.toggleTimer}
+            color={this.state.active ? theme.danger : theme.primary}
+            secondary
+          >
+            {this.state.active ? 'Pause' : 'Play'}
+          </Button>
+        </ButtonsWrapper>
       </Wrapper>
     );
   }
@@ -109,6 +126,7 @@ Timer.propTypes = {
     seconds: PropTypes.Number
   }),
   active: PropTypes.bool,
+  theme: PropTypes.object,
 };
 
 Timer.defaultProps = {
@@ -120,4 +138,4 @@ Timer.defaultProps = {
   active: false,
 };
 
-export default Timer;
+export default withTheme(Timer);

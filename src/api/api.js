@@ -49,3 +49,9 @@ export const updateActivity = (activity, userId) =>
     .then(response => activityFromServer(response.data));
 
 export const deleteActivity = (id) => del(`/api/activity/${id}`)
+
+export const startSession = (id, start) =>
+  put(`/api/activity/${id}/start_session`, { start });
+
+export const endSession = (id, end) =>
+  put(`/api/activity/${id}/end_session`, { end });

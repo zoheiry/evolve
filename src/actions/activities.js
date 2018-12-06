@@ -52,7 +52,6 @@ const deleteActivitySuccess = (activityId) => ({
   payload: { activityId },
 });
 
-
 export const addActivity = (activity, userId) => (dispatch, getState, api) => {
   dispatch(addActivityRequest());
 
@@ -83,4 +82,20 @@ export const deleteActivity = (id) => (dispatch, getState, api) => {
   return api.deleteActivity(id)
     .then(() => dispatch(deleteActivitySuccess(id)))
     .catch(() => dispatch(deleteActivityFail()))
+};
+
+export const startSession = (id, start) => (dispatch, getState, api) => {
+  dispatch(updateActivityRequest());
+
+  return api.startSession(id, start)
+    .then((activity) => dispatch(updateActivitySuccess(activity)))
+    .catch(() => dispatch(updateActivityFail()));
+};
+
+export const endSession = (id, end) => (dispatch, getState, api) => {
+  dispatch(updateActivityRequest());
+
+  return api.startSession(id, end)
+    .then((activity) => dispatch(updateActivitySuccess(activity)))
+    .catch(() => dispatch(updateActivityFail()));
 };

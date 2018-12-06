@@ -8,13 +8,17 @@ import ActivityPreview from './ActivityPreview';
 import AddActivityButton from './AddActivityButton';
 
 const Wrapper = styled('div')`
-  padding: 15px;
+  padding: 15px 0;
   display: flex;
   flex-direction: column;
 `;
 
 const Activities = styled('div')`
   overflow: auto;
+`;
+
+const ButtonWrapper = styled('div')`
+  padding: 0 15px;
 `;
 
 const ActivitiesOverview = ({ activities }) => {
@@ -33,7 +37,9 @@ const ActivitiesOverview = ({ activities }) => {
           />
         )}
       </Activities>
-      <AddActivityButton />
+      <ButtonWrapper>
+        <AddActivityButton />
+      </ButtonWrapper>
     </Wrapper>
   );
 };

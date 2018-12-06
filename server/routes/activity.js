@@ -14,4 +14,12 @@ module.exports = (router) => {
   router
     .route('/activity/:id')
     .delete(activityController.removeActivity);
+
+  router
+    .route('/activity/:id/start_session')
+    .put(activityController.startSession);
+
+  router
+    .route('/activity/:id/end_session')
+    .put(activityController.endSession);
 };

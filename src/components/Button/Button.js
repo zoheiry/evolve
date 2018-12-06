@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled, { css } from 'styled-components';
+import styled, { css, withTheme } from 'styled-components';
 
 const disabledStyles = css`
   opacity: 0.5;
@@ -13,15 +13,17 @@ const StyledButton = styled('button')`
   padding: 12px;
   font-size: 16px;
   font-weight: bold;
-  background: ${p => p.color || p.theme.primary};
-  color: #FFF;
+  background: ${p => (p.secondary ? 'transparent' : p.color)};
+  border: ${p => (p.secondary ? `solid 1px ${p.color}` : 'none')};
+  color: ${p => (p.secondary ? p.color : '#FFF')};
   ${p => p.disabled && disabledStyles}
 `;
 
-const Button = ({ children, fluid, ...props }) =>
+const Button = ({ children, fluid, color, theme, ...props }) =>
   <StyledButton
     {...props}
     fluid={fluid}
+    color={color || theme.primary}
   >
     {children}
   </StyledButton>;
@@ -30,6 +32,8 @@ Button.propTypes = {
   children: PropTypes.node,
   fluid: PropTypes.bool,
   color: PropTypes.string,
+  secondary: PropTypes.bool,
+  theme: PropTypes.object,
 }
 
-export default Button;
+export default withTheme(Button);

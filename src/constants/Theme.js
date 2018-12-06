@@ -1,5 +1,6 @@
 const defaultValues = {
-  bodyTopPadding: '54px'
+  bodyTopPadding: '54px',
+  defaultShadow: 'box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2)',
 };
 
 const theme = {
