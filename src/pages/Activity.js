@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import linkify from 'linkifyjs/html';
 import { Link } from 'react-router-dom';
 
+import ActivitiesDataProvider from '../containers/ActivitiesDataProvider';
 import priorityColors from '../constants/PriorityColors';
 import PageWrapper from '../components/PageWrapper';
 import Button from '../components/Button';
@@ -63,44 +64,52 @@ const ActionsBar = styled('div')`
   }
 `;
 
-const Activity = ({ activity }) => {
-  if (!activity) {
+const Activity = ({ match }) => {
+  const activityId = match.params.id
+  if (!activityId) {
     return null;
   }
 
   return (
-    <PageWrapper>
-      <Wrapper borderColor={priorityColors[activity.priority]}>
-        <ActionsBar>
-          <Link to={`/activity/${activity.id}/edit`}>Edit</Link>
-        </ActionsBar>
-        <Properties>
-          <Name>{activity.name}</Name>
-          <Section>
-            <TimeSpent>
-              <Label inline>Time spent:</Label>
-              <span>{activity.hoursSpent}h</span>
-              <span>{activity.maxDuration && `/${activity.maxDuration}h`}</span>
-            </TimeSpent>
-          </Section>
-          {activity.notes && (
-            <Section>
-              <Label>Notes:</Label>
-              <Notes dangerouslySetInnerHTML={{__html: linkify(activity.notes)}} />
-            </Section>
-          )}
-          <Section>
-            <Label inline>Priority:</Label>
-            <span color={priorityColors[activity.priority]}>{activity.priority}</span>
-          </Section>
-        </Properties>
-        <ButtonWrapper>
-          <Link to={`/activity/${activity.id}/track`}>
-            <Button fluid color={priorityColors[5]}>Start session</Button>
-          </Link>
-        </ButtonWrapper>
-      </Wrapper>
-    </PageWrapper>
+    <ActivitiesDataProvider render={({ findActivity, getTimeSpent }) => {
+      const activity = findActivity(activityId);
+      const timeSpent = getTimeSpent(activity.sessions);
+
+      return (
+        <PageWrapper>
+          <Wrapper borderColor={priorityColors[activity.priority]}>
+            <ActionsBar>
+              <Link to={`/activity/${activity.id}/edit`}>Edit</Link>
+            </ActionsBar>
+            <Properties>
+              <Name>{activity.name}</Name>
+              <Section>
+                <TimeSpent>
+                  <Label inline>Time spent:</Label>
+                  <span>{timeSpent}h</span>
+                  <span>{activity.maxDuration && `/${activity.maxDuration}h`}</span>
+                </TimeSpent>
+              </Section>
+              {activity.notes && (
+                <Section>
+                  <Label>Notes:</Label>
+                  <Notes dangerouslySetInnerHTML={{__html: linkify(activity.notes)}} />
+                </Section>
+              )}
+              <Section>
+                <Label inline>Priority:</Label>
+                <span color={priorityColors[activity.priority]}>{activity.priority}</span>
+              </Section>
+            </Properties>
+            <ButtonWrapper>
+              <Link to={`/activity/${activity.id}/track`}>
+                <Button fluid color={priorityColors[5]}>Start session</Button>
+              </Link>
+            </ButtonWrapper>
+          </Wrapper>
+        </PageWrapper>
+      );
+    }} />
   );
 }
 

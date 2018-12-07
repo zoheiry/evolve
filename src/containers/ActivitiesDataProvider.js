@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 import {
   addActivity,
@@ -11,12 +12,27 @@ import {
 } from '../actions/activities';
 
 const findActivity = (activities = [], id) => (
-  activities.find(activity => activity.id === id)
+  activities.find(activity => activity.id === id) || {}
 );
+
+const getTimeSpent = (sessions = []) => {
+  if (!sessions.length) {
+    return 0;
+  }
+  let totalHours = 0;
+  sessions.forEach(session => {
+    const startDate = moment(session.start);
+    const endDate = moment(session.end);
+    const hours = endDate.diff(startDate, 'hours', true);
+    totalHours += hours;
+  });
+  return parseFloat(totalHours).toFixed(1);
+}
 
 const ActivitiesDataProvider = (props) => (
   props.render({
     findActivity: (id) => findActivity(props.activities.items, id),
+    getTimeSpent,
     activities: props.activities,
     addActivity: props.addActivity,
     getActivities: props.getActivities,

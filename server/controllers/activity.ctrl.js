@@ -96,5 +96,10 @@ module.exports = {
         .then(() => response.sendStatus(200))
         .catch(errorMessage => response.status(500).send(errorMessage))
     );
+  },
+  getTimeSpent: (request, response) => {
+    Activity.findById(request.params.id).then(activity =>
+      response.send(activity.timeSpent())
+    );
   }
 };
