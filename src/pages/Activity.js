@@ -41,6 +41,9 @@ const TimeSpent = styled('div')`
 
 const ButtonWrapper = styled('div')`
   padding: 15px;
+  > *:not(:first-child) {
+    margin-top: 15px;
+  }
 `;
 
 const Properties = styled('div')``;
@@ -134,6 +137,7 @@ const Activity = ({ match, theme, history }) => {
                   </Button>
                 )
               }
+              <Button secondary fluid color={theme.success}>Add time spent</Button>
             </ButtonWrapper>
           </Wrapper>
         </PageWrapper>

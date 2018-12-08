@@ -76,7 +76,7 @@ class ActivityForm extends Component {
     this.state = {
       activity: {
         [PROPERTIES.NAME]: activity[PROPERTIES.NAME] || '',
-        [PROPERTIES.PRIORITY]: activity[PROPERTIES.PRIORITY] || '',
+        [PROPERTIES.PRIORITY]: activity[PROPERTIES.PRIORITY],
         [PROPERTIES.NOTES]: activity[PROPERTIES.NOTES] || '',
         [PROPERTIES.MAX_DURATION]: activity[PROPERTIES.MAX_DURATION] || ''
       }

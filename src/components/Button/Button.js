@@ -18,6 +18,7 @@ const StyledButton = styled('button')`
   border: ${p => (p.secondary ? `solid 1px ${p.color}` : 'none')};
   color: ${p => (p.secondary ? p.color : '#FFF')};
   ${p => p.disabled && disabledStyles}
+  font-size: inherit;
 `;
 
 const Button = ({ children, fluid, color, theme, loading, ...props }) =>

@@ -70,6 +70,7 @@ export const addActivity = (activity, userId) => (dispatch, getState, api) => {
 
   return api.addActivity(activity, userId)
     .then((activity) => dispatch(addActivitySuccess(activity)))
+    .then(dispatch(getActivities(userId)))
     .catch(() => dispatch(addActivityFail()));
 };
 

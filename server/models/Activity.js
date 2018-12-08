@@ -78,4 +78,20 @@ ActivitySchema.methods.deleteSession = function(id) {
   return this.save();
 };
 
+ActivitySchema.methods.calculateWeight = function() {
+  let timeSpent;
+  if (!this.sessions.length) {
+    timeSpent = 1;
+  } else {
+    timeSpent = this.sessions.reduce((result, session) => {
+      const sessionDuration = moment(session.end).diff(moment(session.start), 'minutes', true);
+      return result += sessionDuration;
+    }, 0);
+  }
+  if (this.maxDuration > 0 && timeSpent / 60 >= this.maxDuration) {
+    return 0;
+  }
+  return (this.priority / timeSpent) * 100;
+}
+
 module.exports = mongoose.model('Activity', ActivitySchema);

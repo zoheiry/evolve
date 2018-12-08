@@ -64,7 +64,6 @@ class ScheduleForm extends Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.schedule !== prevState.props.schedule) {
-      console.log(nextProps.schedule);
       return {
         props: {
           schedule: nextProps.schedule
@@ -114,7 +113,7 @@ class ScheduleForm extends Component {
           {
             WEEK_DAYS.map(day =>
               <TableRow key={`${day}-field`}>
-                <TableCell><Label>{upperFirst(day)}</Label></TableCell>
+                <TableCell><Label>{upperFirst(day.substr(0, 3))}</Label></TableCell>
                 <TableCell>
                   <TimeField
                     onChange={(time) => this.handleTimeChange(day, time, START_TIME)}

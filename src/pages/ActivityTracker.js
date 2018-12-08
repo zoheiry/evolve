@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes, withTheme } from 'styled-components';
 import { Link } from 'react-router-dom';
 
 import ActivitiesDataProvider from '../containers/ActivitiesDataProvider';
 import Timer from '../components/Timer';
 import PageWrapper from '../components/PageWrapper';
+import Button from '../components/Button';
 
 const slideUp = keyframes`
   0% { transform: translateY(45px); }
@@ -40,7 +41,12 @@ const Name = styled('div')`
   }
 `;
 
-const ActivityTracker = ({ match, history }) => {
+const EmptyState = styled('div')`
+  text-align: center;
+  font-weight: bold;
+`;
+
+const ActivityTracker = ({ match, history, theme }) => {
   const activityId = match.params.id;
   if (!activityId) {
     return null;
@@ -66,7 +72,7 @@ const ActivityTracker = ({ match, history }) => {
                 </Name>
               </Section>
               <TimerWrapper>
-                {hasActiveSession && (
+                {hasActiveSession ? (
                   <Timer
                     active={hasActiveSession}
                     startTime={runningTime}
@@ -75,6 +81,13 @@ const ActivityTracker = ({ match, history }) => {
                       history.push('/activities');
                     }}
                   />
+                ) : (
+                  <EmptyState>
+                    <p>No active sessions</p>
+                    <Button color={theme.success} onClick={() => startSession(activityId)}>
+                      Start a new session
+                    </Button>
+                  </EmptyState>
                 )}
               </TimerWrapper>
             </Wrapper>
@@ -90,10 +103,11 @@ ActivityTracker.propTypes = {
   match: PropTypes.object,
   history: PropTypes.object,
   activity: PropTypes.object,
+  theme: PropTypes.object
 };
 
 ActivityTracker.defaultProps = {
   activity: {}
 };
 
-export default ActivityTracker;
+export default withTheme(ActivityTracker);

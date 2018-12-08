@@ -29,4 +29,8 @@ module.exports = (router) => {
   router
     .route('/user/:userId/activity')
     .post(activityController.addActivity);
+
+  router
+    .route('/user/:userId/activity/suggested')
+    .get(activityController.getSuggestedActivity)
 };

@@ -1,23 +1,20 @@
-/** require dependencies */
 const express = require("express")
 const routes = require('./routes/')
 const mongoose = require('mongoose')
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const helmet = require('helmet')
+const Jobs = require('./jobs/agenda');
 
-const app = express()
-const router = express.Router()
-const url = process.env.MONGODB_URI || "mongodb://localhost:27017/selfDevelopment"
+const app = express();
+const router = express.Router();
+const url = process.env.MONGODB_URI || "mongodb://localhost:27017/selfDevelopment";
 
 /** connect to MongoDB datastore */
 try {
-    mongoose.connect(url, {
-        //useMongoClient: true
-        useNewUrlParser: true
-    })    
+  mongoose.connect(url, { useNewUrlParser: true});
 } catch (error) {
-  
+  throw new Error(`Could not connect to ${url}`);
 }
 
 let port = 5000 || process.env.PORT
@@ -37,3 +34,5 @@ app.use('/api', router)
 app.listen(port, () => {
     console.log(`Server started at port: ${port}`);
 });
+
+Jobs.start();
