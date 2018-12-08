@@ -137,7 +137,7 @@ const Activity = ({ match, theme, history }) => {
                   </Button>
                 )
               }
-              <Button secondary fluid color={theme.success}>Add time spent</Button>
+              {/* <Button secondary fluid color={theme.success}>Add time spent</Button> */}
             </ButtonWrapper>
           </Wrapper>
         </PageWrapper>

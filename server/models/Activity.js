@@ -27,7 +27,11 @@ let ActivitySchema = new mongoose.Schema({
       start: Date,
       end: Date
     }
-  ]
+  ],
+  skippedCount: {
+    type: Number,
+    default: 0,
+  }
 });
 
 ActivitySchema.methods.startSession = function() {
@@ -92,6 +96,11 @@ ActivitySchema.methods.calculateWeight = function() {
     return 0;
   }
   return (this.priority / timeSpent) * 100;
+}
+
+ActivitySchema.methods.skip = function() {
+  this.skippedCount += 1;
+  return this.save();
 }
 
 module.exports = mongoose.model('Activity', ActivitySchema);

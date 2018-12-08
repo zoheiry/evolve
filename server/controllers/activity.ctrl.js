@@ -1,5 +1,9 @@
 const Activity = require('../models/Activity');
 
+const highestWeightActivity = (activities) => (
+  activities.sort((a1, a2) => a2.calculateWeight() - a1.calculateWeight())[0]
+);
+
 module.exports = {
   addActivity: (request, response) => {
     new Activity({ ...request.body, user: request.params.userId }).save((error, activity) => {
@@ -100,9 +104,35 @@ module.exports = {
   },
   getSuggestedActivity: (request, response) => {
     Activity.find({ user: request.params.userId })
-      .then(activities => (
-        response.send(activities.sort((a1, a2) => a2.calculateWeight() - a1.calculateWeight()))
-      ))
-      .catch((error) => response.status('500').send(error.message))
+      .then(activities => response.send(highestWeightActivity(activities)))
+      .catch((error) => {
+        if (error) {
+          response.status(500).send(error.message);
+        } else {
+          response.sendStatus(500);
+        }
+      })
+  },
+  skipSuggestedActivity: (request, response) => {
+    Activity.findById(request.body.activityId)
+      .then(activity => {
+        activity.skip()
+          .then(() => {
+            Activity.find({ user: request.params.userId })
+              .then(activities => {
+                const filteredActivities = activities.filter(a => a._id.toString() !== activity.id);
+                response.send(highestWeightActivity(filteredActivities));
+              })
+              .catch(error => response.status(500).send(error.message));
+          })
+          .catch(() => response.status(500).send('Failed to skip'))
+      })
+      .catch(error => {
+        if (error) {
+          response.status(500).send(error.message);
+        } else {
+          response.sendStatus(500);
+        }
+      })
   }
 };
