@@ -79,14 +79,14 @@ module.exports = {
   startSession: (request, response, next) => {
     Activity.findById(request.params.id).then(activity =>
       activity.startSession()
-        .then(_activity => response.send(_activity))
+        .then(_activity => response.send(_activity.activeSession))
         .catch(errorMessage => response.status(500).send(errorMessage))
     );
   },
   endSession: (request, response, next) => {
     Activity.findById(request.params.id).then(activity =>
       activity.endSession()
-        .then(_activity => response.send(_activity))
+        .then(_activity => response.send(_activity.sessions))
         .catch(errorMessage => response.status(500).send(errorMessage))
     );
   },
@@ -95,11 +95,6 @@ module.exports = {
       activity.deleteSession(request.body.sessionId)
         .then(() => response.sendStatus(200))
         .catch(errorMessage => response.status(500).send(errorMessage))
-    );
-  },
-  getTimeSpent: (request, response) => {
-    Activity.findById(request.params.id).then(activity =>
-      response.send(activity.timeSpent())
     );
   }
 };

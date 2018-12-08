@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-import priorityColors from '../../constants/PriorityColors';
+import PriorityIndicator from '../PriorityIndicator';
 
 const Wrapper = styled(Link)`
   display: flex;
@@ -13,15 +13,8 @@ const Wrapper = styled(Link)`
   padding: 15px;
   color: #000;
   text-decoration: none;
-  margin: 15px 0;
-`;
-
-const Priority = styled('div')`
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: ${p => p.color};
-  box-shadow: 0 0 4px ${p => p.color};
+  margin: 15px;
+  background: ${p => (p.active ? '#fcffdc' : '#fff')};
 `;
 
 const Name = styled('span')`
@@ -31,10 +24,10 @@ const Name = styled('span')`
   color: #555;
 `;
 
-const ActivityPreview = ({ name, priority, id }) => (
-  <Wrapper to={`/activity/${id}`}>
+const ActivityPreview = ({ name, priority, id, active }) => (
+  <Wrapper to={`/activity/${id}`} active={active ? 1 : 0}>
     <Name>{name}</Name>
-    <Priority color={priorityColors[priority]} />
+    <PriorityIndicator priority={priority} />
   </Wrapper>
 );
 
@@ -42,6 +35,7 @@ ActivityPreview.propTypes = {
   name: PropTypes.string.isRequired,
   priority: PropTypes.number.isRequired,
   id: PropTypes.string.isRequired,
+  active: PropTypes.bool
 };
 
 export default ActivityPreview;

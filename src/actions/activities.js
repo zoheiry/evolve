@@ -52,6 +52,16 @@ const deleteActivitySuccess = (activityId) => ({
   payload: { activityId },
 });
 
+const startSessionSuccess = (id, activeSession) => ({
+  type: types.START_SESSION_SUCCESS,
+  payload: { id, activeSession },
+});
+
+const endSessionSuccess = (id, sessions) => ({
+  type: types.END_SESSION_SUCCESS,
+  payload: { id, sessions },
+});
+
 export const addActivity = (activity, userId) => (dispatch, getState, api) => {
   dispatch(addActivityRequest());
 
@@ -84,18 +94,18 @@ export const deleteActivity = (id) => (dispatch, getState, api) => {
     .catch(() => dispatch(deleteActivityFail()))
 };
 
-export const startSession = (id, start) => (dispatch, getState, api) => {
+export const startSession = (id) => (dispatch, getState, api) => {
   dispatch(updateActivityRequest());
 
-  return api.startSession(id, start)
-    .then((activity) => dispatch(updateActivitySuccess(activity)))
+  return api.startSession(id)
+    .then((response) => dispatch(startSessionSuccess(id, response.data)))
     .catch(() => dispatch(updateActivityFail()));
 };
 
-export const endSession = (id, end) => (dispatch, getState, api) => {
+export const endSession = (id) => (dispatch, getState, api) => {
   dispatch(updateActivityRequest());
 
-  return api.startSession(id, end)
-    .then((activity) => dispatch(updateActivitySuccess(activity)))
+  return api.endSession(id)
+    .then((response) => dispatch(endSessionSuccess(id, response.data)))
     .catch(() => dispatch(updateActivityFail()));
 };

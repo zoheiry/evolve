@@ -12,12 +12,12 @@ const Wrapper = styled('div')`
   align-items: center;
   justify-content: center;
   z-index: 10;
-  background: rgba(0, 0, 0, .1);
+  background: rgba(0, 0, 0, .3);
 `;
 
 const OverlayLoading = () => (
   <Wrapper>
-    <LoadingSpinner size="50px" color="#0cb67e" />
+    <LoadingSpinner size="50px" color="#0cb67e" gapColor="#FFF" />
   </Wrapper>
 );
 

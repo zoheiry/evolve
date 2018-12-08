@@ -51,7 +51,7 @@ export const updateActivity = (activity, userId) =>
 export const deleteActivity = (id) => del(`/api/activity/${id}`)
 
 export const startSession = (id) =>
-  put(`/api/activity/${id}/start_session`);
+  put(`/api/activity/${id}/start_session`)
 
 export const endSession = (id) =>
-  put(`/api/activity/${id}/end_session`);
+  put(`/api/activity/${id}/end_session`)

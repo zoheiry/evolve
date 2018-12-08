@@ -19,10 +19,6 @@ let ActivitySchema = new mongoose.Schema({
     required: true
   },
   maxDuration: Number,
-  hoursSpent: {
-    type: Number,
-    default: 0
-  },
   activeSession: {
     start: Date
   },
@@ -80,20 +76,6 @@ ActivitySchema.methods.deleteSession = function(id) {
   }
   this.sessions = newSessions;
   return this.save();
-};
-
-ActivitySchema.methods.timeSpent = function() {
-  if (!this.sessions || !this.sessions.length) {
-    return 0;
-  }
-  let totalHours = 0;
-  this.sessions.forEach(session => {
-    const startDate = moment(session.start);
-    const endDate = moment(session.end);
-    const hours = startDate.diff(endDate, 'hours', true);
-    totalHours += hours;
-  });
-  return totalHours;
 };
 
 module.exports = mongoose.model('Activity', ActivitySchema);

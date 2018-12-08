@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { css, withTheme } from 'styled-components';
 
+import { LoadingSpinner } from '@fashiontrade/wardrobe';
+
 const disabledStyles = css`
   opacity: 0.5;
   pointer-events: none;
@@ -19,13 +21,14 @@ const StyledButton = styled('button')`
   ${p => p.disabled && disabledStyles}
 `;
 
-const Button = ({ children, fluid, color, theme, ...props }) =>
+const Button = ({ children, fluid, color, theme, loading, ...props }) =>
   <StyledButton
     {...props}
     fluid={fluid}
     color={color || theme.primary}
+    loading={loading}
   >
-    {children}
+    {loading ? <LoadingSpinner appearance="light" /> : children}
   </StyledButton>;
 
 Button.propTypes = {
@@ -34,6 +37,7 @@ Button.propTypes = {
   color: PropTypes.string,
   secondary: PropTypes.bool,
   theme: PropTypes.object,
+  loading: PropTypes.bool,
 }
 
 export default withTheme(Button);

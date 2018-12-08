@@ -61,6 +61,39 @@ const activities = (state = initialState, action) => {
         items,
       }
     }
+    case types.START_SESSION_SUCCESS: {
+      const items = state.items.map(activity => {
+        if (activity.id === action.payload.id) {
+          return {
+            ...activity,
+            activeSession: action.payload.activeSession
+          }
+        }
+        return activity;
+      });
+      return {
+        ...state,
+        isFetching: false,
+        items,
+      };
+    }
+    case types.END_SESSION_SUCCESS: {
+      const items = state.items.map(activity => {
+        if (activity.id === action.payload.id) {
+          return {
+            ...activity,
+            activeSession: {},
+            sessions: action.payload.sessions
+          }
+        }
+        return activity;
+      });
+      return {
+        ...state,
+        isFetching: false,
+        items,
+      };
+    }
     default:
       return state
   }

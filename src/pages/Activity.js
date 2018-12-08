@@ -1,7 +1,6 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled, { withTheme } from 'styled-components';
 import linkify from 'linkifyjs/html';
 import { Link } from 'react-router-dom';
 
@@ -9,15 +8,14 @@ import ActivitiesDataProvider from '../containers/ActivitiesDataProvider';
 import priorityColors from '../constants/PriorityColors';
 import PageWrapper from '../components/PageWrapper';
 import Button from '../components/Button';
-
+import PriorityIndicator from '../components/PriorityIndicator';
 
 const Wrapper = styled('div')`
-  border-left: solid 5px ${p => p.borderColor};
 `;
 
 const Section = styled('div')`
   padding: 15px;
-  margin: 0 10px 15px 0;
+  margin: 15px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, .2);
 `;
 
@@ -27,6 +25,7 @@ const Name = styled('div')`
   margin-bottom: 15px;
   text-align: center;
   background: #f5f5f5;
+  text-decoration: none;
 `;
 
 const Label = styled('div')`
@@ -45,8 +44,12 @@ const ButtonWrapper = styled('div')`
   padding: 15px;
 `;
 
-const Properties = styled('div')`
-  
+const Properties = styled('div')``;
+
+const PriorityWrapper = styled('div')`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const Notes = styled('div')`
@@ -64,30 +67,42 @@ const ActionsBar = styled('div')`
   }
 `;
 
-const Activity = ({ match }) => {
+const Activity = ({ match, theme, history }) => {
   const activityId = match.params.id
   if (!activityId) {
     return null;
   }
 
   return (
-    <ActivitiesDataProvider render={({ findActivity, getTimeSpent }) => {
+    <ActivitiesDataProvider render={({ findActivity, getTimeSpent, startSession }) => {
       const activity = findActivity(activityId);
-      const timeSpent = getTimeSpent(activity.sessions);
+      const { activeSession, priority } = activity;
+      const timeSpent = getTimeSpent(activity);
+      const hasActiveSession = activeSession && activeSession.start;
 
       return (
         <PageWrapper>
-          <Wrapper borderColor={priorityColors[activity.priority]}>
+          <Wrapper>
             <ActionsBar>
               <Link to={`/activity/${activity.id}/edit`}>Edit</Link>
             </ActionsBar>
             <Properties>
               <Name>{activity.name}</Name>
               <Section>
+                <PriorityWrapper>
+                  <div>
+                    <Label inline>Priority:</Label>
+                    <span>{priority}</span>
+                  </div>
+                  <div>
+                    <PriorityIndicator priority={priority} />
+                  </div>
+                </PriorityWrapper>
+              </Section>
+              <Section>
                 <TimeSpent>
                   <Label inline>Time spent:</Label>
-                  <span>{timeSpent}h</span>
-                  <span>{activity.maxDuration && `/${activity.maxDuration}h`}</span>
+                  <span>{timeSpent}</span>
                 </TimeSpent>
               </Section>
               {activity.notes && (
@@ -96,15 +111,30 @@ const Activity = ({ match }) => {
                   <Notes dangerouslySetInnerHTML={{__html: linkify(activity.notes)}} />
                 </Section>
               )}
-              <Section>
-                <Label inline>Priority:</Label>
-                <span color={priorityColors[activity.priority]}>{activity.priority}</span>
-              </Section>
             </Properties>
             <ButtonWrapper>
-              <Link to={`/activity/${activity.id}/track`}>
-                <Button fluid color={priorityColors[5]}>Start session</Button>
-              </Link>
+              {hasActiveSession
+                ? (
+                  <Button
+                    fluid
+                    color={theme.danger}
+                    onClick={() => { history.push(`/activity/${activityId}/track`); }}
+                  >
+                    View active session
+                  </Button>
+                ) : (
+                  <Button
+                    fluid
+                    color={theme.success}
+                    onClick={() => {
+                      startSession(activityId);
+                      history.push(`/activity/${activityId}/track`);
+                    }}
+                  >
+                    Start session
+                  </Button>
+                )
+              }
             </ButtonWrapper>
           </Wrapper>
         </PageWrapper>
@@ -116,12 +146,7 @@ const Activity = ({ match }) => {
 Activity.propTypes = {
   // route property
   match: PropTypes.object,
-  // redux state
-  activity: PropTypes.object,
+  theme: PropTypes.object,
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  activity: state.activities.items.find(a => a.id === ownProps.match.params.id)
-});
-
-export default connect(mapStateToProps)(Activity);
+export default withTheme(Activity);

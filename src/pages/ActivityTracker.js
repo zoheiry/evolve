@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { keyframes } from 'styled-components';
+import { Link } from 'react-router-dom';
 
-import ActivityDataProvider from '../containers/ActivitiesDataProvider';
+import ActivitiesDataProvider from '../containers/ActivitiesDataProvider';
 import Timer from '../components/Timer';
 import PageWrapper from '../components/PageWrapper';
 
@@ -33,50 +34,61 @@ const Name = styled('div')`
   font-size: 22px;
   text-align: center;
   animation: ${slideUp} 0.3s linear;
+  a {
+    text-decoration: none;
+    color: ${p => p.theme.textColor};
+  }
 `;
 
-class ActivityTracker extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      timer: props.activity.timer || '00:00'
-    }
+const ActivityTracker = ({ match, history }) => {
+  const activityId = match.params.id;
+  if (!activityId) {
+    return null;
   }
 
-  render() {
-    const { match } = this.props;
-    const activityId = match.params.id;
-    if (!activityId) {
-      return null;
-    }
-
-    return (
-      <ActivityDataProvider render={({ findActivity }) => {
+  return (
+    <ActivitiesDataProvider
+      render={({ findActivity, getActiveSessionRunningTime, startSession, endSession }) => {
         const activity = findActivity(activityId);
         if (!activity) {
           return null;
         }
+        const activeSession = activity.activeSession || {};
+        const hasActiveSession = !!activeSession.start;
+        const runningTime = getActiveSessionRunningTime(activeSession);
 
         return (
           <PageWrapper>
             <Wrapper>
               <Section>
-                <Name>{activity.name}</Name>
+                <Name>
+                  <Link to={`/activity/${activityId}`}>{activity.name}</Link>
+                </Name>
               </Section>
               <TimerWrapper>
-                <Timer active={true} />
+                {hasActiveSession && (
+                  <Timer
+                    active={hasActiveSession}
+                    startTime={runningTime}
+                    onEnd={() => {
+                      endSession(activityId);
+                      history.push('/activities');
+                    }}
+                  />
+                )}
               </TimerWrapper>
             </Wrapper>
           </PageWrapper>
         );
-      }} />
-    );
-  }
-};
+      }}
+    />
+  );
+}
 
 ActivityTracker.propTypes = {
   // history props
   match: PropTypes.object,
+  history: PropTypes.object,
   activity: PropTypes.object,
 };
 

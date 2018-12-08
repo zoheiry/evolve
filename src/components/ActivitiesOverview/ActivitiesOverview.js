@@ -34,6 +34,7 @@ const ActivitiesOverview = ({ activities }) => {
             id={activity.id}
             name={activity.name}
             priority={activity.priority}
+            active={!!get(activity, 'activeSession.start')}
           />
         )}
       </Activities>
