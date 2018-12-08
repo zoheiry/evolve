@@ -10,6 +10,7 @@ import Activities from './pages/Activities';
 import Activity from './pages/Activity';
 import ActivityTracker from './pages/ActivityTracker';
 import Navbar from './components/Navbar';
+import Alert from './components/Alert';
 import theme from './constants/Theme';
 
 class App extends Component {
@@ -19,6 +20,7 @@ class App extends Component {
         <ThemeProvider theme={theme}>
           <div className="App">
             <Navbar />
+            <Alert />
             <Route path="/" component={Main} />
             <Route exact path="/" component={Home} />
             <Route exact path="/activity/new" component={NewActivity} />

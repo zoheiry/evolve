@@ -1,4 +1,7 @@
 import * as types from '../constants/ActionTypes';
+import { get } from 'lodash';
+
+import { showAlert, hideAlert } from './alert';
 
 const addActivityRequest = () => ({
   type: types.ADD_ACTIVITY_REQUEST
@@ -99,7 +102,13 @@ export const startSession = (id) => (dispatch, getState, api) => {
 
   return api.startSession(id)
     .then((response) => dispatch(startSessionSuccess(id, response.data)))
-    .catch(() => dispatch(updateActivityFail()));
+    .catch((response) => {
+      dispatch(updateActivityFail());
+      dispatch(showAlert({
+        bodyText: get(response, 'response.data'),
+        onClose: (() => { dispatch(hideAlert); window.location.href = '/'})
+      }))
+    });
 };
 
 export const endSession = (id) => (dispatch, getState, api) => {

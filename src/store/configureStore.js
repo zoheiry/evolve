@@ -4,10 +4,12 @@ import thunk from 'redux-thunk';
 import api from '../api';
 import user from '../reducers/user';
 import activities from '../reducers/activities';
+import alert from '../reducers/alert';
 
 const rootReducer = combineReducers({
   user,
-  activities
+  activities,
+  alert
 });
 
 export default function configureStore() {

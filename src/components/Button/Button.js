@@ -13,7 +13,6 @@ const StyledButton = styled('button')`
   border: none;
   ${p => p.fluid && 'width: 100%;'}
   padding: 12px;
-  font-size: 16px;
   font-weight: bold;
   background: ${p => (p.secondary ? 'transparent' : p.color)};
   border: ${p => (p.secondary ? `solid 1px ${p.color}` : 'none')};

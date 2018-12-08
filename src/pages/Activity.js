@@ -5,7 +5,6 @@ import linkify from 'linkifyjs/html';
 import { Link } from 'react-router-dom';
 
 import ActivitiesDataProvider from '../containers/ActivitiesDataProvider';
-import priorityColors from '../constants/PriorityColors';
 import PageWrapper from '../components/PageWrapper';
 import Button from '../components/Button';
 import PriorityIndicator from '../components/PriorityIndicator';
