@@ -28,7 +28,7 @@ const getTimeSpent = (activity = {}) => {
     const hours = endDate.diff(startDate, 'hours', true);
     totalHours += hours;
   });
-  if (activeSession.start) {
+  if (activeSession && activeSession.start) {
     totalHours += moment(Date.now()).diff(moment(activeSession.start), 'hours', true);
   }
   const hours = Math.floor(totalHours);

@@ -77,11 +77,17 @@ module.exports = {
       })
   },
   startSession: (request, response, next) => {
-    Activity.findById(request.params.id).then(activity =>
-      activity.startSession()
-        .then(_activity => response.send(_activity.activeSession))
-        .catch(errorMessage => response.status(500).send(errorMessage))
-    );
+    Activity.where("activeSession").ne(null).then(activeSessions => {
+      if (activeSessions[0]) {
+        response.status(405).send('You can only have 1 active session at a time');
+      } else {
+        Activity.findById(request.params.id).then(activity =>
+          activity.startSession()
+            .then(_activity => response.send(_activity.activeSession))
+            .catch(errorMessage => response.status(500).send(errorMessage))
+        );
+      }
+    })
   },
   endSession: (request, response, next) => {
     Activity.findById(request.params.id).then(activity =>
