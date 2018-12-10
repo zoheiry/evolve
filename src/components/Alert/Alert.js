@@ -1,12 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { noop } from 'lodash';
 
 import Button from '../Button';
 
+const slideInDown = keyframes`
+  0% { opacity: 0; transform: translateY(-100px)}
+  100% { opacity: 1; transform: translateY(0)}
+`;
+
 const Backdrop = styled('div')`
   position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   display: flex;
@@ -21,14 +28,16 @@ const AlertWindow = styled('div')`
   flex-direction: column;
   align-items: center;
   background: #FFF;
-  width: 70%;
-  max-width: 400px;
-  min-height: 180px;
+  width: ${p => p.fluid ? '95%' : '70%'};
+  max-width: 600px;
+  min-height: 230px;
   padding: 15px;
   ${p => p.theme.defaultShadow};
+  animation: ${slideInDown} 0.5s ease;
 `;
 
 const AlertBody = styled('div')`
+  width: 100%;
   flex-grow: 1;
   text-align: center;
   display: flex;
@@ -40,10 +49,10 @@ const AlertAction = styled('div')`
   width: 100%;
 `;
 
-const Alert = ({ bodyText, buttonText, onAction }) => (
-  <Backdrop>
-    <AlertWindow>
-      <AlertBody>{bodyText}</AlertBody>
+const Alert = ({ body, buttonText, onAction, onClickOutside, fluid, loading }) => (
+  <Backdrop onClick={onClickOutside}>
+    <AlertWindow fluid={fluid} onClick={(e) => e.stopPropagation()}>
+      <AlertBody>{body}</AlertBody>
       <AlertAction>
         <Button fluid onClick={onAction}>
           {buttonText}
@@ -54,15 +63,20 @@ const Alert = ({ bodyText, buttonText, onAction }) => (
 );
 
 Alert.propTypes = {
-  bodyText: PropTypes.string,
+  body: PropTypes.node,
   buttonText: PropTypes.string,
   onAction: PropTypes.func,
+  onClickOutside: PropTypes.func,
+  fluid: PropTypes.bool,
+  loading: PropTypes.bool,
 };
 
 Alert.defaultProps = {
-  bodyText: 'Something went wrong',
+  body: 'Something went wrong',
   buttonText: 'Close',
-  onAction: noop
+  onAction: noop,
+  onClickOutside: noop,
+  fluid: false,
 };
 
 export default Alert;

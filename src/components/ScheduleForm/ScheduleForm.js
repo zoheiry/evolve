@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { upperFirst, get } from 'lodash';
@@ -51,7 +51,7 @@ const ButtonWrapper = styled('div')`
   padding: 15px;
 `;
 
-class ScheduleForm extends Component {
+class ScheduleForm extends PureComponent {
   constructor(props) {
     super();
     this.state = {

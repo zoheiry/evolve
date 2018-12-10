@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import { isEmpty } from 'lodash';
@@ -69,7 +69,7 @@ const DeleteButton = styled('a')`
   font-weight: bold;
 `;
 
-class ActivityForm extends Component {
+class ActivityForm extends PureComponent {
   constructor(props) {
     super(props);
     const { activity = {} } = props; 

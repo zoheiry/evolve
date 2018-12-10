@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled, { withTheme } from 'styled-components';
 import { noop } from 'lodash';
@@ -39,7 +39,7 @@ const ButtonsWrapper = styled('div')`
   }
 `;
 
-class Timer extends Component {
+class Timer extends PureComponent {
   constructor(props) {
     super(props);
     const { startTime } = props;

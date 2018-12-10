@@ -14,6 +14,7 @@ const Wrapper = styled('div')`
 
 const Activities = styled('div')`
   overflow: auto;
+  padding: 0 15px;
 `;
 
 const ButtonWrapper = styled('div')`

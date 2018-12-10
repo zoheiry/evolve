@@ -1,5 +1,5 @@
 // This component is rendered on every page.
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
@@ -10,7 +10,7 @@ import OverlayLoading from '../components/OverlayLoading';
 import { getUser } from '../actions/user';
 import { getActivities } from '../actions/activities';
 
-class Main extends Component {
+class Main extends PureComponent {
   componentDidMount() {
     const userId = '5bfdc20b1181f6538acc23e4';
     this.props.getUser(userId);

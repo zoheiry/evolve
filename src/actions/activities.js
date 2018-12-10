@@ -119,7 +119,7 @@ export const startSession = (id) => (dispatch, getState, api) => {
     .catch((response) => {
       dispatch(updateActivityFail());
       dispatch(showAlert({
-        bodyText: get(response, 'response.data'),
+        body: get(response, 'response.data'),
         onAction: (() => { window.location.href = '/activities'})
       }))
     });

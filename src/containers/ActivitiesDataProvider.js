@@ -9,7 +9,9 @@ import {
   updateActivity,
   deleteActivity,
   startSession,
-  endSession
+  endSession,
+  getSuggestedActivity,
+  skipSuggestedActivity,
 } from '../actions/activities';
 
 const findActivity = (activities = [], id) => (
@@ -52,6 +54,8 @@ const ActivitiesDataProvider = (props) => (
     deleteActivity: props.deleteActivity,
     startSession: props.startSession,
     endSession: props.endSession,
+    getSuggestedActivity: props.getSuggestedActivity,
+    skipSuggestedActivity: props.skipSuggestedActivity,
   })
 );
 
@@ -66,6 +70,8 @@ ActivitiesDataProvider.propTypes = {
   deleteActivity: PropTypes.func,
   startSession: PropTypes.func,
   endSession: PropTypes.func,
+  getSuggestedActivity: PropTypes.func,
+  skipSuggestedActivity: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
@@ -78,7 +84,9 @@ const mapDispatchToProps = (dispatch) => ({
   updateActivity: (activity) => dispatch(updateActivity(activity)),
   deleteActivity: (id) => dispatch(deleteActivity(id)),
   startSession: (id) => dispatch(startSession(id)),
-  endSession: (id) => dispatch(endSession(id))
+  endSession: (id) => dispatch(endSession(id)),
+  getSuggestedActivity: (userId) => dispatch(getSuggestedActivity(userId)),
+  skipSuggestedActivity: (userId, activityId) => dispatch(skipSuggestedActivity(userId, activityId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ActivitiesDataProvider);

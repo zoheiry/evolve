@@ -8,7 +8,7 @@ import Alert from '../components/Alert';
 const AlertContainer = ({ alert, hideAlert }) => (
   alert.show && (
     <Alert
-      bodyText={alert.bodyText}
+      body={alert.bodyText}
       buttonText={alert.buttonText}
       onAction={() => {
         alert.onAction && alert.onAction();

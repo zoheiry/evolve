@@ -1,23 +1,19 @@
 import React from 'react';
-import UserDataProvider from '../containers/UserDataProvider';
-import ActivitiesDataProvider from '../containers/ActivitiesDataProvider';
+import styled from 'styled-components';
+
 import PageWrapper from '../components/PageWrapper';
 import DayAndTime from '../components/DayAndTime';
+import ActivitySuggestion from '../components/ActivitySuggestion';
+
+const Wrapper = styled('div')``;
 
 const Home = () => (  
-  <UserDataProvider
-    render={({ user, updateSchedule }) => (
-      <ActivitiesDataProvider
-        render={({ activities }) => (
-          <PageWrapper>
-            <div>
-              <DayAndTime />
-            </div>
-          </PageWrapper>
-        )}
-      />
-    )}
-  />
+  <PageWrapper>
+    <Wrapper>
+      <DayAndTime />
+      <ActivitySuggestion />
+    </Wrapper>
+  </PageWrapper>
 );
 
 export default Home;

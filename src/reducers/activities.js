@@ -97,6 +97,33 @@ const activities = (state = initialState, action) => {
         items,
       };
     }
+    case types.REQUEST_SUGGESTED_ACTIVITY: {
+      return {
+        ...state,
+        suggestedActivity: {
+          ...state.suggestedActivity,
+          isFetching: true
+        }
+      }
+    }
+    case types.REQUEST_SUGGESTED_ACTIVITY_FAIL: {
+      return {
+        ...state,
+        suggestedActivity: {
+          ...state.suggestedActivity,
+          isFetching: false
+        }
+      };
+    }
+    case types.REQUEST_SUGGESTED_ACTIVITY_SUCCESS: {
+      return {
+        ...state,
+        suggestedActivity: {
+          ...action.payload.activity,
+          isFetching: false
+        }
+      };
+    }
     default:
       return state
   }

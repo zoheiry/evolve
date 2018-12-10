@@ -7,14 +7,16 @@ import PriorityIndicator from '../PriorityIndicator';
 
 const Wrapper = styled(Link)`
   display: flex;
+  width: 100%;
   justify-content: space-between;
   align-items: center;
   ${p => p.theme.defaultShadow};
   padding: 15px;
   color: #000;
   text-decoration: none;
-  margin: 15px;
+  margin: 15px 0;
   background: ${p => (p.active ? '#fcffdc' : '#fff')};
+  text-align: left;
 `;
 
 const Name = styled('span')`
