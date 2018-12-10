@@ -3,6 +3,9 @@ import * as types from '../constants/ActionTypes';
 
 const initialState = {
   items: [],
+  suggestedActivity: {
+    isFetching: false
+  },
   isFetching: false
 };
 

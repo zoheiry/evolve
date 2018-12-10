@@ -65,6 +65,19 @@ const endSessionSuccess = (id, sessions) => ({
   payload: { id, sessions },
 });
 
+const requestSuggestedActivity = () => ({
+  type: types.REQUEST_SUGGESTED_ACTIVITY
+});
+
+const requestSuggestedActivityFail = () => ({
+  type: types.REQUEST_SUGGESTED_ACTIVITY_FAIL
+});
+
+const requestSuggestedActivitySuccess = (activity) => ({
+  type: types.REQUEST_SUGGESTED_ACTIVITY_SUCCESS,
+  payload: { activity }
+});
+
 export const addActivity = (activity, userId) => (dispatch, getState, api) => {
   dispatch(addActivityRequest());
 
@@ -107,7 +120,7 @@ export const startSession = (id) => (dispatch, getState, api) => {
       dispatch(updateActivityFail());
       dispatch(showAlert({
         bodyText: get(response, 'response.data'),
-        onClose: (() => { dispatch(hideAlert); window.location.href = '/'})
+        onClose: (() => { dispatch(hideAlert); window.location.href = '/activities'})
       }))
     });
 };
@@ -119,3 +132,19 @@ export const endSession = (id) => (dispatch, getState, api) => {
     .then((response) => dispatch(endSessionSuccess(id, response.data)))
     .catch(() => dispatch(updateActivityFail()));
 };
+
+export const getSuggestedActivity = (userId) => (dispatch, getState, api) => {
+  dispatch(requestSuggestedActivity());
+
+  return api.getSuggestedActivity(userId)
+    .then(activity => dispatch(requestSuggestedActivitySuccess(activity)))
+    .catch(() => dispatch(requestSuggestedActivityFail()));
+}
+
+export const skipSuggestedActivity = (userId, activityId) => (dispatch, getState, api) => {
+  dispatch(requestSuggestedActivity());
+
+  return api.skipSuggestedActivity(userId, activityId)
+    .then(activity => dispatch(requestSuggestedActivitySuccess(activity)))
+    .catch(() => dispatch(requestSuggestedActivityFail()));
+}

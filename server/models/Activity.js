@@ -85,12 +85,12 @@ ActivitySchema.methods.deleteSession = function(id) {
 ActivitySchema.methods.calculateWeight = function() {
   let timeSpent;
   if (!this.sessions.length) {
-    timeSpent = 1;
+    timeSpent = 1 + (this.skippedCount * 60);
   } else {
     timeSpent = this.sessions.reduce((result, session) => {
       const sessionDuration = moment(session.end).diff(moment(session.start), 'minutes', true);
       return result += sessionDuration;
-    }, 0);
+    }, this.skippedCount * 60);
   }
   if (this.maxDuration > 0 && timeSpent / 60 >= this.maxDuration) {
     return 0;

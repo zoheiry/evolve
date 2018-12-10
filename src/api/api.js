@@ -55,3 +55,11 @@ export const startSession = (id) =>
 
 export const endSession = (id) =>
   put(`/api/activity/${id}/end_session`)
+
+export const getSuggestedActivity = (userId) =>
+  get(`/api/user/${userId}/activity/suggested`)
+    .then(response => activityFromServer(response.data));
+
+export const skipSuggestedActivity = (userId, activityId) =>
+  put(`/api/user/${userId}/activity/skip_suggested`, { activityId })
+    .then(response => activityFromServer(response.data));

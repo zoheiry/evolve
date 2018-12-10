@@ -35,6 +35,6 @@ module.exports = (router) => {
     .get(activityController.getSuggestedActivity)
 
   router
-    .route('/user/:userId/activity/skip')
+    .route('/user/:userId/activity/skip_suggested')
     .put(activityController.skipSuggestedActivity)
 };

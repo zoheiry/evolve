@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { get } from 'lodash';
 
-import OverlayLoading from '../OverlayLoading';
 import ActivityPreview from './ActivityPreview';
 import AddActivityButton from './AddActivityButton';
 
@@ -21,29 +20,24 @@ const ButtonWrapper = styled('div')`
   padding: 0 15px;
 `;
 
-const ActivitiesOverview = ({ activities }) => {
-  if (activities.isFetching) {
-    return <OverlayLoading />;
-  }
-  return (
-    <Wrapper>
-      <Activities>
-        {get(activities, 'items', []).map(activity =>
-          <ActivityPreview
-            key={activity.id}
-            id={activity.id}
-            name={activity.name}
-            priority={activity.priority}
-            active={!!get(activity, 'activeSession.start')}
-          />
-        )}
-      </Activities>
-      <ButtonWrapper>
-        <AddActivityButton />
-      </ButtonWrapper>
-    </Wrapper>
-  );
-};
+const ActivitiesOverview = ({ activities }) => (
+  <Wrapper>
+    <Activities>
+      {get(activities, 'items', []).map(activity =>
+        <ActivityPreview
+          key={activity.id}
+          id={activity.id}
+          name={activity.name}
+          priority={activity.priority}
+          active={!!get(activity, 'activeSession.start')}
+        />
+      )}
+    </Activities>
+    <ButtonWrapper>
+      <AddActivityButton />
+    </ButtonWrapper>
+  </Wrapper>
+);
 
 ActivitiesOverview.defaultProps = {
   activities: {}
