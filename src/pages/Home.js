@@ -10,7 +10,9 @@ const Home = () => (
       <ActivitiesDataProvider
         render={({ activities }) => (
           <PageWrapper>
-            <DayAndTime />
+            <div>
+              <DayAndTime />
+            </div>
           </PageWrapper>
         )}
       />

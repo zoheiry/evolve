@@ -120,7 +120,7 @@ export const startSession = (id) => (dispatch, getState, api) => {
       dispatch(updateActivityFail());
       dispatch(showAlert({
         bodyText: get(response, 'response.data'),
-        onClose: (() => { dispatch(hideAlert); window.location.href = '/activities'})
+        onAction: (() => { window.location.href = '/activities'})
       }))
     });
 };

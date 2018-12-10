@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import styled from 'styled-components';
+import { noop } from 'lodash';
 
-import { hideAlert } from '../../actions/alert';
 import Button from '../Button';
 
 const Backdrop = styled('div')`
@@ -41,30 +40,29 @@ const AlertAction = styled('div')`
   width: 100%;
 `;
 
-const Alert = ({ alert, hideAlert }) => (
-  alert.show && (
-    <Backdrop>
-      <AlertWindow>
-        <AlertBody>{alert.bodyText || 'Something went wrong'}</AlertBody>
-        <AlertAction>
-          <Button fluid onClick={alert.onClose || hideAlert}>{alert.buttonText || 'Close'}</Button>
-        </AlertAction>
-      </AlertWindow>
-    </Backdrop>
-  )
+const Alert = ({ bodyText, buttonText, onAction }) => (
+  <Backdrop>
+    <AlertWindow>
+      <AlertBody>{bodyText}</AlertBody>
+      <AlertAction>
+        <Button fluid onClick={onAction}>
+          {buttonText}
+        </Button>
+      </AlertAction>
+    </AlertWindow>
+  </Backdrop>
 );
 
 Alert.propTypes = {
-  alert: PropTypes.object,
-  hideAlert: PropTypes.func,
+  bodyText: PropTypes.string,
+  buttonText: PropTypes.string,
+  onAction: PropTypes.func,
 };
 
-const mapStateToProps = (state) => ({
-  alert: state.alert
-});
+Alert.defaultProps = {
+  bodyText: 'Something went wrong',
+  buttonText: 'Close',
+  onAction: noop
+};
 
-const mapDispatchToProps = (dispatch) => ({
-  hideAlert: () => dispatch(hideAlert())
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Alert);
+export default Alert;

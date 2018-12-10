@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
+
+import AlertContainer from './containers/AlertContainer';
+
 import Main from './pages/Main';
 import Home from './pages/Home';
 import NewActivity from './pages/NewActivity';
@@ -9,8 +12,9 @@ import Schedule from './pages/Schedule';
 import Activities from './pages/Activities';
 import Activity from './pages/Activity';
 import ActivityTracker from './pages/ActivityTracker';
+import Sessions from './pages/Sessions';
+
 import Navbar from './components/Navbar';
-import Alert from './components/Alert';
 import theme from './constants/Theme';
 
 class App extends Component {
@@ -20,7 +24,7 @@ class App extends Component {
         <ThemeProvider theme={theme}>
           <div className="App">
             <Navbar />
-            <Alert />
+            <AlertContainer />
             <Route path="/" component={Main} />
             <Route exact path="/" component={Home} />
             <Route exact path="/activity/new" component={NewActivity} />
@@ -29,6 +33,7 @@ class App extends Component {
             <Route exact path="/activity/:id" component={Activity} />
             <Route exact path="/activity/:id/edit" component={EditActivity} />
             <Route exact path="/activity/:id/track" component={ActivityTracker} />
+            <Route exact path="/activity/:id/sessions" component={Sessions} />
           </div>
         </ThemeProvider>
       </BrowserRouter>

@@ -3,13 +3,19 @@ import PropTypes from 'prop-types';
 import styled, { withTheme } from 'styled-components';
 import linkify from 'linkifyjs/html';
 import { Link } from 'react-router-dom';
+import { isEmpty } from 'lodash';
 
 import ActivitiesDataProvider from '../containers/ActivitiesDataProvider';
 import PageWrapper from '../components/PageWrapper';
 import Button from '../components/Button';
 import PriorityIndicator from '../components/PriorityIndicator';
+import Sessions from '../components/Sessions';
 
 const Wrapper = styled('div')`
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  max-height: 100%;
 `;
 
 const Section = styled('div')`
@@ -46,7 +52,10 @@ const ButtonWrapper = styled('div')`
   }
 `;
 
-const Properties = styled('div')``;
+const Properties = styled('div')`
+  flex-grow: 1;
+  overflow: auto;
+`;
 
 const PriorityWrapper = styled('div')`
   display: flex;
@@ -67,6 +76,18 @@ const ActionsBar = styled('div')`
   a {
     color: ${p => p.theme.success};
   }
+`;
+
+const SessionsSection = Section.extend`
+  font-size: 14px;
+  ${Label} {
+    font-size: 16px;
+    margin-bottom: 15px;
+  }
+`;
+
+const SessionsEmptyState = styled('div')`
+  font-weight: 300;
 `;
 
 const Activity = ({ match, theme, history }) => {
@@ -113,6 +134,15 @@ const Activity = ({ match, theme, history }) => {
                   <Notes dangerouslySetInnerHTML={{__html: linkify(activity.notes)}} />
                 </Section>
               )}
+              <SessionsSection>
+                <Label>Previous session</Label>
+                {!isEmpty(activity.sessions)
+                  ? <Sessions sessionsList={activity.sessions} limit={5} activityId={activity.id} />
+                  : <SessionsEmptyState>
+                      No previous sessions. Click the button below to begin a session
+                    </SessionsEmptyState>
+                }
+              </SessionsSection>
             </Properties>
             <ButtonWrapper>
               {hasActiveSession
