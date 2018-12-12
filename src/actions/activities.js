@@ -1,7 +1,7 @@
 import * as types from '../constants/ActionTypes';
 import { get } from 'lodash';
 
-import { showAlert, hideAlert } from './alert';
+import { showAlert } from './alert';
 
 const addActivityRequest = () => ({
   type: types.ADD_ACTIVITY_REQUEST

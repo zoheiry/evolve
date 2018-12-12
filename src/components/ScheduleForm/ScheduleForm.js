@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled, { withTheme } from 'styled-components';
 import { upperFirst, get } from 'lodash';
 import { Table } from '@fashiontrade/wardrobe';
 import Button from '../Button';
@@ -9,7 +9,7 @@ import { START_TIME, END_TIME } from '../../constants/TimeTypes';
 import TimeField from './TimeField';
 
 const TableHeader = styled(Table.Header)`
-  background: ${p => p.theme.success} !important;
+  background: #999 !important;
   color: #FFF;
 `;
 
@@ -38,9 +38,12 @@ const ScheduleWrapper = styled('div')`
 
 const Title = styled('h1')`
   font-size: 20px;
+  font-weight: 400;
+  color: ${p => p.theme.textColor};
   text-align: center;
   margin: 0;
   padding: 15px;
+  ${p => p.theme.defaultShadow};
 `;
 
 const StyledTable = styled(Table)`
@@ -103,7 +106,7 @@ class ScheduleForm extends PureComponent {
   render() {
     return (
       <ScheduleWrapper>
-        <Title>Your estimated free time each day</Title>
+        <Title>Start off by adding your free time each day</Title>
         <StyledTable layout={[0.1, 1, 1]}>
           <TableHeader>
             <TableCell>Day</TableCell>
@@ -133,7 +136,13 @@ class ScheduleForm extends PureComponent {
           }
         </StyledTable>
         <ButtonWrapper>
-          <Button fluid onClick={this.props.onSubmit}>Save</Button>
+          <Button
+            fluid
+            onClick={this.props.onSubmit}
+            color={this.props.theme.success}
+          >
+            Save
+          </Button>
         </ButtonWrapper>
       </ScheduleWrapper>
     );
@@ -143,6 +152,7 @@ class ScheduleForm extends PureComponent {
 ScheduleForm.propTypes = {
   schedule: PropTypes.object,
   onSubmit: PropTypes.func,
+  theme: PropTypes.object,
 }
 
-export default ScheduleForm;
+export default withTheme(ScheduleForm);

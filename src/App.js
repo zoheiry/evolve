@@ -15,6 +15,7 @@ import ActivityTracker from './pages/ActivityTracker';
 import Sessions from './pages/Sessions';
 
 import Navbar from './components/Navbar';
+
 import theme from './constants/Theme';
 
 class App extends Component {

@@ -2,6 +2,11 @@ const mongoose = require('mongoose');
 
 let UserSchema = new mongoose.Schema({
   email: { type: String, required: true },
+  onBoardingState: {
+    type: String,
+    enum: ['schedule', 'activities', 'complete'],
+    default: 'schedule',
+  },
   schedule: {
     sunday: {
       startTime: { type: String },

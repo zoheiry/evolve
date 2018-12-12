@@ -78,7 +78,7 @@ const ActionsBar = styled('div')`
   }
 `;
 
-const SessionsSection = Section.extend`
+const SessionsSection = styled(Section)`
   font-size: 14px;
   ${Label} {
     font-size: 16px;
