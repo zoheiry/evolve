@@ -19,26 +19,22 @@ class Main extends PureComponent {
   componentDidUpdate() {
     const { history, user } = this.props;
     const { pathname } = history.location;
-    if (user.onBoardingState === 'schedule' && pathname !== '/schedule') {
-      history.push('/schedule');
+
+    if (user.onBoardingState === 'fresh' && pathname !== '/intro') {
+      console.log('redirecting to intro')
+      history.push('/intro');
     }
     if (user.onBoardingState === 'activities' && pathname !== '/activities') {
+      console.log('redirecting to intro')
       history.push('/activities');
     }
   }
 
   render() {
-    const { user, activities, history } = this.props;
-    const { pathname } = history.location;
+    const { user, activities } = this.props;
 
     if (!user.id || user.isFetching || activities.isFetching) {
       return <OverlayLoading />;
-    }
-    if (user.onBoardingState === 'schedule' && pathname !== '/schedule') {
-      return <Redirect to="/schedule" />
-    }
-    if (user.onBoardingState === 'activities' && pathname !== '/activities') {
-      return <Redirect to="/activities" /> 
     }
     return null;
   }

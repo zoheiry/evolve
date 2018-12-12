@@ -37,4 +37,8 @@ module.exports = (router) => {
   router
     .route('/user/:userId/activity/skip_suggested')
     .put(activityController.skipSuggestedActivity)
+
+  router
+    .route('/user/:id/onboarding_state')
+    .put(userController.changeOnBoardingState)
 };

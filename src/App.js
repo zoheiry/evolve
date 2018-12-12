@@ -13,6 +13,7 @@ import Activities from './pages/Activities';
 import Activity from './pages/Activity';
 import ActivityTracker from './pages/ActivityTracker';
 import Sessions from './pages/Sessions';
+import Intro from './pages/Intro';
 
 import Navbar from './components/Navbar';
 
@@ -26,6 +27,7 @@ class App extends Component {
           <div className="App">
             <Navbar />
             <AlertContainer />
+            <Route path="/intro" component={Intro} />
             <Route path="/" component={Main} />
             <Route exact path="/" component={Home} />
             <Route exact path="/activity/new" component={NewActivity} />

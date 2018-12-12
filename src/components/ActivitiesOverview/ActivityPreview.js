@@ -12,7 +12,6 @@ const Wrapper = styled(Link)`
   align-items: center;
   ${p => p.theme.defaultShadow};
   padding: 15px;
-  color: #000;
   text-decoration: none;
   margin: 15px 0;
   background: ${p => (p.active ? '#fcffdc' : '#fff')};
@@ -23,7 +22,7 @@ const Name = styled('span')`
   font-weight: bold;
   margin-right: 5px;
   flex-grow: 1;
-  color: #555;
+  color: ${p => p.theme.textColor};
 `;
 
 const ActivityPreview = ({ name, priority, id, active }) => (

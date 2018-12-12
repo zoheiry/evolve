@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+
+import UserDataProvider from '../../containers/UserDataProvider';
 import LogoImage from '../../static/img/logo.png';
 
 const Wrapper = styled('nav')`
@@ -41,15 +43,24 @@ const StyledLink = styled(Link)`
 `;
 
 const Navbar = () => (
-  <Wrapper>
-    <Logo>
-      <StyledLink to="/"><img src={LogoImage} alt="Logo" /></StyledLink>
-    </Logo>
-    <NavItems>
-      <StyledLink to="/activities"><Icon className="fas fa-list-ul" /></StyledLink>
-      <StyledLink to="/schedule"><Icon className="fas fa-calendar-alt" /></StyledLink>
-    </NavItems>
-  </Wrapper>
+  <UserDataProvider
+    render={({ user }) => {
+      if (!user || !user.id || user.onBoardingState === 'fresh') {
+        return null;
+      }
+      return (
+        <Wrapper>
+          <Logo>
+            <StyledLink to="/"><img src={LogoImage} alt="Logo" /></StyledLink>
+          </Logo>
+          <NavItems>
+            <StyledLink to="/activities"><Icon className="fas fa-list-ul" /></StyledLink>
+            <StyledLink to="/schedule"><Icon className="fas fa-calendar-alt" /></StyledLink>
+          </NavItems>
+        </Wrapper>
+      );
+    }}
+  />
 );
 
 export default Navbar;

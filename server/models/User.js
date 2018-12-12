@@ -1,11 +1,22 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 let UserSchema = new mongoose.Schema({
-  email: { type: String, required: true },
+  email: {
+    type: String,
+    trim: true,
+    required: true
+  },
+  password: {
+    type: String,
+    trim: true,
+    required: true
+  },
   onBoardingState: {
     type: String,
-    enum: ['schedule', 'activities', 'complete'],
-    default: 'schedule',
+    enum: ['fresh', 'schedule', 'activities', 'complete'],
+    default: 'fresh',
   },
   schedule: {
     sunday: {
@@ -39,9 +50,19 @@ let UserSchema = new mongoose.Schema({
   }
 });
 
+UserSchema.pre('save', function(next){
+  this.password = bcrypt.hashSync(this.password, saltRounds);
+  next();
+});
+
 UserSchema.methods.updateSchedule = function(schedule) {
   this.schedule = schedule;
   return this.save();
 };
+
+UserSchema.methods.changeOnBoardingState = function(state) {
+  this.onBoardingState = state;
+  return this.save();
+}
 
 module.exports = mongoose.model('User', UserSchema);

@@ -52,5 +52,12 @@ module.exports = {
         response.send(_user)
       )
     )
+  },
+  changeOnBoardingState: (request, response) => {
+    User.findById(request.params.id).then(user => 
+      user.changeOnBoardingState(request.body.state)
+        .then(_user => response.send(_user))
+        .catch(error => response.status(422).send(error))
+    );
   }
 };
