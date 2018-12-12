@@ -1,29 +1,15 @@
+const express = require('express');
+const router = express.Router();
 const activityController = require('../controllers/activity.ctrl');
 
-module.exports = (router) => {
-  router
-    .route('/activities')
-    .get(activityController.getAll);
+router.get('/activities', activityController.getAll);
 
-  router.route('/activity/:id')
-    .get(activityController.getActivity);
+router.get('/activity/:id', activityController.getActivity);
+router.put('/activity/:id', activityController.updateActivity);
+router.delete('/activity/:id', activityController.removeActivity);
 
-  router.route('/activity/:id')
-    .put(activityController.updateActivity);
+router.put('/activity/:id/start_session', activityController.startSession);
+router.put('/activity/:id/end_session', activityController.endSession);
+router.delete('/activity/:id/delete_session', activityController.deleteSession);
 
-  router
-    .route('/activity/:id')
-    .delete(activityController.removeActivity);
-
-  router
-    .route('/activity/:id/start_session')
-    .put(activityController.startSession);
-
-  router
-    .route('/activity/:id/end_session')
-    .put(activityController.endSession);
-
-  router
-    .route('/activity/:id/delete_session')
-    .delete(activityController.deleteSession);
-};
+module.exports = router;

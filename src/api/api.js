@@ -32,7 +32,7 @@ export const getUser = (id) =>
   get(`/api/user/${id}`).then(response => userFromServer(response.data));
 
 export const updateSchedule = (schedule, userId) =>
-  post(`/api/user/${userId}/schedule`, schedule)
+  put(`/api/user/${userId}/schedule`, schedule)
     .then(response => userFromServer(response.data.schedule));
 
 export const getUserActivities = (userId) =>

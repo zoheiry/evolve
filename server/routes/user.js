@@ -1,44 +1,20 @@
+const express = require('express');
+const router = express.Router();
 const userController = require('../controllers/user.ctrl');
 const activityController = require('../controllers/activity.ctrl');
 
-module.exports = (router) => {
-  router
-    .route('/users')
-    .get(userController.getAll);
+router.get('/users', userController.getAll);
 
-  router
-    .route('/user/:id')
-    .get(userController.getUser);
+router.get('/user/:id', userController.getUser);
+router.delete('/user/:id', userController.removeUser);
 
-  router
-    .route('/user')
-    .post(userController.addUser);
+router.put('/user/:id/schedule', userController.updateSchedule);
+router.put('/user/:id/onboarding_state', userController.changeOnBoardingState);
 
-  router
-    .route('/user/:id/schedule')
-    .post(userController.updateSchedule);
 
-  router
-    .route('/user/:userId/activities')
-    .get(activityController.getUserActivities);
+router.get('/user/:userId/activities', activityController.getUserActivities);
+router.post('/user/:userId/activity', activityController.addActivity);
+router.get('/user/:userId/activity/suggested', activityController.getSuggestedActivity);
+router.put('/user/:userId/activity/skip_suggested', activityController.skipSuggestedActivity);
 
-  router
-    .route('/user/:id')
-    .delete(userController.removeUser);
-
-  router
-    .route('/user/:userId/activity')
-    .post(activityController.addActivity);
-
-  router
-    .route('/user/:userId/activity/suggested')
-    .get(activityController.getSuggestedActivity)
-
-  router
-    .route('/user/:userId/activity/skip_suggested')
-    .put(activityController.skipSuggestedActivity)
-
-  router
-    .route('/user/:id/onboarding_state')
-    .put(userController.changeOnBoardingState)
-};
+module.exports = router;

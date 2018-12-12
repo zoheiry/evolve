@@ -1,13 +1,19 @@
 const express = require("express")
-const routes = require('./routes/')
+const userRouter = require('./routes/user');
+const activitiesRouter = require('./routes/activity');
+const authRouter = require('./routes/auth');
 const mongoose = require('mongoose')
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const helmet = require('helmet')
-const Jobs = require('./jobs/agenda');
+const jwt = require('jsonwebtoken');
 
 const app = express();
-const router = express.Router();
+
+app.set('secretKey', 'aSecretkey');
+
+const Jobs = require('./jobs/agenda');
+
 const url = process.env.MONGODB_URI || "mongodb://localhost:27017/selfDevelopment";
 
 /** connect to MongoDB datastore */
@@ -19,8 +25,22 @@ try {
 
 let port = 5000 || process.env.PORT
 
-/** set up routes {API Endpoints} */
-routes(router)
+const validateUser = (req, res, next) => {
+  jwt.verify(
+    req.headers['x-access-token'],
+    req.app.get('secretKey'),
+    (err, decoded) => {
+      if (err) {
+        res.status(400).send(err);
+      } else {
+        // add user id to request
+        req.body.userId = decoded.id;
+        next();
+      }
+    }
+  ); 
+}
+
 
 /** set up middlewares */
 app.use(cors())
@@ -28,11 +48,29 @@ app.use(bodyParser.json())
 app.use(helmet())
 //app.use('/static',express.static(path.join(__dirname,'static')))
 
-app.use('/api', router)
+/** set up routes {API Endpoints} */
+app.use('/api', authRouter);
+app.use('/api', validateUser, userRouter, activitiesRouter);
+
+app.use((req, res, next) => {
+  const err = new Error('Not Found');
+  err.status = 404;
+  next(err);
+});
+
+
+app.use((err, req, res, next) => {
+  console.log(err);
+  if (err.status === 404) {
+    res.status(404).send({ message: 'Not found' });
+  } else {
+    res.status(500).send({ message: 'Something went wrong' });
+  }
+});
 
 /** start server */
 app.listen(port, () => {
-    console.log(`Server started at port: ${port}`);
+  console.log(`Server started at port: ${port}`);
 });
 
 Jobs.start();
