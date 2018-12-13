@@ -1,39 +1,33 @@
 // This component is rendered on every page.
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { Redirect } from 'react-router-dom';
-import OverlayLoading from '../components/OverlayLoading';
+import PropTypes, { instanceOf } from 'prop-types';
+import { withCookies, Cookies } from 'react-cookie';
 
+import OverlayLoading from '../components/OverlayLoading';
 import { getUser } from '../actions/user';
 import { getActivities } from '../actions/activities';
 
 class Main extends PureComponent {
   componentDidMount() {
-    // const userId = '5bfdc20b1181f6538acc23e4';
-    const userId = '5c1033c28fed3035ddddb50c';
-    this.props.getUser(userId);
-    this.props.getActivities(userId);
+    if (this.validAuthToken()) {
+      this.props.getUser();
+    } else {
+      this.props.history.push('/login');
+    }
   }
 
-  componentDidUpdate() {
-    const { history, user } = this.props;
-    const { pathname } = history.location;
-
-    if (user.onBoardingState === 'fresh' && pathname !== '/intro') {
-      console.log('redirecting to intro')
-      history.push('/intro');
-    }
-    if (user.onBoardingState === 'activities' && pathname !== '/activities') {
-      console.log('redirecting to intro')
-      history.push('/activities');
-    }
+  validAuthToken = () => {
+    const { cookies } = this.props;
+    console.log('validating auth cookie');
+    const authCookie = cookies.get('auth');
+    return !!authCookie;
   }
 
   render() {
     const { user, activities } = this.props;
 
-    if (!user.id || user.isFetching || activities.isFetching) {
+    if (user.isFetching || activities.isFetching) {
       return <OverlayLoading />;
     }
     return null;
@@ -42,6 +36,7 @@ class Main extends PureComponent {
 
 Main.propTypes = {
   history: PropTypes.object,
+  cookies: instanceOf(Cookies),
   // redux actions
   getUser: PropTypes.func,
   getActivities: PropTypes.func,
@@ -56,8 +51,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getUser: (id) => dispatch(getUser(id)),
-  getActivities: (userId) => dispatch(getActivities(userId)),
+  getUser: () => dispatch(getUser()),
+  getActivities: () => dispatch(getActivities()),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default connect(mapStateToProps, mapDispatchToProps)(withCookies(Main));

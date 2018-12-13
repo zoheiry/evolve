@@ -3,88 +3,98 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
 module.exports = {
-  authenticate: (request, response, next) => {
-    User.findOne({ email: request.body.email }, (error, userInfo) => {
+  authenticate: (req, res, next) => {
+    User.findOne({ email: req.body.email }, (error, userInfo) => {
       if (error) {
         next(error);
+      } else if (!userInfo) {
+        res.status(400).send({ message: 'Invalid email' });
       } else {
-        if (bcrypt.compareSync(request.body.password, userInfo.password)) {
+        if (bcrypt.compareSync(req.body.password, userInfo.password)) {
           const token = jwt.sign(
             { id: userInfo._id },
-            request.app.get('secretKey'),
-            { expiresIn: '1h' }
+            req.app.get('secretKey'),
+            { expiresIn: '10h' }
           );
-          // response.json({ status:"success", message: "user found!!!", data:{user: userInfo, token:token}});
-          response.send({ user: userInfo, token });
+          res.cookie('auth', token);
+          res.send({ user: userInfo, token });
         } else {
-          response.status(401).send({ message: 'Invalid email/password' });
+          res.status(401).send({ message: 'Invalid email/password' });
         }
       }
     });
-   },
-  getUser: (request, response) => {
-    User.findById(request.params.id).exec((error, user) => {
-      if (error) {
-        response.send(error);
-      } else if (!user) {
-        response.sendStatus(404);
-      } else {
-        response.send(user);
-      }
-    })
   },
-  createUser: (request, response) => {
+  getCurrentUser: (req, res) => {
+    User.findById(req.body.currentUserId)
+      .then(user => res.send(user))
+      .catch(error => res.status(422).send(error))
+  },
+  createUser: (req, res) => {
     User.create(
-      { email: request.body.email, password: request.body.password },
+      { email: req.body.email, password: req.body.password },
       (error, user) => {
         if (error) {
           if (error.code === 11000) {
-            response.status(409).send({
-              message: `user with the email ${request.body.email} already exists`
+            res.status(409).send({
+              message: `user with the email ${req.body.email} already exists`
             })
           } else {
-            response.status(400).send(error);
+            res.status(400).send(error);
           }
         } else if (!user) {
-          response.sendStatus(400);
+          res.sendStatus(400);
         } else {
-          response.send(user);
+          res.send(user);
         }
       }
     );
   },
-  removeUser: (request, response) => {
-    User.findById(request.params.id).remove((error) => {
-      if (error) {
-        response.send(error);
-      } else {
-        response.sendStatus(200);
-      };
-    });
-  },
-  getAll: (request, response) => {
-    User.find().exec((error, users) => {
-      if (error) {
-        response.send(error);
-      } else if (!users) {
-        response.sendStatus(404);
-      } else {
-        response.send(users);
-      }
-    })
-  },
-  updateSchedule: (request, response) => {
-    User.findById(request.params.id).then(user =>
-      user.updateSchedule(request.body).then(_user =>
-        response.send(_user)
+  updateSchedule: (req, res) => {
+    User.findById(req.body.currentUserId).then(user =>
+      user.updateSchedule(req.body).then(_user =>
+        res.send(_user)
       )
     )
   },
-  changeOnBoardingState: (request, response) => {
-    User.findById(request.params.id).then(user => 
-      user.changeOnBoardingState(request.body.state)
-        .then(_user => response.send(_user))
-        .catch(error => response.status(422).send(error))
+  changeOnBoardingState: (req, res) => {
+    User.findById(req.body.currentUserId).then(user => 
+      user.changeOnBoardingState(req.body.state)
+        .then(_user => res.send(_user))
+        .catch(error => res.status(422).send(error))
     );
-  }
+  },
+  getUser: (req, res) => {
+    // TODO: admin action
+    User.findById(req.params.id).exec((error, user) => {
+      if (error) {
+        res.send(error);
+      } else if (!user) {
+        res.sendStatus(404);
+      } else {
+        res.send(user);
+      }
+    })
+  },
+  removeUser: (req, res) => {
+    // TODO: admin action
+    User.findById(req.params.id).remove((error) => {
+      if (error) {
+        res.send(error);
+      } else {
+        res.sendStatus(200);
+      };
+    });
+  },
+  getAll: (req, res) => {
+    // TODO: admin action
+    User.find().exec((error, users) => {
+      if (error) {
+        res.send(error);
+      } else if (!users) {
+        res.sendStatus(404);
+      } else {
+        res.send(users);
+      }
+    })
+  },
 };

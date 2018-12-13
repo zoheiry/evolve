@@ -4,6 +4,7 @@ const userController = require('../controllers/user.ctrl');
 const activityController = require('../controllers/activity.ctrl');
 
 router.get('/users', userController.getAll);
+router.get('/user/self', userController.getCurrentUser);
 
 router.get('/user/:id', userController.getUser);
 router.delete('/user/:id', userController.removeUser);

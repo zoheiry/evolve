@@ -18,9 +18,18 @@ const updateScheduleSuccess = (schedule) => ({
 
 const updateScheduleFail = () => ({ type: types.UPDATE_SCHEDULE_FAIL });
 
-export const getUser = (id) => (dispatch, getState, api) => {
+const authenticateUserRequest = () => ({ type: types.AUTHENTICATE_USER_REQUEST });
+
+const authenticateUserSuccess = (user) => ({
+  type: types.AUTHENTICATE_USER_SUCCESS,
+  payload: { user }
+})
+
+const authenticateUserFail = () => ({ type: types.AUTHENTICATE_USER_FAIL });
+
+export const getUser = () => (dispatch, getState, api) => {
   dispatch(requestUser());
-  return api.getUser(id)
+  return api.getUser()
     .then(user => dispatch(requestUserSuccess(user)))
     .catch(() => dispatch(requestUserFail()));
 };
@@ -31,3 +40,17 @@ export const updateSchedule = (schedule, userId) => (dispatch, getState, api) =>
     .then(schedule => dispatch(updateScheduleSuccess(schedule)))
     .catch(() => dispatch(updateScheduleFail()));
 };
+
+export const authenticateUser = (email, password) => (dispatch, getState, api) => {
+  dispatch(authenticateUserRequest());
+
+  return api.authenticateUser(email, password)
+    .then((data) => {
+      dispatch(authenticateUserSuccess(data.user));
+      return data;
+    })
+    .catch((error) => {
+      dispatch(authenticateUserFail());
+      return error;
+    })
+}

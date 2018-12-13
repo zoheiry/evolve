@@ -31,10 +31,14 @@ const validateUser = (req, res, next) => {
     req.app.get('secretKey'),
     (err, decoded) => {
       if (err) {
-        res.status(400).send(err);
+        if (err.name === 'TokenExpiredError' || err.name === 'JsonWebTokenError') {
+          res.status(401);
+        } else {
+          res.status(400);
+        }
+        res.send(err);
       } else {
-        // add user id to request
-        req.body.userId = decoded.id;
+        req.body.currentUserId = decoded.id;
         next();
       }
     }

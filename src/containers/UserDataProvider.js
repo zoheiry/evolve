@@ -25,7 +25,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getUser: (id) => dispatch(getUser(id)),
+  getUser: () => dispatch(getUser()),
   updateSchedule: (weekDays, userId) => dispatch(updateSchedule(weekDays, userId))
 });
 

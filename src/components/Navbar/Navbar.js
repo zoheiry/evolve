@@ -45,7 +45,7 @@ const StyledLink = styled(Link)`
 const Navbar = () => (
   <UserDataProvider
     render={({ user }) => {
-      if (!user || !user.id || user.onBoardingState === 'fresh') {
+      if (!user || !user.id) {
         return null;
       }
       return (

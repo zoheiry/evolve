@@ -1,137 +1,141 @@
 const Activity = require('../models/Activity');
+const { ObjectId } = require('mongoose').Types;
 
 const highestWeightActivity = (activities) => (
   activities.sort((a1, a2) => a2.calculateWeight() - a1.calculateWeight())[0]
 );
 
 module.exports = {
-  addActivity: (request, response) => {
-    new Activity({ ...request.body, user: request.params.userId }).save((error, activity) => {
+  addActivity: (req, res) => {
+    new Activity({ ...req.body, user: req.body.currentUserId }).save((error, activity) => {
       if (error) {
-        response.send(error);
+        res.status(400).send(error);
       } else if (!activity) {
-        response.sendStatus(400);
+        res.sendStatus(400);
       } else {
-        response.send(activity);
+        res.send(activity);
       }
     });
   },
-  updateActivity: (request, response) => {
-    Activity.findByIdAndUpdate(request.params.id, request.body, (error, activity) => {
-      if (error) {
-        response.send(error);
-      } else if (!activity) {
-        response.sendStatus(400);
-      } else {
-        response.send({
-          ...activity._doc,
-          ...request.body
-        });
+  updateActivity: (req, res) => {
+    Activity.findOne(
+      { _id: ObjectId(req.params.id), user: req.body.currentUserId },
+      (error, activity) => {
+        if (error) {
+          res.send(error);
+        } else if (!activity) {
+          res.sendStatus(400);
+        } else {
+          res.send({
+            ...activity._doc,
+            ...req.body
+          });
+        }
       }
-    });
+    );
   },
-  removeActivity: (request, response) => {
-    Activity.findById(request.params.id).remove((error) => {
+  removeActivity: (req, res) => {
+    Activity.findById(req.params.id).remove((error) => {
       if (error) {
-        response.send(error);
+        res.send(error);
       } else {
-        response.sendStatus(200);
+        res.sendStatus(200);
       }
     })
   },
-  getActivity: (request, response) => {
-    Activity.findById(request.params.id)
+  getActivity: (req, res) => {
+    Activity.findById(req.params.id)
       .exec((error, activity) => {
         if (error) {
-          response.send(error);
+          res.send(error);
         } else if (!activity) {
-          response.sendStatus(404);
+          res.sendStatus(404);
         } else {
-          response.send(activity);
+          res.send(activity);
         }
       })
   },
-  getAll: (request, response) => {
+  getAll: (req, res) => {
     Activity.find().exec((error, activity) => {
       if (error) {
-        response.send(error);
+        res.send(error);
       } else if (!activity) {
-        response.sendStatus(404);
+        res.sendStatus(404);
       } else {
-        response.send(activity);
+        res.send(activity);
       }
     })
   },
-  getUserActivities: (request, response) => {
-    Activity.find({ user: request.params.userId })
+  getUserActivities: (req, res) => {
+    Activity.find({ user: req.params.userId })
       .sort({ priority: 'desc' })
       .exec((error, activities) => {
         if (error) {
-          response.send(error);
+          res.send(error);
         } else if (!activities) {
-          response.sendStatus(404);
+          res.sendStatus(404);
         } else {
-          response.send(activities);
+          res.send(activities);
         }
       })
   },
-  startSession: (request, response) => {
+  startSession: (req, res) => {
     Activity.where("activeSession").ne(null).then(activities => {
       if (activities[0]) {
-        response.status(405).send('You can only have 1 active session at a time');
+        res.status(405).send('You can only have 1 active session at a time');
       } else {
-        Activity.findById(request.params.id).then(activity =>
+        Activity.findById(req.params.id).then(activity =>
           activity.startSession()
-            .then(_activity => response.send(_activity.activeSession))
-            .catch(errorMessage => response.status(500).send(errorMessage))
+            .then(_activity => res.send(_activity.activeSession))
+            .catch(errorMessage => res.status(500).send(errorMessage))
         );
       }
     })
   },
-  endSession: (request, response) => {
-    Activity.findById(request.params.id).then(activity =>
+  endSession: (req, res) => {
+    Activity.findById(req.params.id).then(activity =>
       activity.endSession()
-        .then(_activity => response.send(_activity.sessions))
-        .catch(errorMessage => response.status(500).send(errorMessage))
+        .then(_activity => res.send(_activity.sessions))
+        .catch(errorMessage => res.status(500).send(errorMessage))
     );
   },
-  deleteSession: (request, response) => {
-    Activity.findById(request.params.id).then(activity =>
-      activity.deleteSession(request.body.sessionId)
-        .then(() => response.sendStatus(200))
-        .catch(errorMessage => response.status(500).send(errorMessage))
+  deleteSession: (req, res) => {
+    Activity.findById(req.params.id).then(activity =>
+      activity.deleteSession(req.body.sessionId)
+        .then(() => res.sendStatus(200))
+        .catch(errorMessage => res.status(500).send(errorMessage))
     );
   },
-  getSuggestedActivity: (request, response) => {
-    Activity.find({ user: request.params.userId })
-      .then(activities => response.send(highestWeightActivity(activities)))
+  getSuggestedActivity: (req, res) => {
+    Activity.find({ user: req.params.userId })
+      .then(activities => res.send(highestWeightActivity(activities)))
       .catch((error) => {
         if (error) {
-          response.status(500).send(error.message);
+          res.status(500).send(error.message);
         } else {
-          response.sendStatus(500);
+          res.sendStatus(500);
         }
       })
   },
-  skipSuggestedActivity: (request, response) => {
-    Activity.findById(request.body.activityId)
+  skipSuggestedActivity: (req, res) => {
+    Activity.findById(req.body.activityId)
       .then(activity => {
         activity.skip()
           .then(() => {
-            Activity.find({ user: request.params.userId })
+            Activity.find({ user: req.params.userId })
               .then(activities => {
                 const filteredActivities = activities.filter(a => a._id.toString() !== activity.id);
-                response.send(highestWeightActivity(filteredActivities));
+                res.send(highestWeightActivity(filteredActivities));
               })
-              .catch(error => response.status(500).send(error.message));
+              .catch(error => res.status(500).send(error.message));
           })
-          .catch(() => response.status(500).send('Failed to skip'))
+          .catch(() => res.status(500).send('Failed to skip'))
       })
       .catch(error => {
         if (error) {
-          response.status(500).send(error.message);
+          res.status(500).send(error.message);
         } else {
-          response.sendStatus(500);
+          res.sendStatus(500);
         }
       })
   }

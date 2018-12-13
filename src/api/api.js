@@ -1,12 +1,14 @@
 import axios from 'axios';
 import { fromServer as userFromServer } from './transformers/user';
 import { activityFromServer, activitiesFromServer } from './transformers/activity';
+import { getCookie } from '../utils/cookies';
 
 const execute = (method, endpoint, data = {}, config = {}, headers = {}) => {
   const defaultHeaders = {
     'Cache-Control': 'no-cache',
     Pragma: 'no-cache',
     Expires: 0,
+    'x-access-token': getCookie('auth') || ''
   };
 
   return axios({
@@ -28,8 +30,8 @@ const put = (endpoint, data) => execute('put', endpoint, data);
 
 const del = (endpoint) => execute('delete', endpoint);
 
-export const getUser = (id) =>
-  get(`/api/user/${id}`).then(response => userFromServer(response.data));
+export const getUser = () =>
+  get('/api/user/self').then(response => userFromServer(response.data));
 
 export const updateSchedule = (schedule, userId) =>
   put(`/api/user/${userId}/schedule`, schedule)
@@ -63,3 +65,7 @@ export const getSuggestedActivity = (userId) =>
 export const skipSuggestedActivity = (userId, activityId) =>
   put(`/api/user/${userId}/activity/skip_suggested`, { activityId })
     .then(response => activityFromServer(response.data));
+
+export const authenticateUser = (email, password) =>
+  post('/api/user/authenticate', { email, password })
+    .then(response => ({ token: response.data.token, user: userFromServer(response.data.user) }));
