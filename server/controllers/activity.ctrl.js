@@ -18,8 +18,9 @@ module.exports = {
     });
   },
   updateActivity: (req, res) => {
-    Activity.findOne(
+    Activity.findOneAndUpdate(
       { _id: ObjectId(req.params.id), user: req.body.currentUserId },
+      req.body,
       (error, activity) => {
         if (error) {
           res.send(error);
@@ -35,15 +36,32 @@ module.exports = {
     );
   },
   removeActivity: (req, res) => {
-    Activity.findById(req.params.id).remove((error) => {
-      if (error) {
-        res.send(error);
-      } else {
-        res.sendStatus(200);
+    Activity.findOneAndRemove(
+      { _id: ObjectId(req.params.id), user: req.body.currentUserId },
+      (error) => {
+        if (error) {
+          res.send(error);
+        } else {
+          res.sendStatus(200);
+        }
       }
-    })
+    );
+  },
+  getUserActivities: (req, res) => {
+    Activity.find({ user: req.body.currentUserId })
+      .sort({ priority: 'desc' })
+      .exec((error, activities) => {
+        if (error) {
+          res.send(error);
+        } else if (!activities) {
+          res.sendStatus(404);
+        } else {
+          res.send(activities);
+        }
+      })
   },
   getActivity: (req, res) => {
+    // TODO Admin action
     Activity.findById(req.params.id)
       .exec((error, activity) => {
         if (error) {
@@ -56,6 +74,7 @@ module.exports = {
       })
   },
   getAll: (req, res) => {
+    // TODO Admin action
     Activity.find().exec((error, activity) => {
       if (error) {
         res.send(error);
@@ -65,19 +84,6 @@ module.exports = {
         res.send(activity);
       }
     })
-  },
-  getUserActivities: (req, res) => {
-    Activity.find({ user: req.params.userId })
-      .sort({ priority: 'desc' })
-      .exec((error, activities) => {
-        if (error) {
-          res.send(error);
-        } else if (!activities) {
-          res.sendStatus(404);
-        } else {
-          res.send(activities);
-        }
-      })
   },
   startSession: (req, res) => {
     Activity.where("activeSession").ne(null).then(activities => {

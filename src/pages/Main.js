@@ -12,6 +12,7 @@ class Main extends PureComponent {
   componentDidMount() {
     if (this.validAuthToken()) {
       this.props.getUser();
+      this.props.getActivities();
     } else {
       this.props.history.push('/login');
     }
