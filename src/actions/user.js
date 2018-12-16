@@ -25,7 +25,10 @@ const authenticateUserSuccess = (user) => ({
   payload: { user }
 })
 
-const authenticateUserFail = () => ({ type: types.AUTHENTICATE_USER_FAIL });
+const authenticateUserFail = (error) => ({
+  type: types.AUTHENTICATE_USER_FAIL,
+  payload: { error },
+});
 
 export const getUser = () => (dispatch, getState, api) => {
   dispatch(requestUser());
@@ -50,7 +53,7 @@ export const authenticateUser = (email, password) => (dispatch, getState, api) =
       return data;
     })
     .catch((error) => {
-      dispatch(authenticateUserFail());
+      dispatch(authenticateUserFail(error));
       return error;
     })
 }

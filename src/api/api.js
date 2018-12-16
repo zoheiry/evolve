@@ -25,7 +25,7 @@ export const handleAuthorizationFailure = (error) => {
   const errorName = lodashGet(error, 'response.data.name');
   if (errorName === 'TokenExpiredError' || errorName === 'JsonWebTokenError') {
     deleteCookie('auth');
-    window.location.href = '/login';
+    window.location.href = '/login'; // triggers a refresh to reset redux state
   }
   return error;
 }

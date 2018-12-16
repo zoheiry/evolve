@@ -9,8 +9,7 @@ const initialState = {
 
 const user = (state = initialState, action) => {
   switch (action.type) {
-    case types.REQUEST_USER:
-    case types.AUTHENTICATE_USER_REQUEST: {
+    case types.REQUEST_USER: {
       return {
         ...state,
         isFetching: true
@@ -24,8 +23,7 @@ const user = (state = initialState, action) => {
         isFetching: false
       }
     }
-    case types.REQUEST_USER_FAIL:
-    case types.AUTHENTICATE_USER_FAIL: {
+    case types.REQUEST_USER_FAIL: {
       return {
         ...state,
         isFetching: false
@@ -53,6 +51,20 @@ const user = (state = initialState, action) => {
           ...state.schedule,
           isFetching: false
         }
+      }
+    }
+    case types.AUTHENTICATE_USER_REQUEST: {
+      return {
+        ...state,
+        isFetching: true,
+        authenticationError: null,
+      }
+    }
+    case types.AUTHENTICATE_USER_FAIL: {
+      return {
+        ...state,
+        isFetching: false,
+        authenticationError: action.payload.error,
       }
     }
     default:
