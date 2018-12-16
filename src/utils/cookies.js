@@ -3,4 +3,8 @@ export const getCookie = (cookieName) => {
   return cookie ? cookie.pop() : '';
 };
 
+export const deleteCookie = (cookieName) => {
+  document.cookie = `${cookieName}=;`;
+}
+
 export default getCookie;

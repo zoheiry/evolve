@@ -47,8 +47,8 @@ Main.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  user: state.user || {},
-  activities: state.activities || {},
+  user: state.user,
+  activities: state.activities,
 });
 
 const mapDispatchToProps = (dispatch) => ({

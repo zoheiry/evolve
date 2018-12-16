@@ -84,7 +84,10 @@ export const addActivity = (activity, userId) => (dispatch, getState, api) => {
   return api.addActivity(activity, userId)
     .then((activity) => dispatch(addActivitySuccess(activity)))
     .then(dispatch(getActivities(userId)))
-    .catch(() => dispatch(addActivityFail()));
+    .catch((error) => {
+      api.handleAuthorizationFailure(error);
+      dispatch(addActivityFail());
+    });
 };
 
 export const getActivities = (userId) => (dispatch, getState, api) => {

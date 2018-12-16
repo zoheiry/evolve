@@ -1,7 +1,8 @@
 import axios from 'axios';
+import { get as lodashGet } from 'lodash';
 import { fromServer as userFromServer } from './transformers/user';
 import { activityFromServer, activitiesFromServer } from './transformers/activity';
-import { getCookie } from '../utils/cookies';
+import { getCookie, deleteCookie } from '../utils/cookies';
 
 const execute = (method, endpoint, data = {}, config = {}, headers = {}) => {
   const defaultHeaders = {
@@ -19,6 +20,15 @@ const execute = (method, endpoint, data = {}, config = {}, headers = {}) => {
     headers: { ...defaultHeaders, ...headers },
   });
 };
+
+export const handleAuthorizationFailure = (error) => {
+  const errorName = lodashGet(error, 'response.data.name');
+  if (errorName === 'TokenExpiredError' || errorName === 'JsonWebTokenError') {
+    deleteCookie('auth');
+    window.location.href = '/login';
+  }
+  return error;
+}
 
 const get = (endpoint, extraHeaders = {}) =>
   execute('get', endpoint, undefined, undefined, extraHeaders);
@@ -45,7 +55,6 @@ export const addActivity = (activity, userId) =>
   post(`/api/user/${userId}/activity`, activity)
     .then(response => activityFromServer(response.data));
 
-// FIXME: No authentication validation done here
 export const updateActivity = (activity, userId) =>
   put(`/api/activity/${activity.id}`, activity)
     .then(response => activityFromServer(response.data));

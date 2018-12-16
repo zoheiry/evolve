@@ -1,6 +1,9 @@
 import React from 'react';
+import { instanceOf } from 'prop-types';
+import { withCookies, Cookies } from 'react-cookie';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { FiCalendar, FiLogOut, FiActivity } from 'react-icons/fi';
 
 import UserDataProvider from '../../containers/UserDataProvider';
 import LogoImage from '../../static/img/logo.png';
@@ -27,12 +30,16 @@ const Logo = styled('div')`
 `;
 
 const NavItems = styled('div')`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
   > *:not(:last-child) {
     margin-right: 20px;
   }
 `;
 
-const Icon = styled('div')`
+const IconWrapper = styled('div')`
+  display: flex;
   font-size: 20px;
   color: #FFF;
 `;
@@ -42,7 +49,12 @@ const StyledLink = styled(Link)`
   color: #FFF;
 `;
 
-const Navbar = () => (
+const logout = (props) => {
+  props.cookies.remove('auth');
+  window.location.href = '/login';
+}
+
+const Navbar = (props) => (
   <UserDataProvider
     render={({ user }) => {
       if (!user || !user.id) {
@@ -54,8 +66,13 @@ const Navbar = () => (
             <StyledLink to="/"><img src={LogoImage} alt="Logo" /></StyledLink>
           </Logo>
           <NavItems>
-            <StyledLink to="/activities"><Icon className="fas fa-list-ul" /></StyledLink>
-            <StyledLink to="/schedule"><Icon className="fas fa-calendar-alt" /></StyledLink>
+            <StyledLink to="/activities">
+              <IconWrapper><FiActivity /></IconWrapper>
+            </StyledLink>
+            <StyledLink to="/schedule">
+              <IconWrapper><FiCalendar /></IconWrapper>
+            </StyledLink>
+            <IconWrapper><FiLogOut onClick={() => logout(props)}/></IconWrapper>
           </NavItems>
         </Wrapper>
       );
@@ -63,4 +80,8 @@ const Navbar = () => (
   />
 );
 
-export default Navbar;
+Navbar.propTypes = {
+  cookies: instanceOf(Cookies),
+}
+
+export default withCookies(Navbar);
