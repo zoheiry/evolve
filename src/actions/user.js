@@ -30,6 +30,18 @@ const authenticateUserFail = (error) => ({
   payload: { error },
 });
 
+const createUserRequest = () => ({ type: types.CREATE_USER_REQUEST });
+
+const createUserFail = (error) => ({
+  type: types.CREATE_USER_FAIL,
+  payload: { error },
+});
+
+const createUserSuccess = (user) => ({
+  type: types.CREATE_USER_SUCCESS,
+  payload: { user },
+});
+
 export const getUser = () => (dispatch, getState, api) => {
   dispatch(requestUser());
   return api.getUser()
@@ -44,10 +56,10 @@ export const updateSchedule = (schedule, userId) => (dispatch, getState, api) =>
     .catch(() => dispatch(updateScheduleFail()));
 };
 
-export const authenticateUser = (email, password) => (dispatch, getState, api) => {
+export const authenticateUser = (userInfo) => (dispatch, getState, api) => {
   dispatch(authenticateUserRequest());
 
-  return api.authenticateUser(email, password)
+  return api.authenticateUser(userInfo)
     .then((data) => {
       dispatch(authenticateUserSuccess(data.user));
       return data;
@@ -56,4 +68,18 @@ export const authenticateUser = (email, password) => (dispatch, getState, api) =
       dispatch(authenticateUserFail(error));
       return error;
     })
-}
+};
+
+export const createUser = (userInfo) => (dispatch, getState, api) => {
+  dispatch(createUserRequest());
+
+  return api.createUser(userInfo)
+    .then((data) => {
+      dispatch(createUserSuccess(data.user));
+      return data;
+    })
+    .catch((error) => {
+      dispatch(createUserFail(error));
+      return error;
+    })
+};

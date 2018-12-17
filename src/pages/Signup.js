@@ -6,8 +6,8 @@ import { Link } from 'react-router-dom';
 import { get } from 'lodash';
 
 import { getCookie } from '../utils/cookies';
-import { authenticateUser } from '../actions/user';
-import { LoginForm } from '../components/Registration';
+import { authenticateUser, createUser } from '../actions/user';
+import { SignupForm } from '../components/Registration';
 import LogoImage from '../static/img/logo.png';
 import BackgroundImage from '../static/img/landscape-background.jpg';
 
@@ -50,7 +50,7 @@ const Footer = styled('div')`
   }
 `;
 
-class Login extends Component {
+class Signup extends Component {
   componentDidMount() {
     if (getCookie('auth')) {
       this.props.history.push('/');
@@ -63,18 +63,26 @@ class Login extends Component {
     }
   }
 
+  handleRegisterUser = (userInfo) => {
+    this.props.createUser(userInfo).then((response) => {
+      if (!(response instanceof Error)) {
+        this.props.authenticateUser(userInfo);
+      }
+    });
+  }
+
   render() {
-    const { authenticateUser, user } = this.props;
+    const { user } = this.props;
     return (
       <Wrapper>
         <Content>
           <Logo><img src={LogoImage} alt="logo" /></Logo>
-          <LoginForm
-            onSubmit={authenticateUser}
-            error={get(user, 'authenticationError.response.data')}
+          <SignupForm
+            onSubmit={this.handleRegisterUser}
+            error={get(user, 'registrationError.response.data')}
           />
           <Footer>
-            Don't have an account? <Link to='/signup'>Register here</Link>
+            Already have an account? <Link to='/login'>Log in here</Link>
           </Footer>
         </Content>
       </Wrapper>
@@ -82,8 +90,9 @@ class Login extends Component {
   }
 }
 
-Login.propTypes = {
+Signup.propTypes = {
   authenticateUser: PropTypes.func,
+  createUser: PropTypes.func,
   user: PropTypes.object,
 };
 
@@ -92,7 +101,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  createUser: (userInfo) => dispatch(createUser(userInfo)),
   authenticateUser: (userInfo) => dispatch(authenticateUser(userInfo))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Signup);

@@ -1,10 +1,9 @@
 import React from 'react';
-import { instanceOf } from 'prop-types';
-import { withCookies, Cookies } from 'react-cookie';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { FiCalendar, FiLogOut, FiActivity } from 'react-icons/fi';
 
+import { deleteCookie } from '../../utils/cookies';
 import UserDataProvider from '../../containers/UserDataProvider';
 import LogoImage from '../../static/img/logo.png';
 
@@ -50,7 +49,7 @@ const StyledLink = styled(Link)`
 `;
 
 const logout = (props) => {
-  props.cookies.remove('auth');
+  deleteCookie('auth');
   window.location.href = '/login';
 }
 
@@ -80,8 +79,4 @@ const Navbar = (props) => (
   />
 );
 
-Navbar.propTypes = {
-  cookies: instanceOf(Cookies),
-}
-
-export default withCookies(Navbar);
+export default Navbar;

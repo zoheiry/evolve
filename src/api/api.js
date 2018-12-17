@@ -75,6 +75,10 @@ export const skipSuggestedActivity = (userId, activityId) =>
   put(`/api/user/${userId}/activity/skip_suggested`, { activityId })
     .then(response => activityFromServer(response.data));
 
-export const authenticateUser = (email, password) =>
+export const authenticateUser = ({ email, password }) =>
   post('/api/user/authenticate', { email, password })
     .then(response => ({ token: response.data.token, user: userFromServer(response.data.user) }));
+
+export const createUser = ({ email, password, passwordConfirmation }) =>
+  post('/api/user/create', { email, password, passwordConfirmation })
+    .then(response => userFromServer(response.data));

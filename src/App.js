@@ -15,6 +15,7 @@ import ActivityTracker from './pages/ActivityTracker';
 import Sessions from './pages/Sessions';
 import Intro from './pages/Intro';
 import Login from './pages/Login';
+import Signup from './pages/Signup';
 
 import Navbar from './components/Navbar';
 
@@ -39,6 +40,7 @@ class App extends Component {
             <Route exact path="/activity/:id/track" component={ActivityTracker} />
             <Route exact path="/activity/:id/sessions" component={Sessions} />
             <Route exact path="/login" component={Login} />
+            <Route exact path="/signup" component={Signup} />
           </div>
         </ThemeProvider>
       </BrowserRouter>

@@ -67,6 +67,27 @@ const user = (state = initialState, action) => {
         authenticationError: action.payload.error,
       }
     }
+    case types.CREATE_USER_REQUEST: {
+      return {
+        ...state,
+        isFetching: true,
+        registrationError: null,
+      }
+    }
+    case types.CREATE_USER_FAIL: {
+      return {
+        ...state,
+        isFetching: false,
+        registrationError: action.payload.error,
+      }
+    }
+    case types.CREATE_USER_SUCCESS: {
+      return {
+        ...state,
+        isFetching: false,
+        registrationError: null,
+      }
+    }
     default:
       return state;
   }

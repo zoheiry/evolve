@@ -10,10 +10,11 @@ import { getActivities } from '../actions/activities';
 
 class Main extends PureComponent {
   componentDidMount() {
+    const { pathname } = this.props.history.location;
     if (this.validAuthToken()) {
       this.props.getUser();
       this.props.getActivities();
-    } else {
+    } else if (pathname !== '/login' && pathname !== '/signup') {
       this.props.history.push('/login');
     }
   }
