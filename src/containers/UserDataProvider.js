@@ -7,7 +7,7 @@ const UserDataProvider = ({ render, user, updateSchedule }) => (
   render({
     user,
     getUser,
-    updateSchedule: (weekDays) => updateSchedule(weekDays, user.id)
+    updateSchedule: (weekDays) => updateSchedule(weekDays)
   })
 );
 
@@ -26,7 +26,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   getUser: () => dispatch(getUser()),
-  updateSchedule: (weekDays, userId) => dispatch(updateSchedule(weekDays, userId))
+  updateSchedule: (weekDays) => dispatch(updateSchedule(weekDays))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserDataProvider);

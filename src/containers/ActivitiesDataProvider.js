@@ -79,14 +79,14 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  addActivity: (activity, userId) => dispatch(addActivity(activity, userId)),
-  getActivities: (userId) => dispatch(getActivities(userId)),
+  addActivity: (activity) => dispatch(addActivity(activity)),
+  getActivities: () => dispatch(getActivities()),
   updateActivity: (activity) => dispatch(updateActivity(activity)),
   deleteActivity: (id) => dispatch(deleteActivity(id)),
   startSession: (id) => dispatch(startSession(id)),
   endSession: (id) => dispatch(endSession(id)),
-  getSuggestedActivity: (userId) => dispatch(getSuggestedActivity(userId)),
-  skipSuggestedActivity: (userId, activityId) => dispatch(skipSuggestedActivity(userId, activityId)),
+  getSuggestedActivity: () => dispatch(getSuggestedActivity()),
+  skipSuggestedActivity: (activityId) => dispatch(skipSuggestedActivity(activityId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ActivitiesDataProvider);

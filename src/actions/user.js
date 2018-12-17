@@ -49,9 +49,9 @@ export const getUser = () => (dispatch, getState, api) => {
     .catch(() => dispatch(requestUserFail()));
 };
 
-export const updateSchedule = (schedule, userId) => (dispatch, getState, api) => {
+export const updateSchedule = (schedule) => (dispatch, getState, api) => {
   dispatch(updateScheduleRequest());
-  return api.updateSchedule(schedule, userId)
+  return api.updateSchedule(schedule)
     .then(schedule => dispatch(updateScheduleSuccess(schedule)))
     .catch(() => dispatch(updateScheduleFail()));
 };

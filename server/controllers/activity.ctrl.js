@@ -6,7 +6,7 @@ const highestWeightActivity = (activities) => (
 );
 
 module.exports = {
-  addActivity: (req, res) => {
+  createActivity: (req, res) => {
     new Activity({ ...req.body, user: req.body.currentUserId }).save((error, activity) => {
       if (error) {
         res.status(400).send(error);
@@ -61,8 +61,7 @@ module.exports = {
       })
   },
   getActivity: (req, res) => {
-    // TODO Admin action
-    Activity.findById(req.params.id)
+    Activity.find({ _id: ObjectId(req.params.id), user: req.body.currentUserId })
       .exec((error, activity) => {
         if (error) {
           res.send(error);
@@ -73,33 +72,24 @@ module.exports = {
         }
       })
   },
-  getAll: (req, res) => {
-    // TODO Admin action
-    Activity.find().exec((error, activity) => {
-      if (error) {
-        res.send(error);
-      } else if (!activity) {
-        res.sendStatus(404);
-      } else {
-        res.send(activity);
-      }
-    })
-  },
   startSession: (req, res) => {
     Activity.where("activeSession").ne(null).then(activities => {
       if (activities[0]) {
         res.status(405).send('You can only have 1 active session at a time');
       } else {
-        Activity.findById(req.params.id).then(activity =>
-          activity.startSession()
-            .then(_activity => res.send(_activity.activeSession))
-            .catch(errorMessage => res.status(500).send(errorMessage))
+        Activity.find({ _id: ObjectId(req.params.id), user: req.body.currentUserId })
+          .then(activity => (
+            activity
+              .startSession()
+              .then(_activity => res.send(_activity.activeSession))
+              .catch(errorMessage => res.status(500).send(errorMessage))
+          )
         );
       }
     })
   },
   endSession: (req, res) => {
-    Activity.findById(req.params.id).then(activity =>
+    Activity.find({ _id: ObjectId(req.params.id), user: req.body.currentUserId }).then(activity =>
       activity.endSession()
         .then(_activity => res.send(_activity.sessions))
         .catch(errorMessage => res.status(500).send(errorMessage))
@@ -124,7 +114,9 @@ module.exports = {
       })
   },
   skipSuggestedActivity: (req, res) => {
-    Activity.findById(req.body.activityId)
+    // TODO: no need to send activityId from the client,
+    // the backend already knows the ID of the suggested activity.
+    Activity.find({ _id: ObjectId(req.body.activityId), user: req.body.currentUserId })
       .then(activity => {
         activity.skip()
           .then(() => {
@@ -144,5 +136,5 @@ module.exports = {
           res.sendStatus(500);
         }
       })
-  }
+  },
 };

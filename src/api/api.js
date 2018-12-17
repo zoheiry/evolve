@@ -41,25 +41,27 @@ const put = (endpoint, data) => execute('put', endpoint, data);
 const del = (endpoint) => execute('delete', endpoint);
 
 export const getUser = () =>
-  get('/api/user/self').then(response => userFromServer(response.data));
+  get('/api/user/self')
+    .then(response => userFromServer(response.data));
 
-export const updateSchedule = (schedule, userId) =>
-  put(`/api/user/${userId}/schedule`, schedule)
+export const updateSchedule = (schedule) =>
+  put(`/api/user/self/schedule`, schedule)
     .then(response => userFromServer(response.data.schedule));
 
-export const getUserActivities = (userId) =>
-  get(`/api/user/${userId}/activities`)
+export const getActivities = () =>
+  get(`/api/activities`)
     .then(response => activitiesFromServer(response.data));
 
-export const addActivity = (activity, userId) =>
-  post(`/api/user/${userId}/activity`, activity)
+export const createActivity = (activity) =>
+  post(`/activity`, activity)
     .then(response => activityFromServer(response.data));
 
-export const updateActivity = (activity, userId) =>
+export const updateActivity = (activity) =>
   put(`/api/activity/${activity.id}`, activity)
     .then(response => activityFromServer(response.data));
 
-export const deleteActivity = (id) => del(`/api/activity/${id}`)
+export const deleteActivity = (id) =>
+  del(`/api/activity/${id}`)
 
 export const startSession = (id) =>
   put(`/api/activity/${id}/start_session`)
@@ -67,12 +69,12 @@ export const startSession = (id) =>
 export const endSession = (id) =>
   put(`/api/activity/${id}/end_session`)
 
-export const getSuggestedActivity = (userId) =>
-  get(`/api/user/${userId}/activity/suggested`)
+export const getSuggestedActivity = () =>
+  get(`/api/activity/suggested`)
     .then(response => activityFromServer(response.data));
 
-export const skipSuggestedActivity = (userId, activityId) =>
-  put(`/api/user/${userId}/activity/skip_suggested`, { activityId })
+export const skipSuggestedActivity = (activityId) =>
+  put(`/api/activity/skip_suggested`, { activityId })
     .then(response => activityFromServer(response.data));
 
 export const authenticateUser = ({ email, password }) =>

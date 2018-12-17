@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled, { withTheme } from 'styled-components';
 
-import UserDataProvider from '../../containers/UserDataProvider';
 import ActivitiesDataProvider from '../../containers/ActivitiesDataProvider';
 import Alert from '../Alert';
 import ActivityPreview from '../ActivitiesOverview/ActivityPreview';
@@ -71,40 +70,36 @@ class ActivitySuggestion extends PureComponent {
     const { theme } = this.props;
 
     return (
-      <UserDataProvider
-        render={({ user }) => (
-          <ActivitiesDataProvider
-            render={({ getSuggestedActivity, skipSuggestedActivity, activities }) => {
-              const suggestedActivity = activities.suggestedActivity;
-              if (!suggestedActivity.id || !this.state.showAlert) {
-                return (
-                  <CtaWrapper>
-                    <Button
-                      fluid
-                      color={theme.success}
-                      loading={suggestedActivity.isFetching}
-                      onClick={() => {
-                        this.handleShowAlert();
-                        getSuggestedActivity(user.id);
-                      }}
-                    >
-                      Suggest an activity
-                    </Button>
-                  </CtaWrapper>
-                );
-              }
-              return (
-                <Alert
-                  body={this.renderAlertBody(suggestedActivity)}
+      <ActivitiesDataProvider
+        render={({ getSuggestedActivity, skipSuggestedActivity, activities }) => {
+          const suggestedActivity = activities.suggestedActivity;
+          if (!suggestedActivity.id || !this.state.showAlert) {
+            return (
+              <CtaWrapper>
+                <Button
                   fluid
-                  buttonText="Skip"
-                  onAction={() => skipSuggestedActivity(user.id, suggestedActivity.id)}
-                  onClickOutside={this.handleHideAlert}
-                />
-              );
-            }}
-          />
-        )}
+                  color={theme.success}
+                  loading={suggestedActivity.isFetching}
+                  onClick={() => {
+                    this.handleShowAlert();
+                    getSuggestedActivity();
+                  }}
+                >
+                  Suggest an activity
+                </Button>
+              </CtaWrapper>
+            );
+          }
+          return (
+            <Alert
+              body={this.renderAlertBody(suggestedActivity)}
+              fluid
+              buttonText="Skip"
+              onAction={() => skipSuggestedActivity(suggestedActivity.id)}
+              onClickOutside={this.handleHideAlert}
+            />
+          );
+        }}
       />
     );
   }

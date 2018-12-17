@@ -78,30 +78,30 @@ const requestSuggestedActivitySuccess = (activity) => ({
   payload: { activity }
 });
 
-export const addActivity = (activity, userId) => (dispatch, getState, api) => {
+export const addActivity = (activity) => (dispatch, getState, api) => {
   dispatch(addActivityRequest());
 
-  return api.addActivity(activity, userId)
+  return api.createActivity(activity)
     .then((activity) => dispatch(addActivitySuccess(activity)))
-    .then(dispatch(getActivities(userId)))
+    .then(dispatch(getActivities()))
     .catch((error) => {
       api.handleAuthorizationFailure(error);
       dispatch(addActivityFail());
     });
 };
 
-export const getActivities = (userId) => (dispatch, getState, api) => {
+export const getActivities = () => (dispatch, getState, api) => {
   dispatch(requestActivities());
 
-  return api.getUserActivities(userId)
+  return api.getActivities()
     .then((activities) => dispatch(requestActivitiesSuccess(activities)))
     .catch(() => dispatch(requestActivitiesFail()));
 };
 
-export const updateActivity = (activity, userId) => (dispatch, getState, api) => {
+export const updateActivity = (activity) => (dispatch, getState, api) => {
   dispatch(updateActivityRequest());
 
-  return api.updateActivity(activity, userId)
+  return api.updateActivity(activity)
     .then((activity) => dispatch(updateActivitySuccess(activity)))
     .catch(() => dispatch(updateActivityFail()));
 };
@@ -136,18 +136,18 @@ export const endSession = (id) => (dispatch, getState, api) => {
     .catch(() => dispatch(updateActivityFail()));
 };
 
-export const getSuggestedActivity = (userId) => (dispatch, getState, api) => {
+export const getSuggestedActivity = () => (dispatch, getState, api) => {
   dispatch(requestSuggestedActivity());
 
-  return api.getSuggestedActivity(userId)
+  return api.getSuggestedActivity()
     .then(activity => dispatch(requestSuggestedActivitySuccess(activity)))
     .catch(() => dispatch(requestSuggestedActivityFail()));
 }
 
-export const skipSuggestedActivity = (userId, activityId) => (dispatch, getState, api) => {
+export const skipSuggestedActivity = (activityId) => (dispatch, getState, api) => {
   dispatch(requestSuggestedActivity());
 
-  return api.skipSuggestedActivity(userId, activityId)
+  return api.skipSuggestedActivity(activityId)
     .then(activity => dispatch(requestSuggestedActivitySuccess(activity)))
     .catch(() => dispatch(requestSuggestedActivityFail()));
 }
