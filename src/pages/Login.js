@@ -9,7 +9,8 @@ import { getCookie } from '../utils/cookies';
 import { authenticateUser } from '../actions/user';
 import { LoginForm } from '../components/Registration';
 import LogoImage from '../static/img/logo.png';
-import BackgroundImage from '../static/img/landscape-background.jpg';
+import BackgroundImage from '../static/img/landscape-background1.png';
+// https://plus.google.com/photos/111985781406492494794/album/6545947008543923265/6545947010461453010?authkey=COr1z-HVjvGEywE&sqid=116500531468128483044&ssid=fe1c3ad1-bebe-41c9-8a11-8451cb521c7d
 
 const Wrapper = styled('div')`
   height: 100vh;

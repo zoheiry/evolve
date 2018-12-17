@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { noop, isEmpty, trim } from 'lodash';
+import { noop, isEmpty } from 'lodash';
 
 import { InputField, SubmitButton, ErrorMessage } from '../';
 

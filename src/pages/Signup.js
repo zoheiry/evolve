@@ -9,7 +9,7 @@ import { getCookie } from '../utils/cookies';
 import { authenticateUser, createUser } from '../actions/user';
 import { SignupForm } from '../components/Registration';
 import LogoImage from '../static/img/logo.png';
-import BackgroundImage from '../static/img/landscape-background.jpg';
+import BackgroundImage from '../static/img/landscape-background2.png';
 
 const Wrapper = styled('div')`
   height: 100vh;
