@@ -113,7 +113,7 @@ module.exports = {
     );
   },
   getSuggestedActivity: (req, res) => {
-    Activity.find({ user: req.params.userId })
+    Activity.find({ user: req.body.currentUserId })
       .then(activities => res.send(highestWeightActivity(activities)))
       .catch((error) => {
         if (error) {
@@ -128,7 +128,7 @@ module.exports = {
       .then(activity => {
         activity.skip()
           .then(() => {
-            Activity.find({ user: req.params.userId })
+            Activity.find({ user: req.body.currentUserId })
               .then(activities => {
                 const filteredActivities = activities.filter(a => a._id.toString() !== activity.id);
                 res.send(highestWeightActivity(filteredActivities));
