@@ -11,11 +11,6 @@ import { SignupForm } from '../components/Registration';
 import FullPageBackground from '../components/FullPageBackground';
 import LogoImage from '../static/img/logo.png';
 
-const Content = styled('div')`
-  position: relative;
-  text-align: center;
-`;
-
 const Logo = styled('div')`
   img {
     width: 100px;
@@ -55,16 +50,14 @@ class Signup extends Component {
     const { user } = this.props;
     return (
       <FullPageBackground>
-        <Content>
-          <Logo><img src={LogoImage} alt="logo" /></Logo>
-          <SignupForm
-            onSubmit={this.handleRegisterUser}
-            error={get(user, 'registrationError.response.data')}
-          />
-          <Footer>
-            Already have an account? <Link to='/login'>Log in here</Link>
-          </Footer>
-        </Content>
+        <Logo><img src={LogoImage} alt="logo" /></Logo>
+        <SignupForm
+          onSubmit={this.handleRegisterUser}
+          error={get(user, 'registrationError.response.data')}
+        />
+        <Footer>
+          Already have an account? <Link to='/login'>Log in here</Link>
+        </Footer>
       </FullPageBackground>
     );
   }

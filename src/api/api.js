@@ -45,15 +45,15 @@ export const getUser = () =>
     .then(response => userFromServer(response.data));
 
 export const updateSchedule = (schedule) =>
-  put(`/api/user/self/schedule`, schedule)
+  put('/api/user/self/schedule', schedule)
     .then(response => userFromServer(response.data.schedule));
 
 export const getActivities = () =>
-  get(`/api/activities`)
+  get('/api/activities')
     .then(response => activitiesFromServer(response.data));
 
 export const createActivity = (activity) =>
-  post(`/activity`, activity)
+  post('/activity', activity)
     .then(response => activityFromServer(response.data));
 
 export const updateActivity = (activity) =>
@@ -70,11 +70,11 @@ export const endSession = (id) =>
   put(`/api/activity/${id}/end_session`)
 
 export const getSuggestedActivity = () =>
-  get(`/api/activity/suggested`)
+  get('/api/activity/suggested')
     .then(response => activityFromServer(response.data));
 
 export const skipSuggestedActivity = (activityId) =>
-  put(`/api/activity/skip_suggested`, { activityId })
+  put('/api/activity/skip_suggested', { activityId })
     .then(response => activityFromServer(response.data));
 
 export const authenticateUser = ({ email, password }) =>
@@ -83,4 +83,8 @@ export const authenticateUser = ({ email, password }) =>
 
 export const createUser = ({ email, password, passwordConfirmation }) =>
   post('/api/user/create', { email, password, passwordConfirmation })
+    .then(response => userFromServer(response.data));
+
+export const changeOnBoardingState = (state) =>
+  put('api/user/self/onboarding_state', { state })
     .then(response => userFromServer(response.data));

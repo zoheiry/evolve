@@ -9,8 +9,8 @@ const StyledButton = styled(Button)`
   margin-top: 15px;
 `;
 
-const SubmitButton = ({ children, onClick }) => (
-  <StyledButton onClick={onClick}>{children}</StyledButton>
+const SubmitButton = ({ children, onClick, ...props }) => (
+  <StyledButton onClick={onClick} {...props}>{children}</StyledButton>
 );
 
 SubmitButton.propTypes = {

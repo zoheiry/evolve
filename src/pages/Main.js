@@ -1,12 +1,12 @@
 // This component is rendered on every page.
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import PropTypes, { instanceOf } from 'prop-types';
-import { withCookies, Cookies } from 'react-cookie';
+import PropTypes from 'prop-types';
 
 import OverlayLoading from '../components/OverlayLoading';
 import { getUser } from '../actions/user';
 import { getActivities } from '../actions/activities';
+import { getCookie } from '../utils/cookies';
 
 class Main extends PureComponent {
   componentDidMount() {
@@ -19,10 +19,18 @@ class Main extends PureComponent {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    const { user } = this.props;
+    if (user.id && !prevProps.user.id) {
+      if (user.onBoardingState === 'fresh') {
+        this.props.history.push('/intro');   
+      }
+    }
+  }
+
   validAuthToken = () => {
-    const { cookies } = this.props;
     console.log('validating auth cookie');
-    const authCookie = cookies.get('auth');
+    const authCookie = getCookie('auth');
     return !!authCookie;
   }
 
@@ -38,7 +46,6 @@ class Main extends PureComponent {
 
 Main.propTypes = {
   history: PropTypes.object,
-  cookies: instanceOf(Cookies),
   // redux actions
   getUser: PropTypes.func,
   getActivities: PropTypes.func,
@@ -57,4 +64,4 @@ const mapDispatchToProps = (dispatch) => ({
   getActivities: () => dispatch(getActivities()),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(withCookies(Main));
+export default connect(mapStateToProps, mapDispatchToProps)(Main);

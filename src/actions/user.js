@@ -42,6 +42,15 @@ const createUserSuccess = (user) => ({
   payload: { user },
 });
 
+const updateUserRequest = () => ({ type: types.UPDATE_USER_REQUEST });
+
+const updateUserFail = () => ({ type: types.UPDATE_USER_FAIL });
+
+const updateUserSuccess = (user) => ({
+  type: types.UPDATE_USER_SUCCESS,
+  payload: { user },
+});
+
 export const getUser = () => (dispatch, getState, api) => {
   dispatch(requestUser());
   return api.getUser()
@@ -82,4 +91,12 @@ export const createUser = (userInfo) => (dispatch, getState, api) => {
       dispatch(createUserFail(error));
       return error;
     })
+};
+
+export const changeOnBoardingState = (state) => (dispatch, getState, api) => {
+  dispatch(updateScheduleRequest());
+
+  return api.changeOnBoardingState(state)
+  .then((data) => dispatch(updateUserSuccess(data.user)))
+  .catch((error) => dispatch(updateUserFail(error)));
 };

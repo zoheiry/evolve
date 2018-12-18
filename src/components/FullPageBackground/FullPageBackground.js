@@ -25,6 +25,11 @@ const Wrapper = styled('div')`
   }
 `;
 
+const Content = styled('div')`
+  position: relative;
+  text-align: center;
+`;
+
 const getImage = (number) => {
   switch (number) {
     case 1:
@@ -40,7 +45,7 @@ const getImage = (number) => {
 
 const FullPageBackground = ({ children, imageNumber }) => (
   <Wrapper backgroundImage={getImage(imageNumber)}>
-    {children}
+    <Content>{children}</Content>
   </Wrapper>
 );
 

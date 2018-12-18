@@ -11,11 +11,7 @@ import { LoginForm } from '../components/Registration';
 import FullPageBackground from '../components/FullPageBackground';
 import LogoImage from '../static/img/logo.png';
 // https://plus.google.com/photos/111985781406492494794/album/6545947008543923265/6545947010461453010?authkey=COr1z-HVjvGEywE&sqid=116500531468128483044&ssid=fe1c3ad1-bebe-41c9-8a11-8451cb521c7d
-
-const Content = styled('div')`
-  position: relative;
-  text-align: center;
-`;
+// https://www.pinterest.com/pin/445997169344481224/
 
 const Logo = styled('div')`
   img {
@@ -47,17 +43,15 @@ class Login extends Component {
   render() {
     const { authenticateUser, user } = this.props;
     return (
-      <FullPageBackground>
-        <Content>
-          <Logo><img src={LogoImage} alt="logo" /></Logo>
-          <LoginForm
-            onSubmit={authenticateUser}
-            error={get(user, 'authenticationError.response.data')}
-          />
-          <Footer>
-            Don't have an account? <Link to='/signup'>Register here</Link>
-          </Footer>
-        </Content>
+      <FullPageBackground imageNumber={3}>
+        <Logo><img src={LogoImage} alt="logo" /></Logo>
+        <LoginForm
+          onSubmit={authenticateUser}
+          error={get(user, 'authenticationError.response.data')}
+        />
+        <Footer>
+          Don't have an account? <Link to='/signup'>Register here</Link>
+        </Footer>
       </FullPageBackground>
     );
   }
