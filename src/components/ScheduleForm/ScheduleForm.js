@@ -34,16 +34,7 @@ const ScheduleWrapper = styled('div')`
   width: 800px;
   margin: 0 auto;
   max-width: 100%;
-`;
-
-const Title = styled('h1')`
-  font-size: 20px;
-  font-weight: 400;
-  color: ${p => p.theme.textColor};
-  text-align: center;
-  margin: 0;
-  padding: 15px;
-  ${p => p.theme.defaultShadow};
+  padding-top: 15px;
 `;
 
 const StyledTable = styled(Table)`
@@ -103,10 +94,13 @@ class ScheduleForm extends PureComponent {
     })
   }
 
+  handleSubmit = () => {
+    this.props.onSubmit(this.state.schedule);
+  }
+
   render() {
     return (
       <ScheduleWrapper>
-        <Title>Start off by adding your free time each day</Title>
         <StyledTable layout={[0.1, 1, 1]}>
           <TableHeader>
             <TableCell>Day</TableCell>
@@ -138,8 +132,8 @@ class ScheduleForm extends PureComponent {
         <ButtonWrapper>
           <Button
             fluid
-            onClick={this.props.onSubmit}
             color={this.props.theme.success}
+            onClick={this.handleSubmit}
           >
             Save
           </Button>

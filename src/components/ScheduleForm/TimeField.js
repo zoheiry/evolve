@@ -28,7 +28,11 @@ const StyledInput = styled('input')`
 
 const TimeField = ({ value, ...props }) => (
   <TimeFieldWrapper>
-    <ReactTimeField value={value || '--:--'} {...props} input={<StyledInput />}/>
+    <ReactTimeField
+      input={<StyledInput />}
+      value={value || '--:--'}
+      {...props}
+    />
     <Icon className="fas fa-clock" appearance={props.appearance} />
   </TimeFieldWrapper>
 );

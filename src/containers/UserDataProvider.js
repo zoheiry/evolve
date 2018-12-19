@@ -8,7 +8,7 @@ const UserDataProvider = ({ render, user, updateSchedule, changeOnBoardingState 
     user,
     getUser,
     changeOnBoardingState,
-    updateSchedule: (weekDays) => updateSchedule(weekDays)
+    updateSchedule,
   })
 );
 

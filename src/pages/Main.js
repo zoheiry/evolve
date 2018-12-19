@@ -2,11 +2,13 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { get } from 'lodash';
 
 import OverlayLoading from '../components/OverlayLoading';
 import { getUser } from '../actions/user';
 import { getActivities } from '../actions/activities';
-import { getCookie } from '../utils/cookies';
+import { getCookie, deleteCookie } from '../utils/cookies';
+import * as userStates from '../constants/OnBoardingStates';
 
 class Main extends PureComponent {
   componentDidMount() {
@@ -21,10 +23,28 @@ class Main extends PureComponent {
 
   componentDidUpdate(prevProps) {
     const { user } = this.props;
-    if (user.id && !prevProps.user.id) {
-      if (user.onBoardingState === 'fresh') {
-        this.props.history.push('/intro');   
-      }
+    const userError = get(user, 'error.response.data.name', '');
+    if (userError === 'TokenExpiredError' || userError === 'JsonWebTokenError') {
+      deleteCookie('auth');
+      this.props.history.push('/login');
+      return; 
+    }
+    if (user.onBoardingState !== prevProps.user.onBoardingState) {
+      this.onChangeOnBoardingState();
+    }
+  }
+
+  onChangeOnBoardingState = () => {
+    const { user, history } = this.props;
+    const { onBoardingState } = user;
+    const { pathname } = history.location;
+
+    if (onBoardingState === userStates.FRESH && pathname !== '/intro') {
+      history.push('/intro');
+    } else if (onBoardingState === userStates.SCHEDULE && pathname !== '/schedule') {
+      history.push('/schedule');
+    } else if (onBoardingState === userStates.ACTIVITIES && pathname !== '/activities') {
+      history.push('/activities');
     }
   }
 

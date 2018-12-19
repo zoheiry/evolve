@@ -31,7 +31,7 @@ const Title = styled('h1')`
   color: #FFF;
   font-size: 35px;
   font-weight: 300;
-  animation: ${slideInRight} 1s linear;
+  animation: ${slideInRight} 0.5s linear;
   margin: 0;
 `;
 

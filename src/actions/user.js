@@ -7,7 +7,10 @@ const requestUserSuccess = (user) => ({
   payload: { user }
 })
 
-const requestUserFail = () => ({ type: types.REQUEST_USER_FAIL });
+const requestUserFail = (error) => ({
+  type: types.REQUEST_USER_FAIL,
+  payload: { error },
+});
 
 const updateScheduleRequest = () => ({ type: types.UPDATE_SCHEDULE_REQUEST });
 
@@ -44,7 +47,7 @@ const createUserSuccess = (user) => ({
 
 const updateUserRequest = () => ({ type: types.UPDATE_USER_REQUEST });
 
-const updateUserFail = () => ({ type: types.UPDATE_USER_FAIL });
+const updateUserFail = (error) => ({ type: types.UPDATE_USER_FAIL });
 
 const updateUserSuccess = (user) => ({
   type: types.UPDATE_USER_SUCCESS,
@@ -55,7 +58,7 @@ export const getUser = () => (dispatch, getState, api) => {
   dispatch(requestUser());
   return api.getUser()
     .then(user => dispatch(requestUserSuccess(user)))
-    .catch(() => dispatch(requestUserFail()));
+    .catch((error) => dispatch(requestUserFail(error)));
 };
 
 export const updateSchedule = (schedule) => (dispatch, getState, api) => {
@@ -94,9 +97,9 @@ export const createUser = (userInfo) => (dispatch, getState, api) => {
 };
 
 export const changeOnBoardingState = (state) => (dispatch, getState, api) => {
-  dispatch(updateScheduleRequest());
+  dispatch(updateUserRequest());
 
   return api.changeOnBoardingState(state)
-  .then((data) => dispatch(updateUserSuccess(data.user)))
+  .then((user) => dispatch(updateUserSuccess(user)))
   .catch((error) => dispatch(updateUserFail(error)));
 };
