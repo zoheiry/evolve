@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
+import UserDataProvider from '../../containers/UserDataProvider';
+
+import { COMPLETE } from '../../constants/OnBoardingStates';
 
 const fixedHeightCss = css`
   height: 100vh;
@@ -10,12 +13,21 @@ const fixedHeightCss = css`
 `;
 
 const Wrapper = styled('div')`
-  padding-top: ${p => p.theme.bodyTopPadding};
+  padding-top: ${p => (p.navbarVisible ? p.theme.bodyTopPadding : 0)};
   ${p => p.fixedHeight && fixedHeightCss}
 `;
 
 const PageWrapper = ({ children, fixedHeight }) => (
-  <Wrapper fixedHeight={fixedHeight}>{children}</Wrapper>
+  <UserDataProvider
+    render={({ user }) =>
+      <Wrapper
+        navbarVisible={user.onBoardingState === COMPLETE}
+        fixedHeight={fixedHeight}
+      >
+        {children}
+      </Wrapper>
+    }
+  />
 );
 
 PageWrapper.propTypes = {

@@ -49,11 +49,6 @@ let UserSchema = new mongoose.Schema({
   }
 });
 
-UserSchema.pre('save', function(next){
-  this.password = bcrypt.hashSync(this.password, saltRounds);
-  next();
-});
-
 UserSchema.methods.updateSchedule = function(schedule) {
   this.schedule = schedule;
   return this.save();
@@ -61,6 +56,11 @@ UserSchema.methods.updateSchedule = function(schedule) {
 
 UserSchema.methods.changeOnBoardingState = function(state) {
   this.onBoardingState = state;
+  return this.save();
+}
+
+UserSchema.methods.changePassword = function(newPassword) {
+  this.password = newPassword;
   return this.save();
 }
 

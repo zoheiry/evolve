@@ -16,26 +16,31 @@ const fadeIn = keyframes`
   100% { opacity: 1; }
 `;
 
+const zoomIn = keyframes`
+  0% { transform: scale(0); }
+  100% { transform: scale(1); }
+`;
+
 const slideInUp = keyframes`
   0% { opacity: 0; transform: translateY(100%); }
   100% { opacity: 1; transform: translateY(0); }
 `;
 
-const Wrapper = styled('div')`
+export const Wrapper = styled('div')`
   color: #FFF;
   padding: 30px;
   overflow: hidden;
 `;
 
-const Title = styled('h1')`
+export const Title = styled('h1')`
   color: #FFF;
   font-size: 35px;
   font-weight: 300;
-  animation: ${slideInRight} 0.5s linear;
+  animation: ${zoomIn} 0.5s linear;
   margin: 0;
 `;
 
-const Text = styled('p')`
+export const Text = styled('p')`
   font-size: 18px;
   color: #FFF;
   animation: ${fadeIn} 0.5s linear;
@@ -44,7 +49,7 @@ const Text = styled('p')`
   margin: 15px;
 `;
 
-const Button = styled(SubmitButton)`
+export const Button = styled(SubmitButton)`
   margin: 0;
   animation: ${slideInUp} 0.5s linear;
   animation-fill-mode: both;

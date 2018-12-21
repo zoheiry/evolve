@@ -16,7 +16,7 @@ const Button = styled(Link)`
 `;
 
 const AddActivityButton = () => (
-  <Button to='/activity/new'>+ Add activity</Button>
+  <Button to='/activity'>+ Add activity</Button>
 );
 
 export default AddActivityButton;

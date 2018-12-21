@@ -15,7 +15,6 @@ class Main extends PureComponent {
     const { pathname } = this.props.history.location;
     if (this.validAuthToken()) {
       this.props.getUser();
-      this.props.getActivities();
     } else if (pathname !== '/login' && pathname !== '/signup') {
       this.props.history.push('/login');
     }
@@ -24,13 +23,20 @@ class Main extends PureComponent {
   componentDidUpdate(prevProps) {
     const { user } = this.props;
     const userError = get(user, 'error.response.data.name', '');
-    if (userError === 'TokenExpiredError' || userError === 'JsonWebTokenError') {
+    const validAuthToken = this.validAuthToken();
+    if (
+      validAuthToken &&
+      (userError === 'TokenExpiredError' || userError === 'JsonWebTokenError')
+    ) {
       deleteCookie('auth');
       this.props.history.push('/login');
-      return; 
+      return;
     }
     if (user.onBoardingState !== prevProps.user.onBoardingState) {
       this.onChangeOnBoardingState();
+    }
+    if (user.id && !prevProps.user.id) {
+      this.props.getActivities();
     }
   }
 
@@ -43,13 +49,12 @@ class Main extends PureComponent {
       history.push('/intro');
     } else if (onBoardingState === userStates.SCHEDULE && pathname !== '/schedule') {
       history.push('/schedule');
-    } else if (onBoardingState === userStates.ACTIVITIES && pathname !== '/activities') {
-      history.push('/activities');
+    } else if (onBoardingState === userStates.ACTIVITIES && pathname !== '/activity') {
+      history.push('/activity');
     }
   }
 
   validAuthToken = () => {
-    console.log('validating auth cookie');
     const authCookie = getCookie('auth');
     return !!authCookie;
   }

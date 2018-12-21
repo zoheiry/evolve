@@ -53,7 +53,7 @@ export const getActivities = () =>
     .then(response => activitiesFromServer(response.data));
 
 export const createActivity = (activity) =>
-  post('/activity', activity)
+  post('/api/activity', activity)
     .then(response => activityFromServer(response.data));
 
 export const updateActivity = (activity) =>
@@ -87,4 +87,8 @@ export const createUser = ({ email, password, passwordConfirmation }) =>
 
 export const changeOnBoardingState = (state) =>
   put('api/user/self/onboarding_state', { state })
+    .then(response => userFromServer(response.data));
+
+export const changePassword = (password) =>
+  put('api/user/self/change_password', { password })
     .then(response => userFromServer(response.data));

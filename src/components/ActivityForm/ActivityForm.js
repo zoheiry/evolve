@@ -147,7 +147,7 @@ class ActivityForm extends PureComponent {
             onChange={(e) => this.handleChange(PROPERTIES.NAME, e.target.value)}
           />
           <PriorityField>
-            <Label>Priority</Label>
+            <Label>Priority *</Label>
             <PrioritySelector
               selectedPriority={priority}
               onSelect={(value) => this.handleChange(PROPERTIES.PRIORITY, value)}

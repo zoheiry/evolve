@@ -7,6 +7,8 @@ import { deleteCookie } from '../../utils/cookies';
 import UserDataProvider from '../../containers/UserDataProvider';
 import LogoImage from '../../static/img/logo.png';
 
+import { COMPLETE } from '../../constants/OnBoardingStates';
+
 const Wrapper = styled('nav')`
   width: 100%;
   position: fixed;
@@ -56,7 +58,7 @@ const logout = (props) => {
 const Navbar = (props) => (
   <UserDataProvider
     render={({ user }) => {
-      if (!user || !user.id) {
+      if (user.onBoardingState !== COMPLETE) {
         return null;
       }
       return (

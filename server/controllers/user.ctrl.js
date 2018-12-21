@@ -30,13 +30,14 @@ module.exports = {
       .catch(error => res.status(422).send(error))
   },
   createUser: (req, res) => {
+    const saltRounds = 10;
     if (!req.body.email || !req.body.password || !req.body.passwordConfirmation) {
       res.status(400).send({ message: 'All fields are required.' });
     } else if (req.body.password !== req.body.passwordConfirmation) {
       res.status(400).send({ message: 'Password and password confirmation must match.' })
     } else {
       User.create(
-        { email: req.body.email, password: req.body.password },
+        { email: req.body.email, password: bcrypt.hashSync(req.body.password, saltRounds) },
         (error, user) => {
           if (error) {
             if (error.code === 11000) {
@@ -54,6 +55,14 @@ module.exports = {
         }
       );
     }
+  },
+  // TODO have a password confirmation check.
+  changePassword: (req, res) => {
+    User.findById(req.body.currentUserId).then(user =>
+      user.changePassword(req.body.password)
+        .then(_user => res.send(_user))
+        .catch(error => res.status(400).send(error))
+    )
   },
   updateSchedule: (req, res) => {
     User.findById(req.body.currentUserId).then(user =>
