@@ -32,7 +32,7 @@ class App extends Component {
             <Route path="/" component={Main} />
             <Route exact path="/" component={Home} />
             <Route exact path="/intro" component={Intro} />
-            <Route exact path="/activity/" component={NewActivity} />
+            <Route exact path="/activity" component={NewActivity} />
             <Route exact path="/schedule" component={Schedule} />
             <Route exact path="/activities" component={Activities} />
             <Route exact path="/activity/:id" component={Activity} />

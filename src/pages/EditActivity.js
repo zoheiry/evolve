@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { isEmpty } from 'lodash';
 
 import PageWrapper from '../components/PageWrapper';
 import ActivitiesDataProvider from '../containers/ActivitiesDataProvider';
@@ -17,7 +18,7 @@ const EditActivity = ({ history, match }) => {
       <ActivitiesDataProvider
         render={({ updateActivity, findActivity, deleteActivity }) => {
           const activity = findActivity(activityId);
-          if (!activity) {
+          if (isEmpty(activity)) {
             return null;
           }
           return (

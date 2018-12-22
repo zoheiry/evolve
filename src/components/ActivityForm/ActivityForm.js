@@ -4,6 +4,7 @@ import styled, { css } from 'styled-components';
 import { isEmpty } from 'lodash';
 
 import Button from '../Button';
+import Alert from '../Alert';
 import PrioritySelector from './PrioritySelector';
 import * as PROPERTIES from '../../constants/ActivityProperties'; 
 
@@ -78,7 +79,8 @@ class ActivityForm extends PureComponent {
         [PROPERTIES.NAME]: activity[PROPERTIES.NAME] || '',
         [PROPERTIES.PRIORITY]: activity[PROPERTIES.PRIORITY],
         [PROPERTIES.NOTES]: activity[PROPERTIES.NOTES] || '',
-        [PROPERTIES.MAX_DURATION]: activity[PROPERTIES.MAX_DURATION] || ''
+        [PROPERTIES.MAX_DURATION]: activity[PROPERTIES.MAX_DURATION] || '',
+        showDeleteAlert: false,
       }
     }
   }
@@ -125,6 +127,19 @@ class ActivityForm extends PureComponent {
     });
   }
 
+  showDeleteAlert = () => {
+    this.setState({ showDeleteAlert: true });
+  }
+
+  hideDeleteAlert = () => {
+    this.setState({ showDeleteAlert: false });
+  }
+
+  handleDelete = () => {
+    this.props.onDelete();
+    this.hideDeleteAlert();
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
     if (!this.isFormValid()) {
@@ -167,7 +182,17 @@ class ActivityForm extends PureComponent {
         </Fields>
         <Button onClick={this.handleSubmit} disabled={!this.isFormValid()}>Submit</Button>
         {this.props.onDelete && (
-          <DeleteButton onClick={this.props.onDelete}>Delete activity</DeleteButton>
+          <DeleteButton onClick={this.showDeleteAlert}>Delete activity</DeleteButton>
+        )}
+        {this.state.showDeleteAlert && (
+          <Alert
+            body="Are you sure you want to delete this activity?"
+            fluid
+            buttonText="Yes"
+            onAction={this.handleDelete}
+            onClickOutside={this.hideDeleteAlert}
+            ctaAppearance="danger"
+          />
         )}
       </Form>
     );

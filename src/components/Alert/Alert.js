@@ -49,14 +49,18 @@ const AlertAction = styled('div')`
   width: 100%;
 `;
 
-const Alert = ({ body, buttonText, onAction, onClickOutside, fluid, loading }) => (
+const StyledButton = styled(Button)`
+  background: ${p => (p.appearance === 'danger' ? p.theme.danger : p.theme.primary)}
+`;
+
+const Alert = ({ body, buttonText, onAction, onClickOutside, fluid, loading, ctaAppearance }) => (
   <Backdrop onClick={onClickOutside}>
     <AlertWindow fluid={fluid} onClick={(e) => e.stopPropagation()}>
       <AlertBody>{body}</AlertBody>
       <AlertAction>
-        <Button fluid onClick={onAction}>
+        <StyledButton fluid onClick={onAction} appearance={ctaAppearance}>
           {buttonText}
-        </Button>
+        </StyledButton>
       </AlertAction>
     </AlertWindow>
   </Backdrop>
@@ -69,6 +73,7 @@ Alert.propTypes = {
   onClickOutside: PropTypes.func,
   fluid: PropTypes.bool,
   loading: PropTypes.bool,
+  ctaAppearance: PropTypes.oneOf(['success', 'danger'])
 };
 
 Alert.defaultProps = {

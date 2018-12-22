@@ -4,6 +4,9 @@ const activityController = require('../controllers/activity.ctrl');
 
 router.get('/activities', activityController.getUserActivities);
 
+router.get('/activity/suggested', activityController.getSuggestedActivity);
+router.put('/activity/skip_suggested', activityController.skipSuggestedActivity);
+
 router.post('/activity', activityController.createActivity);
 router.get('/activity/:id', activityController.getActivity);
 router.put('/activity/:id', activityController.updateActivity);
@@ -14,7 +17,5 @@ router.put('/activity/:id/end_session', activityController.endSession);
 router.delete('/activity/:id/delete_session', activityController.deleteSession);
 
 
-router.get('/activity/suggested', activityController.getSuggestedActivity);
-router.put('/activity/skip_suggested', activityController.skipSuggestedActivity);
 
 module.exports = router;

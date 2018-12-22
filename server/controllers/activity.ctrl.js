@@ -78,19 +78,19 @@ module.exports = {
         res.status(405).send('You can only have 1 active session at a time');
       } else {
         Activity.find({ _id: ObjectId(req.params.id), user: req.body.currentUserId })
-          .then(activity => (
-            activity
+          .then(activity =>
+            activity[0]
               .startSession()
               .then(_activity => res.send(_activity.activeSession))
               .catch(errorMessage => res.status(500).send(errorMessage))
           )
-        );
+          .catch(error => res.status(400).send(error));
       }
     })
   },
   endSession: (req, res) => {
     Activity.find({ _id: ObjectId(req.params.id), user: req.body.currentUserId }).then(activity =>
-      activity.endSession()
+      activity[0].endSession()
         .then(_activity => res.send(_activity.sessions))
         .catch(errorMessage => res.status(500).send(errorMessage))
     );
@@ -118,7 +118,7 @@ module.exports = {
     // the backend already knows the ID of the suggested activity.
     Activity.find({ _id: ObjectId(req.body.activityId), user: req.body.currentUserId })
       .then(activity => {
-        activity.skip()
+        activity[0].skip()
           .then(() => {
             Activity.find({ user: req.body.currentUserId })
               .then(activities => {
