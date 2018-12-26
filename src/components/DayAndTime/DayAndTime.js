@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import moment from 'moment';
 
 const DAY_FORMAT = 'dddd';
-const TIME_FORMAT = 'hh:mm A';
+const TIME_FORMAT = 'HH:mm';
 
 const Wrapper = styled('div')`
   padding: 15px;
@@ -11,19 +11,7 @@ const Wrapper = styled('div')`
   color: ${p => p.theme.textColor};
   position: relative;
   z-index: auto;
-  background: #fff;
-
-  &::before {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    content: "";
-    box-shadow: 0 1px 4px rgba(0,0,0,.5);
-    bottom: 0px;
-    left: 0;
-    border-radius: 25%;
-    z-index: -1;
-  }
+  background: #f5f5f5;
 `;
 
 const Day = styled('div')`

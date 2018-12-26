@@ -41,9 +41,9 @@ export const getTimePassed = (d1, d2 = Date.now()) => {
   const start = moment(d1);
   const end = moment(d2);
 
-  var difference = end.diff(start);
-  var duration = moment.duration(difference);
-  var result = Math.floor(duration.asHours()) + moment.utc(difference).format(":mm:ss");
+  const difference = end.diff(start);
+  const duration = moment.duration(difference);
+  const result = Math.floor(duration.asHours()) + moment.utc(difference).format(":mm:ss");
   const splitResult = result.split(':');
   return {
     hours: parseInt(splitResult[0]),
@@ -62,4 +62,17 @@ export const humanFriendlyDate = (date) => {
 
   const FORMAT = 'ddd - DD MMM';
   return moment(date).format(FORMAT);
+}
+
+export const isValidTimeString = (timeString = '') => {
+  const timeRegex =  /^\d+$/;
+  const cleanTimeString = timeString.replace(/:/g, '');
+  return timeRegex.test(cleanTimeString);
+}
+
+export const getTimeDiff = (time1, time2, options = {}) => {
+  const { format = 'HH:mm:ss' } = options;
+  const t1 = moment(time1, format);
+  const t2 = moment(time2, format);
+  return t1.diff(t2);
 }

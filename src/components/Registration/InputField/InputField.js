@@ -26,13 +26,6 @@ const Input = styled('input')`
   &::placeholder {
     color: rgba(255, 255, 255, 0.8);
   }
-  &:-webkit-autofill,
-  &:-webkit-autofill:hover,
-  &:-webkit-autofill:focus,
-  &:-webkit-autofill:active {
-    -webkit-transition: "color 9999s ease-out, background-color 9999s ease-out";
-    -webkit-transition-delay: 9999s;
-  }
 `;
 
 const InputField = ({ type, onChange, placeholder }) => (

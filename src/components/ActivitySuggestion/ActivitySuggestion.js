@@ -1,16 +1,13 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled, { withTheme } from 'styled-components';
+import { get } from 'lodash';
 
 import ActivitiesDataProvider from '../../containers/ActivitiesDataProvider';
 import Alert from '../Alert';
 import ActivityPreview from '../ActivitiesOverview/ActivityPreview';
 import Button from '../Button';
 import Sessions from '../Sessions';
-
-const CtaWrapper = styled('div')`
-  padding: 30px;
-`;
 
 const AlertBodyWrapper = styled('div')`
   padding: 15px 0;
@@ -72,22 +69,23 @@ class ActivitySuggestion extends PureComponent {
     return (
       <ActivitiesDataProvider
         render={({ getSuggestedActivity, skipSuggestedActivity, activities }) => {
+          if (!get(activities, 'items.length')) {
+            return null;
+          }
           const suggestedActivity = activities.suggestedActivity;
           if (!suggestedActivity.id || !this.state.showAlert) {
             return (
-              <CtaWrapper>
-                <Button
-                  fluid
-                  color={theme.success}
-                  loading={suggestedActivity.isFetching}
-                  onClick={() => {
-                    this.handleShowAlert();
-                    getSuggestedActivity();
-                  }}
-                >
-                  Suggest an activity
-                </Button>
-              </CtaWrapper>
+              <Button
+                fluid
+                color={theme.success}
+                loading={suggestedActivity.isFetching}
+                onClick={() => {
+                  this.handleShowAlert();
+                  getSuggestedActivity();
+                }}
+              >
+                Suggest an activity
+              </Button>
             );
           }
           return (
