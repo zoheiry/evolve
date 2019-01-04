@@ -5,7 +5,7 @@ import { get } from 'lodash';
 
 import ActivitiesDataProvider from '../../containers/ActivitiesDataProvider';
 import Alert from '../Alert';
-import ActivityPreview from '../ActivitiesOverview/ActivityPreview';
+import ActivityPreview from '../ActivityPreview';
 import Button from '../Button';
 import Sessions from '../Sessions';
 

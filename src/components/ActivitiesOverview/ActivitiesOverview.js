@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { get } from 'lodash';
 
-import ActivityPreview from './ActivityPreview';
+import ActivityPreview from '../ActivityPreview';
 import AddActivityButton from './AddActivityButton';
 
 const Wrapper = styled('div')`

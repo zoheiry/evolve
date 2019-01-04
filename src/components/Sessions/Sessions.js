@@ -11,6 +11,7 @@ const Wrapper = styled('div')``;
 
 const Session = styled('div')`
   display: flex;
+  align-items: center;
   &:not(:last-child) {
     border-bottom: solid 1px #ddd;
     margin-bottom: 10px;
@@ -18,8 +19,9 @@ const Session = styled('div')`
   }
 `;
 
-const TimeAgo = styled('span')`
-  text-decoration: underline;
+const Day = styled('span')`
+  font-weight: bold;
+  font-size: 13px;
 `;
 
 const Duration = styled('span')`
@@ -45,7 +47,7 @@ const renderSession = (session = {}) => {
 
   return (
     <Session key={session.start}>
-      <TimeAgo>{humanFriendlyDate(startDate)}:</TimeAgo>
+      <Day>{humanFriendlyDate(startDate)}</Day>
       <SessionTimes>{startTime} - {endTime}</SessionTimes>
       [<Duration>{duration}</Duration>]
     </Session>
@@ -73,7 +75,7 @@ const Sessions = ({ sessionsList, limit, activityId }) => {
 
 Sessions.propTypes = {
   sessionsList: PropTypes.array,
-  limit: PropTypes.Number,
+  limit: PropTypes.number,
   activityId: PropTypes.string,
 };
 

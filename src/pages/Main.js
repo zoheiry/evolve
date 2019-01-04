@@ -6,7 +6,7 @@ import { get } from 'lodash';
 
 import OverlayLoading from '../components/OverlayLoading';
 import { getUser } from '../actions/user';
-import { getActivities } from '../actions/activities';
+import { getActivities, getSuggestedActivity } from '../actions/activities';
 import { getCookie, deleteCookie } from '../utils/cookies';
 import * as userStates from '../constants/OnBoardingStates';
 
@@ -36,8 +36,13 @@ class Main extends PureComponent {
       this.onChangeOnBoardingState();
     }
     if (user.id && !prevProps.user.id) {
-      this.props.getActivities();
+      this.onUserLoad();
     }
+  }
+
+  onUserLoad = () => {
+    this.props.getActivities();
+    this.props.getSuggestedActivity();
   }
 
   onChangeOnBoardingState = () => {
@@ -74,6 +79,7 @@ Main.propTypes = {
   // redux actions
   getUser: PropTypes.func,
   getActivities: PropTypes.func,
+  getSuggestedActivity: PropTypes.func,
   // redux state
   user: PropTypes.object,
   activities: PropTypes.object,
@@ -87,6 +93,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   getUser: () => dispatch(getUser()),
   getActivities: () => dispatch(getActivities()),
+  getSuggestedActivity: () => dispatch(getSuggestedActivity()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
