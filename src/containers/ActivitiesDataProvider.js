@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import moment from 'moment';
-import { getTimePassed, formatTime } from '../utils/time';
+import { getTimePassed } from '../utils/time';
 
 import {
   addActivity,
@@ -18,26 +17,6 @@ const findActivity = (activities = [], id) => (
   activities.find(activity => activity.id === id) || {}
 );
 
-const getTimeSpent = (activity = {}) => {
-  const { sessions = [], activeSession = {} } = activity;
-  if (!sessions.length && !activeSession.start) {
-    return formatTime({}, { hideSeconds: true });
-  }
-  let totalHours = 0;
-  sessions.forEach(session => {
-    const startDate = moment(session.start);
-    const endDate = moment(session.end);
-    const hours = endDate.diff(startDate, 'hours', true);
-    totalHours += hours;
-  });
-  if (activeSession && activeSession.start) {
-    totalHours += moment(Date.now()).diff(moment(activeSession.start), 'hours', true);
-  }
-  const hours = Math.floor(totalHours);
-  const minutes = Math.floor((totalHours - hours) * 60);
-  return formatTime({ hours, minutes }, { hideSeconds: true, displayUnits: true });
-}
-
 const getActiveSessionRunningTime = (activeSession = {}) => {
   return getTimePassed(activeSession.start);
 }
@@ -45,7 +24,6 @@ const getActiveSessionRunningTime = (activeSession = {}) => {
 const ActivitiesDataProvider = (props) => (
   props.render({
     findActivity: (id) => findActivity(props.activities.items, id),
-    getTimeSpent,
     getActiveSessionRunningTime,
     activities: props.activities,
     addActivity: props.addActivity,

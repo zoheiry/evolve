@@ -1,3 +1,4 @@
+import { identity } from 'lodash';
 import moment from "moment";
 
 const formatDigit = digit => {
@@ -18,9 +19,10 @@ const isYesterday = date => {
 };
 
 export const formatTime = (time = {}, options = {}) => {
-  const hours = formatDigit(time.hours);
-  const minutes = formatDigit(time.minutes);
-  const seconds = formatDigit(time.seconds);
+  const format = options.hideTrailingZeros ? identity : formatDigit;
+  const hours = format(time.hours);
+  const minutes = format(time.minutes);
+  const seconds = format(time.seconds);
   let units = ["h", "m", "s"];
   let values = [hours, minutes, seconds];
 
@@ -115,6 +117,6 @@ export const getTotalSessionsDuration = (
   const minutes = Math.floor((totalHours - hours) * 60);
   return formatTime(
     { hours, minutes },
-    { hideSeconds: true, displayUnits: true }
+    { hideSeconds: true, displayUnits: true, hideTrailingZeros: true }
   );
 };

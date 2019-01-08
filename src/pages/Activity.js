@@ -98,7 +98,7 @@ const Activity = ({ match, theme, history }) => {
   }
 
   return (
-    <ActivitiesDataProvider render={({ findActivity, getTimeSpent, startSession }) => {
+    <ActivitiesDataProvider render={({ findActivity, startSession }) => {
       const activity = findActivity(activityId);
       const { activeSession, priority, sessions } = activity;
       const timeSpent = getTotalSessionsDuration(sessions, activeSession);
