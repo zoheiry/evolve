@@ -14,15 +14,18 @@ const Section = styled('div')`
 const Title = styled('h2')`
   margin: 0;
   font-weight: 300;
+  font-size: 22px;
   border-bottom: solid 1px #ddd;
-  padding-bottom: 15px;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
 `;
 
-const Home = () => (  
+const Home = () => (
   <PageWrapper>
     <div>
       <DayAndTime />
       <Section>
+        <Title>Upcoming time slot</Title>
         <UpcomingTimeSlot />
       </Section>
       <Section>

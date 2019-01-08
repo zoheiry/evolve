@@ -35,7 +35,7 @@ const getTimeSpent = (activity = {}) => {
   }
   const hours = Math.floor(totalHours);
   const minutes = Math.floor((totalHours - hours) * 60);
-  return formatTime({ hours, minutes }, { hideSeconds: true });
+  return formatTime({ hours, minutes }, { hideSeconds: true, displayUnits: true });
 }
 
 const getActiveSessionRunningTime = (activeSession = {}) => {

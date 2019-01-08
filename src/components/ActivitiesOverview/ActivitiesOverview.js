@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { get } from 'lodash';
 
+import { getTotalSessionsDuration } from '../../utils/time';
 import ActivityPreview from '../ActivityPreview';
 import AddActivityButton from './AddActivityButton';
 
@@ -18,7 +19,7 @@ const Activities = styled('div')`
 `;
 
 const ButtonWrapper = styled('div')`
-  padding: 0 15px;
+  padding: 10px 15px 0 15px;
 `;
 
 const ActivitiesOverview = ({ activities }) => (
@@ -31,6 +32,7 @@ const ActivitiesOverview = ({ activities }) => (
           name={activity.name}
           priority={activity.priority}
           active={!!get(activity, 'activeSession.start')}
+          timeSpent={getTotalSessionsDuration(activity.sessions, activity.activeSession)}
         />
       )}
     </Activities>

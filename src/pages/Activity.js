@@ -5,6 +5,7 @@ import linkify from 'linkifyjs/html';
 import { Link } from 'react-router-dom';
 import { isEmpty } from 'lodash';
 
+import { getTotalSessionsDuration } from '../utils/time';
 import ActivitiesDataProvider from '../containers/ActivitiesDataProvider';
 import PageWrapper from '../components/PageWrapper';
 import Button from '../components/Button';
@@ -99,8 +100,8 @@ const Activity = ({ match, theme, history }) => {
   return (
     <ActivitiesDataProvider render={({ findActivity, getTimeSpent, startSession }) => {
       const activity = findActivity(activityId);
-      const { activeSession, priority } = activity;
-      const timeSpent = getTimeSpent(activity);
+      const { activeSession, priority, sessions } = activity;
+      const timeSpent = getTotalSessionsDuration(sessions, activeSession);
       const hasActiveSession = activeSession && activeSession.start;
 
       return (

@@ -1,7 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled, { keyframes } from 'styled-components';
+import { get } from 'lodash';
 
+import { getTotalSessionsDuration } from '../../utils/time';
 import ActivityPreview from '../ActivityPreview';
 
 const slideInLeft = keyframes`
@@ -70,15 +72,17 @@ class SuggestedActivity extends PureComponent {
       return null;
     }
 
+    const { name, priority, id, sessions, activeSession } = activity;
     const { animationState } = this.state;
     return (
       <Wrapper>
         <ActivityWrapper state={animationState}>
           <ActivityPreview
-            name={activity.name}
-            priority={activity.priority}
-            id={activity.id}
-            active={activity.active}
+            name={name}
+            priority={priority}
+            id={id}
+            active={!!get(activeSession, 'start')}
+            timeSpent={getTotalSessionsDuration(sessions, activeSession)}
           />
         </ActivityWrapper>
         <SkipButton onClick={this.handleSkip}>Skip activity (suggest another)</SkipButton>

@@ -21,7 +21,7 @@ class Main extends PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    const { user } = this.props;
+    const { user, activities } = this.props;
     const userError = get(user, 'error.response.data.name', '');
     const validAuthToken = this.validAuthToken();
     if (
@@ -37,6 +37,9 @@ class Main extends PureComponent {
     }
     if (user.id && !prevProps.user.id) {
       this.onUserLoad();
+    }
+    if (prevProps.activities.isFetching && !activities.isFetching) {
+      this.props.getSuggestedActivity();
     }
   }
 
