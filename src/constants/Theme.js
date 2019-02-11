@@ -8,7 +8,7 @@ const colors = {
   danger: '#ec4c21',
   success: '#219fec',
   warning: '#eccc21',
-  textColor: '#555',
+  textColor: '#1b2b3b',
 }
 
 const theme = {

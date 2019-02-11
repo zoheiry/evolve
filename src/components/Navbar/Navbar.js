@@ -21,7 +21,7 @@ const Wrapper = styled('nav')`
   align-items: center;
   padding: 10px 15px;
   color: #FFF;
-  background: ${p => p.theme.primary};
+  background: #102534;
 `;
 
 const Logo = styled('div')`
